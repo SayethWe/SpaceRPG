@@ -10,7 +10,6 @@ import sineSection.spaceRPG.world.rooms.*;
 public class SpaceRPG {
 	
 	private static List<Object> gameObjects = new LinkedList<>();
-	private static long createdObjects = 1;
 	private static Generator<Room> roomGenerator;
 
 	public static void main(String[] args) {
@@ -25,14 +24,10 @@ public class SpaceRPG {
 
 	public static void register(Object o) {
 		gameObjects.add(o);
-		createdObjects++;
 	}
 	
-	public static long generateUUID() {
-		long result = createdObjects;
-		result *= ((Math.random() > 0.5) ? -1 : 1);
-		result *= (int) (Math.random() * Integer.MAX_VALUE + 1);
-		return result;
+	public static void remove (Object o) {
+		gameObjects.remove(o);
 	}
 
 }

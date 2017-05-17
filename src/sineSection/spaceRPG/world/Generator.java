@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import sineSection.spaceRPG.world.rooms.*;
-
 public class Generator<T> {
 	private List<Class<? extends T>> validTypes = new ArrayList<>();
 	private Random RNJesus;
@@ -29,11 +27,10 @@ public class Generator<T> {
 		return result;
 	}
 	
-	private T generate() {
+	public T generate() {
 		T result;
 		Class<? extends T> type = generateType();
 		result = instantiate(type);
-		
 		return result;
 	}
 	
