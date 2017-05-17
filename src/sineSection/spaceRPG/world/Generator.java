@@ -4,18 +4,48 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * A generator object to create new randomly generated instances of certain classes.
+ * Typed to the type of object you want to create, then handed the possible types.
+ * <br>Possible types are necessarily subclasses of the declared type.
+ * 
+ * <p>Example: Type to Room, then hand RoomCorridor and RoomReactor as valid types.
+ * Calling the {@code generate()} method will then deliver a new instance of either a RoomCorridor
+ * or a RoomReactor
+ * 
+ * @author geekman9097
+ *
+ * @param <T> the type of object you want to generate.
+ */
 public class Generator<T> {
 	private List<Class<? extends T>> validTypes = new ArrayList<>();
 	private Random RNJesus;
 	
+	/**
+	 * constructs a new generator with a seed defined earlier
+	 * @param seed the base number off which to create future randoms
+	 * 
+	 * @see java.util.Random
+	 */
 	public Generator(long seed) {
 		RNJesus = new Random(seed);
 	}
 	
+	/**
+	 * Creates a new Generator with a system-determined seed
+	 * @see java.util.Random
+	 */
 	public Generator() {
 		RNJesus = new Random();
 	}
 	
+	/**
+	 * adds a valid class to produce to the possible results of {@code generate()}
+	 * 
+	 * <p> should only be called at initialization time. failure to do so may cause map generation issues.
+	 * 
+	 * @param type the possible Class to add. Must be a subclass of the generic this generator was typed with 
+	 */
 	public void addType(Class<? extends T> type) {
 		validTypes.add(type);
 	}
@@ -27,6 +57,12 @@ public class Generator<T> {
 		return result;
 	}
 	
+	/**
+	 * randomly generate a new object of the type this class was created with though a multi-stage process
+	 * <br> randomly selects a Class from the valid type list, then creates a new instance of that class, and returns it
+	 * 
+	 * @return a new instance of a valid type this class can generate, as defined by its typing and validType list
+	 */
 	public T generate() {
 		T result;
 		Class<? extends T> type = generateType();
