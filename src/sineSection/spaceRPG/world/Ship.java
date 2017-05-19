@@ -1,6 +1,7 @@
 package sineSection.spaceRPG.world;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import sineSection.spaceRPG.world.rooms.Room;

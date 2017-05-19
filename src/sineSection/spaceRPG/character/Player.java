@@ -1,8 +1,10 @@
-package sineSection.spaceRPG.player;
+package sineSection.spaceRPG.character;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map.Entry;
+import java.util.Map;
+//import java.util.Map.Entry;
+import java.util.Set;
 
 import sineSection.spaceRPG.world.items.Item;
 
@@ -11,9 +13,20 @@ import sineSection.spaceRPG.world.items.Item;
  * A class that stores the stats and inventory of a player character
  */
 public class Player extends Character{
+	private static final int INTELLECT_MAX_POSSIBLE = 10;
+	private static final int POWER_MAX_POSSIBLE = 10;
+	private static final int HEALTH_MAX = 20;
+	private static final int INTELLECT_MIN = 1;
+	private static final int POWER_MIN = 1;
+	private static final int HEALTH_MIN = 0;
+	
+	public final static String INTELLECT = "Intelligence";
+	public final static String POWER = "Strength";
+	
 	private String name; //Name of the character
-	private HashMap<String, Item> inventory; //What the character is currently holding
-	private HashMap<String, Integer> stats;
+	private Map<String, Item> inventory; //What the character is currently holding
+	private Map<String, Stat> stats;
+	private Stat health;
 	//Intelligence of the character without item effects
 	//Strength of character without item effects
 	//Intelligence of character with item effects
@@ -25,14 +38,11 @@ public class Player extends Character{
 	 */
 	public Player(String name){
 		this.name = name;
-		inventory = new HashMap<String, Item>();
-		stats = new HashMap<String, Integer>();
-		stats.put("Base Intelligence", (int) (Math.random() * 10 + 1));
-		stats.put("Base Strength", (int) (Math.random() * 10 + 1));
-		stats.put("Max Health", 20);
-		stats.put("Health", 20);
-		stats.put("Intelligence", stats.get("Base Intelligence"));
-		stats.put("Strength", stats.get("Base Strength"));
+		inventory = new HashMap<>();
+		stats = new HashMap<>();
+		stats.put("Intelligence", new Stat(INTELLECT_MIN, (int) (Math.random() * INTELLECT_MAX_POSSIBLE + 1)));
+		stats.put("Strength", new Stat(POWER_MIN, (int) (Math.random() * POWER_MAX_POSSIBLE + 1)));
+		health = new Stat(HEALTH_MIN, HEALTH_MAX);
 	}
 
 	/**
@@ -51,7 +61,7 @@ public class Player extends Character{
 		if(inventory.size() < 20){
 			inventory.put(item.getName(), item);
 			
-			if(item.isImmediateEffect() == true){item.addEffect(this);}
+			if(item.hasAuraEffect() == true){item.addEffect(this);}
 			
 			return true;
 		} else{
@@ -65,7 +75,7 @@ public class Player extends Character{
 	 * @Return The current health of the player
 	 */
 	public int getHealth(){
-		return stats.get("Health");
+		return health.currentVal();
 	}
 
 	/**
@@ -80,35 +90,53 @@ public class Player extends Character{
 	 * @Author William Black
 	 * @return A String array containing the inventory of the player
 	 */
-	public String[] getInventory(){
-		Iterator<Entry<String, Item>> itr = inventory.entrySet().iterator();
-		String[] slots = new String[inventory.size()];
-		int i = 0;
-		while(itr.hasNext()){
-			slots[i] = itr.next().getValue().getName();
-			i++;
-		}
-		return slots;
+	public Set<String> getInventory(){
+		return inventory.keySet();
 	}
 
 	/**
+	 * Change a status of this character by some amount. SHOULD NOT BE USED FOR HEALTH
 	 * @Author William Black
 	 * @param status
 	 * @param number
-	 * @return string stating if the update was successful or not
+	 * @return if the update was successful or not
 	 */
-	public String addToStatus(String status, int number){
-
-		if(status.equals("Health") && (stats.get("Health") + number) > stats.get("Max Health")){
-			return "Health Maxed out";
-		}else if((stats.get(status) + number) <= 0){
-			makeCharacterDie();
-			stats.put(status, 0);
-			return "Too little " + status + " you have died";
+	public boolean addToStatus(String status, int number){
+		return stats.get(status).increment(number);
+	}
+	
+	/**
+	 * Deal damage to the player by using specifically the HEALTH stat
+	 * @author geekman9097
+	 * @return <code>true</code> if the character is still alive after the damage is applied
+	 * <br> <code>false</code> if otherwise
+	 */
+	public boolean damage(int amt) {
+		amt = Math.abs(amt); //ensure that we will only deal damage
+		boolean alive = health.incrementAllowed(-amt);
+		if(alive) {
+			health.increment(amt);
+		} else {
+			health.increment(-health.currentVal());
 		}
-
-		stats.put(status, stats.get(status) + number);
-		return "Status updated";
+		return alive;
+	}
+	
+	/**
+	 * Restore health points to the player
+	 * @author geekman9097
+	 * @param amt
+	 * @return true if the character is now fully healthy
+	 */
+	public boolean heal(int amt) {
+		amt = Math.abs(amt); //ensure that we will only heal
+		boolean fullHeal = ! health.incrementAllowed(amt);
+		if (fullHeal) {
+			health.increment(health.maxVal()-health.currentVal());
+		} else {
+			health.increment(amt);
+		}
+		return fullHeal;
 	}
 	
 	/**
@@ -125,15 +153,15 @@ public class Player extends Character{
 	 * @return string stating if the Item was used successfully
 	 * Checks to see if item is in inventory, if the item is not permanent then delete it from the inventory
 	 */
-	public String useItem(String itemName){
+	public boolean useItem(String itemName){
 		if(inventory.containsKey(itemName)){
 			inventory.get(itemName).addEffect(this);
 				if(!inventory.get(itemName).isPermanent()){
 					inventory.remove(itemName);
 				}
-			return "Item used";
+			return true;
 		} else{
-			return "Item is not in your inventory";
+			return false;
 		}
 	}
 
@@ -142,16 +170,13 @@ public class Player extends Character{
 	 */
 	public String toString(){
 		StringBuilder string = new StringBuilder();
-		Iterator<Entry<String, Integer>> Itr = stats.entrySet().iterator();
 		string.append("Character:");
 		string.append("\n");
 		string.append(name);
 		string.append("\n");
 
-		while(Itr.hasNext()){
-			string.append("\n");
-			string.append(Itr.next());
-		}
+		stats.forEach((title, value) -> string.append("\n" + title + ": " + value));
+		
 		return string.toString();
 	}
 

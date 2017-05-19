@@ -2,57 +2,31 @@ package sineSection.spaceRPG.world.items;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
-import sineSection.spaceRPG.player.Player;
+import sineSection.spaceRPG.character.Player;
+import sineSection.spaceRPG.world.items.effects.Aura;
 
 public class TestItem extends Item {
-	final private String ITEM_TYPE = "Test Item";
-	final private String ITEM_NAME = "Fred the Test Item";
-	final private boolean IMMEDIATE = true; //If true then effect is applied to the character immediately after acquiring, else it can be applied anytime
-	final private boolean PERMANENT = false;
-	
-	private List<String> EFFECTS;
+	final static private String ITEM_NAME = "Fred the Test Item";
+	final static private boolean PERMANENT = false;
 
 
 	public TestItem(){
-		EFFECTS = new ArrayList<String>();
-		EFFECTS.add("Strength 1");
-		EFFECTS.add("Health 3");
+		super(ITEM_NAME, PERMANENT);
+		auras = new ArrayList<>();
+		auras.add(new Aura(Player.POWER, 1));
+		auras.add(new Aura(Player.INTELLECT, -2));
 		//TODO add nightvision
-	}
-	public String getName(){
-		return ITEM_NAME;
-	}
-
-	public String getType(){
-		return ITEM_TYPE;
-	}
-
-	public boolean isImmediateEffect(){
-		return IMMEDIATE;
 	}
 
 	public void addEffect(Player player){
-		Iterator<String> itr = EFFECTS.iterator();
-
+		Iterator<Aura> itr = auras.iterator();
 
 		while(itr.hasNext()){
-			String nextEntry;
-			String entry[];
-			String status = new String();
-			int mult;
-			
-			nextEntry = itr.next();
-			entry = nextEntry.split(" ");
-			status = entry[0];
-			mult = Integer.parseInt(entry[1]);
-			
-			player.addToStatus(status, mult);
+			Aura nextEntry = itr.next();
+			String status = nextEntry.getStat();
+			int add = nextEntry.getAmount();
+			player.addToStatus(status, add);
 		}
-	}
-	
-	public boolean isPermanent(){
-		return PERMANENT;
 	}
 }
