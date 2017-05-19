@@ -8,7 +8,7 @@ import sineSection.spaceRPG.world.items.effects.Aura;
 
 public class TestItem extends Item {
 	final static private String ITEM_NAME = "Fred the Test Item";
-	final static private boolean PERMANENT = false;
+	final static private boolean PERMANENT = true;
 
 
 	public TestItem(){
@@ -17,6 +17,10 @@ public class TestItem extends Item {
 		auras.add(new Aura(Player.POWER, 1));
 		auras.add(new Aura(Player.INTELLECT, -2));
 		//TODO add nightvision
+	}
+	
+	public void use() {
+		System.out.println("My Love Is Eternal");
 	}
 
 	public void addEffect(Player player){

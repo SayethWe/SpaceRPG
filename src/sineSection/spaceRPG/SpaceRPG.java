@@ -1,18 +1,18 @@
 package sineSection.spaceRPG;
 
-import sineSection.spaceRPG.UI.GameUI;
+import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.world.Generator;
 import sineSection.spaceRPG.world.items.*;
 import sineSection.spaceRPG.world.rooms.*;
 
 public class SpaceRPG {
-	
 	private static Generator<Room> roomGenerator;
 	private static Generator<Item> itemGenerator;
 	
 	public static void main(String[] args) {
 		SpaceRPG.initialize();
-		new GameUI();
+		new SpaceRPG().testGame();
+//		new GameUI();
 	}
 	
 	private static void initialize() {
@@ -29,6 +29,13 @@ public class SpaceRPG {
 	
 	private static void addItemTypes() {
 		itemGenerator.addType(TestItem.class);
+	}
+	
+	private void testGame() {
+		Player testPlayer = new Player("Katyusha");
+		testPlayer.addItem(itemGenerator.generate());
+		testPlayer.useItem("Fred the Test Item");
+		System.out.println(testPlayer);
 	}
 
 }

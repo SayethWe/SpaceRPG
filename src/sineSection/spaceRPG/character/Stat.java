@@ -45,4 +45,12 @@ public class Stat {
 		result.append(minValue);
 		return result.toString();
 	}
+
+	public void topOff() {
+		value = maxValue;
+	}
+	
+	public void empty() {
+		value = minValue;
+	}
 }

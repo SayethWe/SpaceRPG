@@ -26,7 +26,6 @@ public abstract class Item {
 	public String getName(){
 		return name;
 	}
-	public  abstract void addEffect(Player player);
 	
 	@Deprecated
 	/**
@@ -40,4 +39,7 @@ public abstract class Item {
 	public boolean isPermanent(){
 		return permanent;
 	}
+	
+	public  abstract void addEffect(Player player);
+	public abstract void use();
 }

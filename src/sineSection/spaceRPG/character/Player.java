@@ -1,7 +1,6 @@
 package sineSection.spaceRPG.character;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 //import java.util.Map.Entry;
 import java.util.Set;
@@ -22,11 +21,9 @@ public class Player extends Character{
 	
 	public final static String INTELLECT = "Intelligence";
 	public final static String POWER = "Strength";
-	
-	private String name; //Name of the character
+
 	private Map<String, Item> inventory; //What the character is currently holding
 	private Map<String, Stat> stats;
-	private Stat health;
 	//Intelligence of the character without item effects
 	//Strength of character without item effects
 	//Intelligence of character with item effects
@@ -37,12 +34,13 @@ public class Player extends Character{
 	 * Initializes 'inventory' and 'stats', adds all the 'stats' into the appropriate HashMap
 	 */
 	public Player(String name){
-		this.name = name;
+		super(name);
 		inventory = new HashMap<>();
 		stats = new HashMap<>();
 		stats.put("Intelligence", new Stat(INTELLECT_MIN, (int) (Math.random() * INTELLECT_MAX_POSSIBLE + 1)));
 		stats.put("Strength", new Stat(POWER_MIN, (int) (Math.random() * POWER_MAX_POSSIBLE + 1)));
 		health = new Stat(HEALTH_MIN, HEALTH_MAX);
+		health.topOff();
 	}
 
 	/**
@@ -68,14 +66,6 @@ public class Player extends Character{
 			return false;
 		}
 
-	}
-
-	/**
-	 * @Author William Black
-	 * @Return The current health of the player
-	 */
-	public int getHealth(){
-		return health.currentVal();
 	}
 
 	/**
@@ -106,40 +96,6 @@ public class Player extends Character{
 	}
 	
 	/**
-	 * Deal damage to the player by using specifically the HEALTH stat
-	 * @author geekman9097
-	 * @return <code>true</code> if the character is still alive after the damage is applied
-	 * <br> <code>false</code> if otherwise
-	 */
-	public boolean damage(int amt) {
-		amt = Math.abs(amt); //ensure that we will only deal damage
-		boolean alive = health.incrementAllowed(-amt);
-		if(alive) {
-			health.increment(amt);
-		} else {
-			health.increment(-health.currentVal());
-		}
-		return alive;
-	}
-	
-	/**
-	 * Restore health points to the player
-	 * @author geekman9097
-	 * @param amt
-	 * @return true if the character is now fully healthy
-	 */
-	public boolean heal(int amt) {
-		amt = Math.abs(amt); //ensure that we will only heal
-		boolean fullHeal = ! health.incrementAllowed(amt);
-		if (fullHeal) {
-			health.increment(health.maxVal()-health.currentVal());
-		} else {
-			health.increment(amt);
-		}
-		return fullHeal;
-	}
-	
-	/**
 	 * @Author William Black
 	 * Makes character die
 	 */
@@ -148,15 +104,16 @@ public class Player extends Character{
 	}
 	
 	/**
+	 * Checks to see if item is in inventory, if the item is not permanent then delete it from the inventory
 	 * @Author William Black
 	 * @param itemName
-	 * @return string stating if the Item was used successfully
-	 * Checks to see if item is in inventory, if the item is not permanent then delete it from the inventory
+	 * @return <true> if the Item was used successfully
 	 */
 	public boolean useItem(String itemName){
 		if(inventory.containsKey(itemName)){
 			inventory.get(itemName).addEffect(this);
 				if(!inventory.get(itemName).isPermanent()){
+					//TODO: implement a number-of-uses system
 					inventory.remove(itemName);
 				}
 			return true;
@@ -164,16 +121,9 @@ public class Player extends Character{
 			return false;
 		}
 	}
-
-	/**
-	 * @Return a string representation of the player
-	 */
+	
 	public String toString(){
-		StringBuilder string = new StringBuilder();
-		string.append("Character:");
-		string.append("\n");
-		string.append(name);
-		string.append("\n");
+		StringBuilder string = new StringBuilder(super.toString());
 
 		stats.forEach((title, value) -> string.append("\n" + title + ": " + value));
 		
