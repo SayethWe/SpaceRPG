@@ -23,14 +23,14 @@ public class TestItem extends Item {
 		System.out.println("My Love Is Eternal");
 	}
 
-	public void addEffect(Player player){
+	public void addEffect(sineSection.spaceRPG.character.Character ch){
 		Iterator<Aura> itr = auras.iterator();
 
 		while(itr.hasNext()){
 			Aura nextEntry = itr.next();
 			String status = nextEntry.getStat();
 			int add = nextEntry.getAmount();
-			player.addToStatus(status, add);
+			ch.addToStatus(status, add);
 		}
 	}
 }

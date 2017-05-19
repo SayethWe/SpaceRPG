@@ -10,8 +10,8 @@ import sineSection.spaceRPG.world.items.effects.Aura;
  * Abstract class for Item
  */
 public abstract class Item {
-	protected final String name; 
-	protected final boolean permanent;
+	private final String name; 
+	private final boolean permanent;
 	protected List<Aura> auras;
 	
 	protected Item(String name, boolean permanent) {
@@ -40,6 +40,9 @@ public abstract class Item {
 		return permanent;
 	}
 	
-	public  abstract void addEffect(Player player);
+	public abstract void addEffect(sineSection.spaceRPG.character.Character character);
+	/**
+	 * use this item to get the active effect
+	 */
 	public abstract void use();
 }

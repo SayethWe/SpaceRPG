@@ -17,13 +17,11 @@ public class Player extends Character{
 	private static final int HEALTH_MAX = 20;
 	private static final int INTELLECT_MIN = 1;
 	private static final int POWER_MIN = 1;
-	private static final int HEALTH_MIN = 0;
 	
 	public final static String INTELLECT = "Intelligence";
 	public final static String POWER = "Strength";
 
-	private Map<String, Item> inventory; //What the character is currently holding
-	private Map<String, Stat> stats;
+	private Map<String, Item> inventory; //What the player is currently holding
 	//Intelligence of the character without item effects
 	//Strength of character without item effects
 	//Intelligence of character with item effects
@@ -34,13 +32,11 @@ public class Player extends Character{
 	 * Initializes 'inventory' and 'stats', adds all the 'stats' into the appropriate HashMap
 	 */
 	public Player(String name){
-		super(name);
+		super(name, HEALTH_MAX);
 		inventory = new HashMap<>();
 		stats = new HashMap<>();
 		stats.put("Intelligence", new Stat(INTELLECT_MIN, (int) (Math.random() * INTELLECT_MAX_POSSIBLE + 1)));
 		stats.put("Strength", new Stat(POWER_MIN, (int) (Math.random() * POWER_MAX_POSSIBLE + 1)));
-		health = new Stat(HEALTH_MIN, HEALTH_MAX);
-		health.topOff();
 	}
 
 	/**
@@ -67,14 +63,6 @@ public class Player extends Character{
 		}
 
 	}
-
-	/**
-	 * @Author William Black
-	 * @Return The name of the Player
-	 */
-	public String getName(){
-		return name;
-	}
 	
 	/**
 	 * @Author William Black
@@ -82,17 +70,6 @@ public class Player extends Character{
 	 */
 	public Set<String> getInventory(){
 		return inventory.keySet();
-	}
-
-	/**
-	 * Change a status of this character by some amount. SHOULD NOT BE USED FOR HEALTH
-	 * @Author William Black
-	 * @param status
-	 * @param number
-	 * @return if the update was successful or not
-	 */
-	public boolean addToStatus(String status, int number){
-		return stats.get(status).increment(number);
 	}
 	
 	/**
