@@ -1,8 +1,12 @@
 package sineSection.spaceRPG.character;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import sineSection.spaceRPG.world.items.Item;
+import sineSection.spaceRPG.world.items.effects.Aura;
+import sineSection.spaceRPG.world.items.effects.Effect;
 
 /**
  * Abstract class for character
@@ -13,12 +17,18 @@ public abstract class Character {
 
 	private final String name; //Name of the character
 	private Stat health;
-	protected Map<String, Stat> stats;
+	private Map<String, Stat> stats;
+//	private List<Effect> effects;
 	
 	public Character(String name, int hpMax) {
 		this.name = name;
+		stats = new HashMap<>();
 		health = new Stat(HEALTH_MIN, hpMax);
 		health.topOff();
+	}
+	
+	public void addStat(String name, Stat stat) {
+		stats.put(name, stat);
 	}
 
 	/**
@@ -28,7 +38,7 @@ public abstract class Character {
 	 * @param number
 	 * @return if the update was successful or not
 	 */
-	public boolean addToStatus(String status, int number){
+	public boolean addToStat(String status, int number) {
 		return stats.get(status).increment(number);
 	}
 	
@@ -80,6 +90,7 @@ public abstract class Character {
 		string.append("\n");
 		string.append("Health: ");
 		string.append(health);
+		stats.forEach((title, value) -> string.append("\n" + title + ": " + value));
 		return string.toString();
 	}
 	
@@ -87,6 +98,14 @@ public abstract class Character {
 		return name;
 	}
 	
+	public void addEffects(List<Effect> effects) {
+		effects.stream()
+			   .filter((effect) -> effect.getClass().equals(Aura.class))
+			   .forEach((aura) -> addToStat(
+					   						 	((Aura) aura).getStat(),
+					   						 	((Aura) aura).getAmount()
+					   						 ));
+	}
 	public abstract boolean hasItem(Item item); //Returns true if item is in the inventory
 	public abstract boolean addItem(Item item); //Returns true if item was successfully added to inventory, returns false if the item is unable to be added
 }

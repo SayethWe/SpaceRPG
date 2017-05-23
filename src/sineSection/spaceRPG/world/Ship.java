@@ -20,4 +20,8 @@ public class Ship implements Serializable {
 	public Ship() {
 		map = new HashMap<>();
 	}
+	
+	public Map<Pos, Room> getMap() {
+		return map;
+	}
 }

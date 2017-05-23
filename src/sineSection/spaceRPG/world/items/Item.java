@@ -1,9 +1,9 @@
 package sineSection.spaceRPG.world.items;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import sineSection.spaceRPG.character.Player;
-import sineSection.spaceRPG.world.items.effects.Aura;
+import sineSection.spaceRPG.world.items.effects.*;
 
 /*
  * @Author William Black
@@ -12,11 +12,20 @@ import sineSection.spaceRPG.world.items.effects.Aura;
 public abstract class Item {
 	private final String name; 
 	private final boolean permanent;
-	protected List<Aura> auras;
+	private List<Aura> auras;
 	
 	protected Item(String name, boolean permanent) {
 		this.name = name;
 		this.permanent = permanent;
+		auras = new ArrayList<>();
+	}
+	
+	public void addAura(Aura aura) {
+		auras.add(aura);
+	}
+	
+	public List<Aura> getAuras() {
+		return auras;
 	}
 	
 	public boolean hasAuraEffect() {
@@ -40,9 +49,8 @@ public abstract class Item {
 		return permanent;
 	}
 	
-	public abstract void addEffect(sineSection.spaceRPG.character.Character character);
 	/**
 	 * use this item to get the active effect
 	 */
-	public abstract void use();
+	public abstract List<Effect> use();
 }

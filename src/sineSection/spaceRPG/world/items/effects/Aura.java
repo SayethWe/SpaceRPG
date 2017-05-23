@@ -5,7 +5,7 @@ package sineSection.spaceRPG.world.items.effects;
  * @author geekman9097
  *
  */
-public class Aura implements Passive{
+public class Aura extends PassiveEffect {
 	private final String stat;
 	private final int effectAmt;
 	
