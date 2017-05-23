@@ -2,20 +2,25 @@ package sineSection.spaceRPG.character;
 
 public class Stat {
 	private int value;
-	private final int maxValue;
+	private int maxValue;
+	private final int BaseMaxValue;
 	private final int minValue;
 	
 	public Stat(int minValue, int maxValue) {
-		this.maxValue = maxValue;
+		this.maxValue = BaseMaxValue = maxValue;
 		this.minValue = minValue;
 	}
 	
 	public int maxVal() {
-		return maxValue;
+		return BaseMaxValue;
 	}
 	
 	public int minVal() {
 		return minValue;
+	}
+	
+	public void addToMax(int incrementNum){
+		maxValue += incrementNum;
 	}
 	
 	public int currentVal() {
@@ -47,7 +52,7 @@ public class Stat {
 	}
 
 	public void topOff() {
-		value = maxValue;
+		value = BaseMaxValue;
 	}
 	
 	public void empty() {

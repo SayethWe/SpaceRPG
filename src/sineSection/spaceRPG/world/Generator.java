@@ -54,6 +54,7 @@ public class Generator<T> {
 		Class<? extends T> result;
 		int index = RNJesus.nextInt(validTypes.size());
 		result = validTypes.get(index);
+		System.out.println("Creating a "+ result);
 		return result;
 	}
 	

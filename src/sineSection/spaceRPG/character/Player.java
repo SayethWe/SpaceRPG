@@ -1,9 +1,9 @@
 package sineSection.spaceRPG.character;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-//import java.util.Map.Entry;
-import java.util.Set;
 
 import sineSection.spaceRPG.world.items.Item;
 import sineSection.spaceRPG.world.items.effects.Effect;
@@ -13,16 +13,22 @@ import sineSection.spaceRPG.world.items.effects.Effect;
  * A class that stores the stats and inventory of a player character
  */
 public class Player extends Character{
-	private static final int INTELLECT_MAX_POSSIBLE = 10;
-	private static final int POWER_MAX_POSSIBLE = 10;
-	private static final int HEALTH_MAX = 20;
-	private static final int INTELLECT_MIN = 1;
-	private static final int POWER_MIN = 1;
+	private static final int BASE_MAX_HEALTH = 20;
 	private static final int INVENTORY_SIZE = 20;
 	
 	public final static String INTELLECT = "Intelligence";
 	public final static String POWER = "Strength";
+	public final static String RESISTANCE = "Defense";
+	
 
+	private static final int RESISTANCE_MAX_POSSIBLE = 20;
+	private static final int INTELLECT_MAX_POSSIBLE = 10;
+	private static final int POWER_MAX_POSSIBLE = 10;
+	
+	private static final int RESISTANCE_MIN = 0;
+	private static final int INTELLECT_MIN = 1;
+	private static final int POWER_MIN = 1;
+	
 	private Map<String, Item> inventory; //What the player is currently holding
 	//Intelligence of the character without item effects
 	//Strength of character without item effects
@@ -34,10 +40,16 @@ public class Player extends Character{
 	 * Initializes 'inventory' and 'stats', adds all the 'stats' into the appropriate HashMap
 	 */
 	public Player(String name){
-		super(name, HEALTH_MAX);
+		super(name, BASE_MAX_HEALTH);
 		inventory = new HashMap<>();
+		addStat(RESISTANCE, new Stat(RESISTANCE_MIN, (int) (Math.random() * RESISTANCE_MAX_POSSIBLE + 1)));
 		addStat(INTELLECT, new Stat(INTELLECT_MIN, (int) (Math.random() * INTELLECT_MAX_POSSIBLE + 1)));
 		addStat(POWER, new Stat(POWER_MIN, (int) (Math.random() * POWER_MAX_POSSIBLE + 1)));
+	}
+	
+	@Override
+	public boolean damage(int amt) {
+		return super.damage(amt - getStatVal(RESISTANCE));
 	}
 
 	/**
@@ -71,8 +83,8 @@ public class Player extends Character{
 	 * @Author William Black
 	 * @return A String array containing the inventory of the player
 	 */
-	public Set<String> getInventory(){
-		return inventory.keySet();
+	public List<String> getInventory(){
+		return new ArrayList<>(inventory.keySet());
 	}
 	
 	/**

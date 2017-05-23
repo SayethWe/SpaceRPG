@@ -30,6 +30,10 @@ public abstract class Character {
 	public void addStat(String name, Stat stat) {
 		stats.put(name, stat);
 	}
+	
+	public int getStatVal(String stat)  {
+		return stats.get(stat).currentVal();
+	}
 
 	/**
 	 * Change a status of this character by some amount. SHOULD NOT BE USED FOR HEALTH
@@ -79,6 +83,10 @@ public abstract class Character {
 	
 	public int getHealth() {
 		return health.currentVal();
+	}
+	
+	public void addToBase(String stat, int incrementNum){
+		stats.get(stat).addToMax(incrementNum);
 	}
 	
 	@Override

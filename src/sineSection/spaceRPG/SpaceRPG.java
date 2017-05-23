@@ -29,13 +29,14 @@ public class SpaceRPG {
 	
 	private static void addItemTypes() {
 		itemGenerator.addType(TestItem.class);
+		itemGenerator.addType(PArmorItem.class);
 	}
 	
 	private void testGame() {
 		Player testPlayer = new Player("Katyusha");
 		testPlayer.addItem(itemGenerator.generate());
 		System.out.println(testPlayer);
-		testPlayer.useItem("Fred the Test Item");
+		testPlayer.useItem(testPlayer.getInventory().get(0));
 		System.out.println(testPlayer);
 	}
 
