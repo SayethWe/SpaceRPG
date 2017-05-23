@@ -15,7 +15,7 @@ public class TestItem extends Item {
 	public TestItem(){
 		super(ITEM_NAME, PERMANENT);
 		addAura(new Aura(Player.POWER, 1));
-		addAura(new Aura(Player.INTELLECT, -2));
+		addAura(new Aura(Player.INTELLECT, 2));
 		//TODO add nightvision
 	}
 	

@@ -37,7 +37,7 @@ public class Stat {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder("");
-		result.append("curent: ");
+		result.append("current: ");
 		result.append(value);
 		result.append(" max: ");
 		result.append(maxValue);

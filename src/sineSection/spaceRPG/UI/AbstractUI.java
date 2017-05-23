@@ -1,4 +1,4 @@
-package sineSection.spaceRPG.UI;
+ package sineSection.spaceRPG.UI;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

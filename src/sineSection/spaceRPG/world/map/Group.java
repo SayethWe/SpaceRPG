@@ -1,10 +1,10 @@
-package sineSection.spaceRPG.world;
+package sineSection.spaceRPG.world.map;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import sineSection.spaceRPG.world.rooms.Room;
+import sineSection.spaceRPG.world.Pos;
 
 /**
  * The ship map, and character holder. Technically the overworld.
@@ -13,15 +13,19 @@ import sineSection.spaceRPG.world.rooms.Room;
  * @author geekman9097
  *
  */
-public class Ship implements Serializable {
+public class Group<E> implements Serializable {
 	private static final long serialVersionUID = 198508905811730455L;
-	private Map<Pos,Room> map;
+	private Map<Pos,E> map;
 	
-	public Ship() {
+	public Group() {
 		map = new HashMap<>();
 	}
 	
-	public Map<Pos, Room> getMap() {
+	public Map<Pos, E> getMap() {
 		return map;
+	}
+	
+	public void generateMap(){
+		
 	}
 }

@@ -34,6 +34,7 @@ public class SpaceRPG {
 	private void testGame() {
 		Player testPlayer = new Player("Katyusha");
 		testPlayer.addItem(itemGenerator.generate());
+		System.out.println(testPlayer);
 		testPlayer.useItem("Fred the Test Item");
 		System.out.println(testPlayer);
 	}
