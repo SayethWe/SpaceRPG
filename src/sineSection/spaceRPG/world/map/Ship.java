@@ -1,10 +1,10 @@
 package sineSection.spaceRPG.world.map;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import sineSection.spaceRPG.world.Pos;
+import sineSection.spaceRPG.world.map.nodes.Node;
 
 /**
  * The ship map, and character holder. Technically the overworld.
@@ -13,16 +13,24 @@ import sineSection.spaceRPG.world.Pos;
  * @author geekman9097
  *
  */
-public class Group<E> implements Serializable {
-	private static final long serialVersionUID = 198508905811730455L;
-	private Map<Pos,E> map;
+public class Ship {
+	private Map<Pos,Node> map;
 	
-	public Group() {
+	public Ship() {
 		map = new HashMap<>();
 	}
 	
-	public Map<Pos, E> getMap() {
+	public Map<Pos, Node> getMap() {
 		return map;
+	}
+	
+	/**
+	 * Get the element at a specific position
+	 * @param pos
+	 * @return
+	 */
+	public Node get(Pos pos) {
+		return map.get(pos);
 	}
 	
 	public void generateMap(){

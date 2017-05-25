@@ -1,0 +1,7 @@
+Changelogs:
+
+23 05 2017
+- Added Group Class
+- Merged Ship into Group
+- Fixed spelling in Character
+- Made Fred's Love Even More Eternal

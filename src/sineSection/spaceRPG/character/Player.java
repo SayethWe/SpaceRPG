@@ -65,18 +65,23 @@ public class Player extends Character{
 	 * @Return True if Item was added successfully, False if the Item cannot be added to inventory
 	 */
 	public boolean addItem(Item item){ 
-		if(inventory.size() < INVENTORY_SIZE){
+		boolean result = inventory.size() < INVENTORY_SIZE;
+		if(result){
 			inventory.put(item.getName(), item);
 			
 			if(item.hasAuraEffect() == true){
 				item.getAuras().forEach((aura) -> addToStat(aura.getStat(), aura.getAmount()));
 			}
-			
-			return true;
-		} else{
-			return false;
 		}
-
+		return result;
+	}
+	
+	public void removeItem(String itemName) {
+		Item item = inventory.get(itemName);
+		if (item.hasAuraEffect()) {
+			item.getAuras().forEach((aura) -> addToStat(aura.getStat(), -aura.getAmount()));
+		}
+		inventory.remove(itemName);
 	}
 	
 	/**
@@ -103,16 +108,13 @@ public class Player extends Character{
 	 */
 	public boolean useItem(String itemName){
 		Item item = inventory.get(itemName);
-				if(item != null) {
-					item.use().forEach((effect) -> applyEffect(effect));
-					if(!inventory.get(itemName).isPermanent()){
-						//TODO: implement a number-of-uses system
-						inventory.remove(itemName);
-					}
-					return true;
-				} else{
-					return false;
-				}
+		boolean result = item != null;
+		if(result) {
+			if(inventory.get(itemName).use()){
+				removeItem(itemName);
+			}
+		}
+		return result;
 	}
 	
 	
