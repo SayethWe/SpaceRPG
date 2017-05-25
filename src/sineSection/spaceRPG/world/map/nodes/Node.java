@@ -1,8 +1,6 @@
 package sineSection.spaceRPG.world.map.nodes;
 
-import java.util.List;
 import java.util.Map;
-
 import sineSection.spaceRPG.world.Generator;
 import sineSection.spaceRPG.world.Pos;
 import sineSection.spaceRPG.world.rooms.Room;

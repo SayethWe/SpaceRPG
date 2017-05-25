@@ -6,13 +6,26 @@ public abstract class Room {
 	private Map<String, Room> exits;
 	private final String description;
 	private boolean hasPower;
+	private boolean isPressurized;
 	
 	protected Room(String description) {
 		this.description = description;
 	}
 	
 	public Boolean hasPower() {
-		return hasPower();
+		return hasPower;
+	}
+	
+	public void hasPower(Boolean arg){
+		hasPower = arg;
+	}
+	
+	public Boolean hasOxygen(){
+		return isPressurized;
+	}
+	
+	public void hasOxygen(Boolean arg){
+		isPressurized = arg;
 	}
 	
 	public Room exit(String dir) {
