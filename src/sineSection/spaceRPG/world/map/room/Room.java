@@ -10,6 +10,7 @@ public abstract class Room {
 	private final String description;
 	private boolean hasPower;
 	private Generator<Item> itemGenerator;
+	private boolean isPressurized;
 	
 	protected Room(String description) {
 		this.description = description;
@@ -22,6 +23,18 @@ public abstract class Room {
 	
 	public Boolean hasPower() {
 		return hasPower;
+	}
+	
+	public void hasPower(Boolean arg){
+		hasPower = arg;
+	}
+	
+	public Boolean hasOxygen(){
+		return isPressurized;
+	}
+	
+	public void hasOxygen(Boolean arg){
+		isPressurized = arg;
 	}
 	
 	public Room exit(String dir) {
