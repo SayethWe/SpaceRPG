@@ -1,34 +1,32 @@
 package sineSection.spaceRPG;
 
+import java.util.Random;
+
+import sineSection.spaceRPG.UI.GameUI;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.world.Generator;
-import sineSection.spaceRPG.world.items.*;
-import sineSection.spaceRPG.world.map.nodes.*;
-import sineSection.spaceRPG.world.rooms.*;
+import sineSection.spaceRPG.world.item.*;
 
 public class SpaceRPG {
-	private static Generator<Room> roomGenerator;
+	public static final String TITLE = "SpaceRPG";
+	
 	private static Generator<Item> itemGenerator;
-	private static Generator<Node> nodeGenerator;
+	private static Random seedGenerator;
 	
 	public static void main(String[] args) {
+		if (args.length > 0) {
+			initRandom(Integer.parseInt(args[0]));
+		} else {
+			initRandom();
+		}
 		SpaceRPG.initialize();
 		new SpaceRPG().testGame();
-//		new GameUI();
+		new GameUI().display();
 	}
 	
 	private static void initialize() {
-		roomGenerator = new Generator<>();
 		itemGenerator = new Generator<>();
-		nodeGenerator = new Generator<>();
-		addRoomTypes();
-		addItemTypes();
-		addNodeTypes();
-	}
-	
-	private static void addRoomTypes() {
-		roomGenerator.addType(RoomCorridor.class);
-		roomGenerator.addType(RoomReactor.class);
+		addItemTypes();;
 	}
 	
 	private static void addItemTypes() {
@@ -36,16 +34,26 @@ public class SpaceRPG {
 		itemGenerator.addType(PArmorItem.class);
 	}
 	
-	private static void addNodeTypes() {
-		nodeGenerator.addType(ResidentialNode.class);
-	}
-	
 	private void testGame() {
 		Player testPlayer = new Player("Katyusha");
-		testPlayer.addItem(itemGenerator.generate());
+		Item testItem = itemGenerator.generate();
 		System.out.println(testPlayer);
+		testPlayer.addItem(testItem);
+		System.out.println(testItem);
 		testPlayer.useItem(testPlayer.getInventory().get(0));
 		System.out.println(testPlayer);
+	}
+	
+	private static void initRandom() {
+		seedGenerator = new Random();
+	}
+	
+	private static void initRandom(int gameSeed) {
+		seedGenerator = new Random(gameSeed);
+	}
+	
+	public static int getNewSeed() {
+		return seedGenerator.nextInt();
 	}
 
 }

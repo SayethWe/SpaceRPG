@@ -1,11 +1,11 @@
-package sineSection.spaceRPG.world.items.effects;
+package sineSection.spaceRPG.world.item.effect;
 
 /**
  * a native stat-changing effect in place as long as an item is held.
  * @author geekman9097
  *
  */
-public class Aura extends PassiveEffect {
+public class Aura {
 	private final String stat;
 	private final int effectAmt;
 	
@@ -20,5 +20,15 @@ public class Aura extends PassiveEffect {
 	
 	public String getStat() {
 		return stat;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder("Aura: ");
+		result.append("Effects ");
+		result.append(stat);
+		result.append(" by: ");
+		result.append(effectAmt);
+		return result.toString();
 	}
 }

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import sineSection.spaceRPG.SpaceRPG;
+import sineSection.util.Utils;
+
 /**
  * A generator object to create new randomly generated instances of certain classes.
  * Typed to the type of object you want to create, then handed the possible types.
@@ -22,21 +25,11 @@ public class Generator<T> {
 	private Random RNJesus;
 	
 	/**
-	 * constructs a new generator with a seed defined earlier
-	 * @param seed the base number off which to create future randoms
-	 * 
-	 * @see java.util.Random
-	 */
-	public Generator(long seed) {
-		RNJesus = new Random(seed);
-	}
-	
-	/**
 	 * Creates a new Generator with a system-determined seed
 	 * @see java.util.Random
 	 */
 	public Generator() {
-		RNJesus = new Random();
+		RNJesus = new Random(SpaceRPG.getNewSeed());
 	}
 	
 	/**
@@ -54,7 +47,7 @@ public class Generator<T> {
 		Class<? extends T> result;
 		int index = RNJesus.nextInt(validTypes.size());
 		result = validTypes.get(index);
-		System.out.println("Creating a "+ result);
+		Utils.getLogger().info("Crafting a " + result);
 		return result;
 	}
 	

@@ -1,5 +1,7 @@
 package sineSection.spaceRPG.world;
 
+import sineSection.util.HashCoder;
+
 /**
  * a position in the world. Effectively, a two-tuple of an int
  * @author geekman9097
@@ -38,11 +40,9 @@ public class Pos {
 	
 	@Override
 	public int hashCode() {
-		int result = 13;
-		result += x;
-		result *= 23;
-		result += y;
-		result *= 23;
-		return result;
+		return new HashCoder(11,23)
+				.append(x)
+				.append(y)
+				.getHash();
 	}
 }

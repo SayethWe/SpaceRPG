@@ -1,4 +1,4 @@
-package sineSection.spaceRPG.world.rooms;
+package sineSection.spaceRPG.world.map.room;
 
 public class RoomQuarters extends Room {
 

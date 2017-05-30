@@ -11,7 +11,14 @@ public abstract class AbstractUI extends JFrame{
 	
 	protected AbstractUI() {
 		setLayout(new GridBagLayout());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		constraints = new GridBagConstraints();
+		constraints.weightx = 0.5;
+		constraints.weighty = 0.5;
+	}
+	
+	public void display() {
+		setSize(getPreferredSize());
+		setVisible(true);
 	}
 }

@@ -5,8 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sineSection.spaceRPG.world.items.Item;
-import sineSection.spaceRPG.world.items.effects.Effect;
+import sineSection.spaceRPG.world.item.Item;
 
 /**
  * @Author William Black
@@ -29,11 +28,7 @@ public class Player extends Character{
 	private static final int INTELLECT_MIN = 1;
 	private static final int POWER_MIN = 1;
 	
-	private Map<String, Item> inventory; //What the player is currently holding
-	//Intelligence of the character without item effects
-	//Strength of character without item effects
-	//Intelligence of character with item effects
-	//Strength of character with item effects
+	private Map<String, Item> inventory;
 
 	/**
 	 * @Author William Black
@@ -115,10 +110,5 @@ public class Player extends Character{
 			}
 		}
 		return result;
-	}
-	
-	
-	public void applyEffect(Effect use) {
-		// TODO Auto-generated method stub
 	}
 }

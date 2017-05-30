@@ -1,11 +1,10 @@
-package sineSection.spaceRPG.world.map.nodes;
+package sineSection.spaceRPG.world.map.node;
 
-import java.util.List;
 import java.util.Map;
 
 import sineSection.spaceRPG.world.Generator;
 import sineSection.spaceRPG.world.Pos;
-import sineSection.spaceRPG.world.rooms.Room;
+import sineSection.spaceRPG.world.map.room.Room;
 
 public abstract class Node {
 	private int size;
@@ -15,6 +14,8 @@ public abstract class Node {
 	public Node(int size) {
 		this.size = size;
 		roomGenerator = new Generator<>();
+		generate();
+		addRoomTypes();
 	}
 	
 	public void addRoomType(Class<? extends Room> type) {
@@ -30,5 +31,7 @@ public abstract class Node {
 	public Room getRoom(Pos pos) {
 		return map.get(pos);
 	}
+	
+	protected abstract void addRoomTypes();
 
 }

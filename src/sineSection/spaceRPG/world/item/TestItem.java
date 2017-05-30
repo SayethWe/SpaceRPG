@@ -1,18 +1,15 @@
-package sineSection.spaceRPG.world.items;
-
-import java.util.LinkedList;
-import java.util.List;
+package sineSection.spaceRPG.world.item;
 
 import sineSection.spaceRPG.character.Player;
-import sineSection.spaceRPG.world.items.effects.Aura;
-import sineSection.spaceRPG.world.items.effects.Effect;
+import sineSection.spaceRPG.world.item.effect.Aura;
 
 public class TestItem extends Item {
 	final static private String ITEM_NAME = "Fred the Test Item";
+	final static private String DESCRIPTION = "His love, it is eternal.";
 
 
 	public TestItem(){
-		super(ITEM_NAME);
+		super(ITEM_NAME, DESCRIPTION);
 		addAura(new Aura(Player.POWER, 1));
 		addAura(new Aura(Player.INTELLECT, 2));
 		//TODO add nightvision
