@@ -3,6 +3,7 @@ package sineSection.spaceRPG.world.item;
 import java.util.ArrayList;
 import java.util.List;
 
+import sineSection.spaceRPG.character.Creature;
 import sineSection.spaceRPG.world.item.effect.*;
 
 /**
@@ -17,6 +18,7 @@ public abstract class Item {
 	private final boolean permanent;
 	private int usesLeft = 0;
 	private List<Aura> auras;
+	private boolean isUseable = true;
 	
 	/**
 	 * create this as a permanent item
@@ -62,25 +64,30 @@ public abstract class Item {
 	}
 	
 	/**
-	 * use this item to get the active effect. Decrements the durability if this is a non-permanent item
 	 * @return <code>true</code> if the item is out of uses
 	 */
-	public boolean use() {
-		boolean result;
-		
+	protected void damage() {
 		if(!permanent) {
 			if(usesLeft > NO_DURABILITY) {
 				usesLeft--;
-				result = false;
+				isUseable = false;
 			} else {
-				result = true;
+				isUseable = true; // no uses left
 			}
 		} else {
-			result = false;
+			isUseable = false; //it's permanent
 		}
-		
-		return result;
 	}
+	
+	public boolean getUseable() {
+		return isUseable;
+	}
+	
+	/**
+	 * use this item to get the active effect.
+	 * @return if the item was used on a valid target successfully
+	 */
+	public abstract boolean use(Creature target);
 	
 	@Override
 	public String toString() {

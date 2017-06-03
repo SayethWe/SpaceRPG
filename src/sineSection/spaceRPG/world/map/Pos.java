@@ -1,4 +1,4 @@
-package sineSection.spaceRPG.world;
+package sineSection.spaceRPG.world.map;
 
 import sineSection.util.HashCoder;
 

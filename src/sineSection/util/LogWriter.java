@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
-public class Utils {
+public class LogWriter {
 	private final static String DEFAULT_TITLE = "Default Logger";
 	private static Logger logger;
 	
@@ -26,7 +26,7 @@ public class Utils {
 	private static PrintStream createLogFile() {
 		String sep = File.separator;
 		Date today = new Date();
-		String fileLocation = System.getProperty("user.dir") + sep + "logs" + sep + "Log " + today.toString();
+		String fileLocation = System.getProperty("user.dir") + sep + "logs" + sep + "Log " + today.toString() + ".sineLog";
 		File log = new File(fileLocation);
 		PrintStream out = System.out;
 		try {

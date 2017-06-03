@@ -1,5 +1,6 @@
 package sineSection.spaceRPG.world.item;
 
+import sineSection.spaceRPG.character.Creature;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.world.item.effect.Aura;
 
@@ -15,8 +16,8 @@ public class TestItem extends Item {
 		//TODO add nightvision
 	}
 	
-	public boolean use() {
-		boolean result = super.use();
+	public boolean use(Creature target) {
+		boolean result = getUseable();
 		System.out.println("My Love Is Eternal");
 		return result;
 	}

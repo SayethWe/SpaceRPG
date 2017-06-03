@@ -4,9 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import sineSection.spaceRPG.world.Generator;
-import sineSection.spaceRPG.world.Pos;
 import sineSection.spaceRPG.world.map.node.Node;
-import sineSection.spaceRPG.world.map.node.ResidentialNode;
+import sineSection.spaceRPG.world.map.node.NodeResidential;
 
 /**
  * The ship map, and character holder. Technically the overworld.
@@ -48,7 +47,7 @@ public class Ship {
 	}
 	
 	private void addNodeTypes() {
-		addNodeType(ResidentialNode.class);
+		addNodeType(NodeResidential.class);
 	}
 	
 	public void addNodeType(Class<? extends Node> type) {

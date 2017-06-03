@@ -1,5 +1,6 @@
 package sineSection.spaceRPG.world.item;
 
+import sineSection.spaceRPG.character.Creature;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.world.item.effect.Aura;
 
@@ -16,9 +17,10 @@ public class PArmorItem extends Item {
 		//TODO add nightvision
 	}
 	
-	public boolean use() {
-		boolean result = super.use();
-		System.out.println("!!WARNING!!: Suit does not contain Bubblegum");
-		return result;
+	public boolean use(Creature target) {
+		if(getUseable()) {
+			System.out.println("!!WARNING!!: Suit does not contain Bubblegum");
+		}
+		return true;
 	}
 }

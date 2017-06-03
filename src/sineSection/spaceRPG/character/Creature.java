@@ -1,8 +1,10 @@
 package sineSection.spaceRPG.character;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.effect.Aura;
@@ -11,7 +13,7 @@ import sineSection.spaceRPG.world.item.effect.Aura;
  * Abstract class for character
  * @Author William Black
  */
-public abstract class Character {
+public abstract class Creature {
 	private static final int HEALTH_MIN = 0;
 
 	private final String name; //Name of the character
@@ -19,7 +21,7 @@ public abstract class Character {
 	private Map<String, Stat> stats;
 //	private List<Effect> effects;
 	
-	public Character(String name, int hpMax) {
+	public Creature(String name, int hpMax) {
 		this.name = name;
 		stats = new HashMap<>();
 		health = new Stat(HEALTH_MIN, hpMax);
@@ -103,6 +105,12 @@ public abstract class Character {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public Set<? extends Object> getAllStats() {
+		Set<Stat> result = new HashSet<>();
+		stats.forEach((name,stat) -> result.add(stat));
+		return result;
 	}
 	
 	public void addAuras(List<Aura> auras) {

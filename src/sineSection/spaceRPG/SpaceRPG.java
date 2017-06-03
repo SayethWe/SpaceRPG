@@ -5,11 +5,15 @@ import java.util.Random;
 import sineSection.spaceRPG.UI.GameUI;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.world.Generator;
-import sineSection.spaceRPG.world.item.*;
+import sineSection.spaceRPG.world.item.Item;
+import sineSection.spaceRPG.world.item.PArmorItem;
+import sineSection.spaceRPG.world.item.TestItem;
+import sineSection.util.LogWriter;
 
 public class SpaceRPG {
 	public static final String TITLE = "SpaceRPG";
 	
+	private static GameUI gui;
 	private static Generator<Item> itemGenerator;
 	private static Random seedGenerator;
 	
@@ -21,12 +25,13 @@ public class SpaceRPG {
 		}
 		SpaceRPG.initialize();
 		new SpaceRPG().testGame();
-		new GameUI().display();
+//		new GameUI().display();
 	}
 	
 	private static void initialize() {
 		itemGenerator = new Generator<>();
-		addItemTypes();;
+		addItemTypes();
+		LogWriter.createLogger(TITLE);
 	}
 	
 	private static void addItemTypes() {
@@ -35,12 +40,14 @@ public class SpaceRPG {
 	}
 	
 	private void testGame() {
+		gui = new GameUI();
+		gui.display();
 		Player testPlayer = new Player("Katyusha");
 		Item testItem = itemGenerator.generate();
 		System.out.println(testPlayer);
 		testPlayer.addItem(testItem);
 		System.out.println(testItem);
-		testPlayer.useItem(testPlayer.getInventory().get(0));
+		testPlayer.useItem(testPlayer.getInventory().get(0),testPlayer);
 		System.out.println(testPlayer);
 	}
 	
@@ -54,6 +61,10 @@ public class SpaceRPG {
 	
 	public static int getNewSeed() {
 		return seedGenerator.nextInt();
+	}
+	
+	public GameUI getGui() {
+		return gui;
 	}
 
 }

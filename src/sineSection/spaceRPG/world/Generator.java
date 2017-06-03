@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import sineSection.spaceRPG.SpaceRPG;
-import sineSection.util.Utils;
+import sineSection.util.LogWriter;
 
 /**
  * A generator object to create new randomly generated instances of certain classes.
@@ -47,7 +47,7 @@ public class Generator<T> {
 		Class<? extends T> result;
 		int index = RNJesus.nextInt(validTypes.size());
 		result = validTypes.get(index);
-		Utils.getLogger().info("Crafting a " + result);
+		LogWriter.getLogger().info("Crafting a " + result);
 		return result;
 	}
 	

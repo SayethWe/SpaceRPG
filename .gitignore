@@ -4,3 +4,5 @@
 *.class
 
 bin/sineSection/spaceRPG/SpaceRPG.class
+
+*.sineLog

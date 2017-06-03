@@ -8,7 +8,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import sineSection.util.Utils;
+import sineSection.spaceRPG.UI.panel.HudPanel;
+import sineSection.util.LogWriter;
 
 public class GameUI extends AbstractUI {
 	private static final long serialVersionUID = 8764045071574261230L;
@@ -18,6 +19,8 @@ public class GameUI extends AbstractUI {
 	
 	JTextArea gameScreen;
 	JTextField commandArea;
+//	CommandButtons commandArea;
+	HudPanel hud;
 	
 	public GameUI() {
 		super();
@@ -25,16 +28,29 @@ public class GameUI extends AbstractUI {
 	}
 	
 	private void createLayout() {
-		gameScreen = new JTextArea(DEFAULT_WIDTH,TEXT_HISTORY);
+		gameScreen = new JTextArea(TEXT_HISTORY,DEFAULT_WIDTH);
 		gameScreen.setAlignmentX(LEFT_ALIGNMENT);
+		gameScreen.setEditable(false);
 		constraints.fill = GridBagConstraints.BOTH;
 		JScrollPane scrollable = new JScrollPane(gameScreen);
 		add(scrollable, constraints);
+		
+//		hud = new HudPanel();
+//		hud.setAlignmentX(CENTER_ALIGNMENT);
+//		constraints.weightx = 0.25;
+//		constraints.gridheight = 2;
+//		constraints.gridx = 1;
+//		JScrollPane hudPane = new JScrollPane(hud);
+//		add(hudPane, constraints);
 		
 		commandArea = new JTextField(DEFAULT_TEXT);
 		commandArea.addActionListener((e) -> commandSent());
 		commandArea.addKeyListener(CreateFocusListener());
 		commandArea.setEditable(true);
+//		commandArea = new CommandButtons();
+		constraints.weightx = 0.5;
+		constraints.gridheight = 1;
+		constraints.gridx = 0;
 		constraints.gridy = 1;
 		constraints.weighty = 0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -42,7 +58,7 @@ public class GameUI extends AbstractUI {
 	}
 	
 	private void commandSent() {
-		Utils.getLogger().info("Command Sent: " + commandArea.getText());
+		LogWriter.getLogger().info("Command Sent: " + commandArea.getText());
 		gameScreen.append(commandArea.getText());
 		gameScreen.append("\n");
 		commandArea.setText(DEFAULT_TEXT);
@@ -59,5 +75,9 @@ public class GameUI extends AbstractUI {
 
 			@Override public void keyReleased(KeyEvent e) {}
 		};
+	}
+	
+	public HudPanel getHud() {
+		return hud;
 	}
 }

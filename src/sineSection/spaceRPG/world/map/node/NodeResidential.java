@@ -3,10 +3,10 @@ package sineSection.spaceRPG.world.map.node;
 import sineSection.spaceRPG.world.map.room.RoomDiner;
 import sineSection.spaceRPG.world.map.room.RoomQuarters;
 
-public class ResidentialNode extends Node {
+public class NodeResidential extends Node {
 	
 	
-	public ResidentialNode(int size) {
+	public NodeResidential(int size) {
 		super(size);
 	}
 	

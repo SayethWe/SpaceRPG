@@ -2,7 +2,7 @@ package sineSection.spaceRPG.world.map.node;
 
 import java.util.Map;
 import sineSection.spaceRPG.world.Generator;
-import sineSection.spaceRPG.world.Pos;
+import sineSection.spaceRPG.world.map.Pos;
 import sineSection.spaceRPG.world.map.room.Room;
 
 public abstract class Node {
