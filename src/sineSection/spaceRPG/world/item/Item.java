@@ -92,13 +92,13 @@ public abstract class Item {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder("Item:");
-		result.append("\n");
-		result.append(name);
-		result.append("\n");
-		result.append(description);
-		result.append("\n");
-		result.append("Passives:");
-		result.append("\n");
+		result.append("\n")
+			  .append(name)
+			  .append("\n")
+			  .append(description)
+			  .append("\n")
+			  .append("Passives:")
+			  .append("\n");
 		auras.forEach((aura) -> result.append(aura.toString() + "\n"));
 		return result.toString();
 	}

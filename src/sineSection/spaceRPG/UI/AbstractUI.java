@@ -4,8 +4,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public abstract class AbstractUI extends JFrame{
+public class AbstractUI extends JFrame{
 	private static final long serialVersionUID = -1386522460580786346L;
 	protected GridBagConstraints constraints;
 	
@@ -15,6 +16,11 @@ public abstract class AbstractUI extends JFrame{
 		constraints = new GridBagConstraints();
 		constraints.weightx = 0.5;
 		constraints.weighty = 0.5;
+	}
+	
+	public AbstractUI(JPanel content) {
+		this();
+		setContentPane(content);
 	}
 	
 	public void display() {

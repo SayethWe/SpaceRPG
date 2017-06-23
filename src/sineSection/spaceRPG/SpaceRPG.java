@@ -44,11 +44,11 @@ public class SpaceRPG {
 		gui.display();
 		Player testPlayer = new Player("Katyusha");
 		Item testItem = itemGenerator.generate();
-		System.out.println(testPlayer);
+		writeToGui(testPlayer);
 		testPlayer.addItem(testItem);
-		System.out.println(testItem);
+		writeToGui(testItem);
 		testPlayer.useItem(testPlayer.getInventory().get(0),testPlayer);
-		System.out.println(testPlayer);
+		writeToGui(testPlayer);
 	}
 	
 	private static void initRandom() {
@@ -65,6 +65,10 @@ public class SpaceRPG {
 	
 	public GameUI getGui() {
 		return gui;
+	}
+	
+	public void writeToGui(Object in) {
+		gui.write(in);
 	}
 
 }

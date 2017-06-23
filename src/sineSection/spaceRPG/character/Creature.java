@@ -92,14 +92,15 @@ public abstract class Creature {
 	
 	@Override
 	public String toString() {
-		StringBuilder string = new StringBuilder();
-		string.append("Character:");
-		string.append("\n");
-		string.append(name);
-		string.append("\n");
-		string.append("Health: ");
-		string.append(health);
-		stats.forEach((title, value) -> string.append("\n" + title + ": " + value));
+		StringBuilder string = new StringBuilder("Creature:");
+		string.append("\n")
+			  .append(name)
+			  .append("\n")
+			  .append("Health: ")
+			  .append(health)
+			  .append("Stats: ")
+			  .append("/n");
+		stats.forEach((title, value) -> string.append(title + ": " + value + "\n"));
 		return string.toString();
 	}
 	

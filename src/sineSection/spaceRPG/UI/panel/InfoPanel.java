@@ -1,11 +1,12 @@
 package sineSection.spaceRPG.UI.panel;
 
 import java.awt.GridBagConstraints;
+import java.util.Set;
 
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
-public class InfoPanel extends AbstractPanel {
+public class InfoPanel<E> extends AbstractPanel {
 	private static final long serialVersionUID = -2435708821319951292L;
 	private final String title;
 	private JTextArea display;
@@ -26,7 +27,7 @@ public class InfoPanel extends AbstractPanel {
 		return title;
 	}
 	
-	public void reFill() {
+	public void reFill(Set<E> in) {
 		StringBuilder fill = new StringBuilder("");
 		display.setText(fill.toString());
 	}

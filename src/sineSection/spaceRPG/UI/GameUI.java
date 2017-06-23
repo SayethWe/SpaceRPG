@@ -19,7 +19,6 @@ public class GameUI extends AbstractUI {
 	
 	JTextArea gameScreen;
 	JTextField commandArea;
-//	CommandButtons commandArea;
 	HudPanel hud;
 	
 	public GameUI() {
@@ -35,19 +34,18 @@ public class GameUI extends AbstractUI {
 		JScrollPane scrollable = new JScrollPane(gameScreen);
 		add(scrollable, constraints);
 		
-//		hud = new HudPanel();
-//		hud.setAlignmentX(CENTER_ALIGNMENT);
-//		constraints.weightx = 0.25;
-//		constraints.gridheight = 2;
-//		constraints.gridx = 1;
-//		JScrollPane hudPane = new JScrollPane(hud);
-//		add(hudPane, constraints);
+		hud = new HudPanel();
+		hud.setAlignmentX(CENTER_ALIGNMENT);
+		constraints.weightx = 0.25;
+		constraints.gridheight = 2;
+		constraints.gridx = 1;
+		JScrollPane hudPane = new JScrollPane(hud);
+		add(hudPane, constraints);
 		
 		commandArea = new JTextField(DEFAULT_TEXT);
 		commandArea.addActionListener((e) -> commandSent());
 		commandArea.addKeyListener(CreateFocusListener());
 		commandArea.setEditable(true);
-//		commandArea = new CommandButtons();
 		constraints.weightx = 0.5;
 		constraints.gridheight = 1;
 		constraints.gridx = 0;
@@ -79,5 +77,14 @@ public class GameUI extends AbstractUI {
 	
 	public HudPanel getHud() {
 		return hud;
+	}
+	
+	private void write(String in) {
+		gameScreen.append(in);
+		gameScreen.append("\n");
+	}
+	
+	public void write(Object in) {
+		write(in.toString());
 	}
 }
