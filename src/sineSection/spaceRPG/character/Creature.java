@@ -17,9 +17,10 @@ public abstract class Creature {
 	private static final int HEALTH_MIN = 0;
 
 	private final String name; //Name of the character
+//	private final ComfortStat warmth;
 	private Stat health;
 	private Map<String, Stat> stats;
-//	private List<Effect> effects;
+	
 	
 	public Creature(String name, int hpMax) {
 		this.name = name;

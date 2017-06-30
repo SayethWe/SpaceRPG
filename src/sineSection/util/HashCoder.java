@@ -16,7 +16,7 @@ public class HashCoder {
 	}
 	public HashCoder append(double element) {
 		result *= increment;
-		add(((int) (element + 0.5)));
+		add((int) (element + 0.5));
 		return this;
 	}
 	

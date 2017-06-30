@@ -31,6 +31,7 @@ public class Player extends Creature{
 	private static final int POWER_MIN = 1;
 	
 	private Map<String, Item> inventory;
+	//TODO add in 'comfort' like warmth, and environment checks for damage
 
 	/**
 	 * Initializes 'inventory' and 'stats', adds all the 'stats' into the appropriate HashMap
