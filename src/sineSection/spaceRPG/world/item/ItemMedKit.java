@@ -9,13 +9,13 @@ public class ItemMedKit extends Item {
 	final private static int HEAL_AMT = 10;
 
 	public ItemMedKit() {
-		super(ITEM_NAME, DESCRIPTION,USES);
+		super(ITEM_NAME, DESCRIPTION, USES);
 	}
 
 	@Override
 	public boolean use(Creature target) {
 		boolean result = getUseable();
-		if(result) {
+		if (result) {
 			target.heal(HEAL_AMT);
 			damage();
 		}

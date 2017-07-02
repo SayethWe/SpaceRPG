@@ -1,4 +1,4 @@
- package sineSection.spaceRPG.UI;
+package sineSection.spaceRPG.UI;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -6,10 +6,10 @@ import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class AbstractUI extends JFrame{
+public class AbstractUI extends JFrame {
 	private static final long serialVersionUID = -1386522460580786346L;
 	protected GridBagConstraints constraints;
-	
+
 	protected AbstractUI() {
 		setLayout(new GridBagLayout());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -17,12 +17,12 @@ public class AbstractUI extends JFrame{
 		constraints.weightx = 0.5;
 		constraints.weighty = 0.5;
 	}
-	
+
 	public AbstractUI(JPanel content) {
 		this();
 		setContentPane(content);
 	}
-	
+
 	public void display() {
 		setSize(getPreferredSize());
 		setVisible(true);

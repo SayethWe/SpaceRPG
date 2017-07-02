@@ -11,50 +11,50 @@ public abstract class Room {
 	private boolean hasPower;
 	private Generator<Item> itemGenerator;
 	private boolean isPressurized;
-	
+
 	protected Room(String description) {
 		this.description = description;
 		itemGenerator = new Generator<>();
 	}
-	
+
 	public void addItemType(Class<? extends Item> type) {
 		itemGenerator.addType(type);
 	}
-	
+
 	public Boolean hasPower() {
 		return hasPower;
 	}
-	
-	public void hasPower(Boolean arg){
+
+	public void hasPower(Boolean arg) {
 		hasPower = arg;
 	}
-	
-	public Boolean hasOxygen(){
+
+	public Boolean hasOxygen() {
 		return isPressurized;
 	}
-	
-	public void hasOxygen(Boolean arg){
+
+	public void hasOxygen(Boolean arg) {
 		isPressurized = arg;
 	}
-	
+
 	public Room exit(String dir) {
 		return exits.get(dir);
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public String getExitString() {
 		StringBuilder result = new StringBuilder("Exits: ");
 		exits.keySet().forEach((str) -> result.append(str + "; "));
 		return result.toString();
 	}
-	
+
 	@Override
 	public String toString() {
-	StringBuilder result = new StringBuilder("Room");
-	result.append(this.hashCode());
-	return result.toString();	
+		StringBuilder result = new StringBuilder("Room");
+		result.append(this.hashCode());
+		return result.toString();
 	}
 }

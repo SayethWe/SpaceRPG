@@ -5,28 +5,28 @@ public class Stat {
 	private int maxValue;
 	private final int BaseMaxValue;
 	private final int minValue;
-	
+
 	public Stat(int minValue, int maxValue) {
 		this.maxValue = BaseMaxValue = maxValue;
 		this.minValue = minValue;
 	}
-	
+
 	public int maxVal() {
 		return BaseMaxValue;
 	}
-	
+
 	public int minVal() {
 		return minValue;
 	}
-	
-	public void addToMax(int incrementNum){
+
+	public void addToMax(int incrementNum) {
 		maxValue += incrementNum;
 	}
-	
+
 	public int currentVal() {
 		return value;
 	}
-	
+
 	public boolean increment(int amt) {
 		boolean result = incrementAllowed(amt);
 		if (result) {
@@ -34,11 +34,11 @@ public class Stat {
 		}
 		return result;
 	}
-	
+
 	public boolean incrementAllowed(int amt) {
 		return ((value + amt) > maxValue) || (value + amt < minValue) ? false : true;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder("");
@@ -54,7 +54,7 @@ public class Stat {
 	public void topOff() {
 		value = BaseMaxValue;
 	}
-	
+
 	public void empty() {
 		value = minValue;
 	}

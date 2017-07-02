@@ -12,19 +12,19 @@ public class Command {
 	public CommandString getCommand() {
 		return command;
 	}
-	
+
 	public String[] getArgs() {
 		return args;
 	}
-	
+
 	public boolean isValid() {
 		return command == CommandString.UNKNOWN;
 	}
-	
+
 	public boolean hasArgs() {
 		return args.length > 0;
 	}
-	
+
 	public int argsNum() {
 		return args.length;
 	}

@@ -8,14 +8,13 @@ public class TestItem extends Item {
 	final static private String ITEM_NAME = "Fred the Test Item";
 	final static private String DESCRIPTION = "His love, it is eternal.";
 
-
-	public TestItem(){
+	public TestItem() {
 		super(ITEM_NAME, DESCRIPTION);
 		addAura(new Aura(Player.POWER, 1));
 		addAura(new Aura(Player.INTELLECT, 2));
-		//TODO add nightvision
+		// TODO add nightvision
 	}
-	
+
 	public boolean use(Creature target) {
 		boolean result = getUseable();
 		System.out.println("My Love Is Eternal");

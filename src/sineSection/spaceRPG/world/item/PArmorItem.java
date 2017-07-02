@@ -8,17 +8,16 @@ public class PArmorItem extends Item {
 	final static private String ITEM_NAME = "Power Armor";
 	final private static String DESCRIPTION = "Powerful armor that increases your defense";
 
-
-	public PArmorItem(){
+	public PArmorItem() {
 		super(ITEM_NAME, DESCRIPTION);
 		addAura(new Aura(Player.POWER, 10));
 		addAura(new Aura(Player.INTELLECT, 3));
 		addAura(new Aura(Player.RESISTANCE, 5));
-		//TODO add nightvision
+		// TODO add nightvision
 	}
-	
+
 	public boolean use(Creature target) {
-		if(getUseable()) {
+		if (getUseable()) {
 			System.out.println("!!WARNING!!: Suit does not contain Bubblegum");
 		}
 		return true;

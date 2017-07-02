@@ -14,6 +14,5 @@ public class NodeCommercial extends Node {
 		addRoomType(RoomDiner.class);
 		addRoomType(RoomStore.class);
 	}
-	
 
 }
