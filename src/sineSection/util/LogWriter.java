@@ -34,7 +34,6 @@ public class LogWriter {
 			System.out.println("Creating log file at: " + fileLocation);
 			File log = new File(fileLocation);
 			if (!log.exists()) {
-				log.mkdirs();
 				log.createNewFile();
 			}
 			PrintStream out = System.out;
@@ -42,6 +41,7 @@ public class LogWriter {
 			return out;
 		} catch (IOException e) {
 			System.err.println("Error creating log!");
+			e.printStackTrace();
 			return null;
 		}
 	}
