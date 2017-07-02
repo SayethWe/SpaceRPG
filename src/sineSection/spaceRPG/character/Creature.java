@@ -127,7 +127,6 @@ public abstract class Creature {
 
 	public abstract boolean hasItem(Item item); // Returns true if item is in
 												// the inventory
-
 	public abstract boolean addItem(Item item); // Returns true if item was
 												// successfully added to
 												// inventory, returns false if

@@ -42,6 +42,7 @@ public class LogWriter {
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.err.println("Error creating log!");
+			e.printStackTrace();
 			return null;
 		}
 	}
