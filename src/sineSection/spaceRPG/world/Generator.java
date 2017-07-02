@@ -38,7 +38,7 @@ public class Generator<T> {
 
 	/**
 	 * adds a valid class to produce to the possible results of
-	 * {@code generate()}
+	 * {@link #generate()}
 	 * 
 	 * <p>
 	 * should only be called at initialization time. failure to do so may cause
