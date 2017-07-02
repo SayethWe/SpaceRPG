@@ -2,12 +2,7 @@ package sineSection.spaceRPG.UI.panel;
 
 import java.awt.GridBagConstraints;
 
-<<<<<<< HEAD
 import sineSection.spaceRPG.character.Player;
-=======
-import sineSection.spaceRPG.character.Stat;
-import sineSection.spaceRPG.world.item.Item;
->>>>>>> branch 'master' of https://github.com/geekman9097/SpaceRPG.git
 
 /**
  * the Hud. Displays your inventory, stats, health, etc.
@@ -17,8 +12,8 @@ import sineSection.spaceRPG.world.item.Item;
  */
 public class HudPanel extends AbstractPanel {
 	private static final long serialVersionUID = -2435708821319951292L;
-	private InfoPanel<Item> inventory;
-	private InfoPanel<Stat> stats;
+//	private InfoPanel<Item> inventory;
+//	private InfoPanel<Stat> stats;
 	
 	private StatPanel statPanel;
 	
