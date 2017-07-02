@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sineSection.spaceRPG.character.Creature;
-import sineSection.spaceRPG.world.item.effect.*;
+import sineSection.spaceRPG.world.item.effect.Aura;
 
 /**
  * @Author William Black Abstract class for Item
