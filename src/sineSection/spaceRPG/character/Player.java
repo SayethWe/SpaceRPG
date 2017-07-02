@@ -97,7 +97,7 @@ public class Player extends Creature {
 	 * @Author William Black
 	 */
 	public void makeCharacterDie() {
-		// TODO make character die
+		// TODO make character die (riparoni)
 	}
 
 	/**

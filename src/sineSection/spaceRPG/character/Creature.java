@@ -62,7 +62,7 @@ public abstract class Creature {
 		amt = Math.abs(amt); // ensure that we will only deal damage
 		boolean alive = health.incrementAllowed(-amt);
 		if (alive) {
-			health.increment(amt);
+			health.increment(-amt);
 		} else {
 			health.empty();
 		}

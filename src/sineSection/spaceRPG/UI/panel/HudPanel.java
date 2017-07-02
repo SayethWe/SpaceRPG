@@ -176,7 +176,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 			g.setColor(PANEL_HEALTH_BAR_BG_COLOR);
 			g.fillRect(PANEL_PADDING, y, barWidth, PANEL_BAR_HEIGHT);
 			g.setColor(PANEL_HEALTH_BAR_FILL_COLOR);
-			g.fillRect(PANEL_PADDING, y, (int) ((float) (player.getHealth() / (1.25)) * ((float) barWidth / (float) player.getMaxHealth())), PANEL_BAR_HEIGHT);
+			g.fillRect(PANEL_PADDING, y, (int) ((float) player.getHealth() * ((float) barWidth / (float) player.getMaxHealth())), PANEL_BAR_HEIGHT);
 			g.setColor(PANEL_HEALTH_BAR_BORDER_COLOR);
 			g.drawRect(PANEL_PADDING, y, barWidth, PANEL_BAR_HEIGHT);
 			y += PANEL_BAR_HEIGHT + 5;
