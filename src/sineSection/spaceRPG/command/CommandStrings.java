@@ -24,7 +24,7 @@ public class CommandStrings {
 	}
 
 	public static String getCommands() {
-		StringBuilder result = new StringBuilder("Commands");
+		StringBuilder result = new StringBuilder("Commands: ");
 		validCommands.keySet().forEach((command) -> result.append(" " + command));
 		return result.toString();
 	}
