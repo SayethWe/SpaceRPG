@@ -80,8 +80,6 @@ public class SpaceRPG {
 		writeToGui(testItem);
 		testPlayer.useItem((String) testPlayer.getInventory().toArray()[0], testPlayer);
 		writeToGui(testPlayer);
-		testPlayer.damage(5);
-		System.out.println(testPlayer.getHealth());
 	}
 
 	/**

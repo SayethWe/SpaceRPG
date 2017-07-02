@@ -10,6 +10,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import sineSection.spaceRPG.UI.panel.HudPanel;
 import sineSection.spaceRPG.character.Player;
@@ -27,9 +28,24 @@ public class GameUI extends AbstractUI {
 
 	public GameUI() {
 		super();
-		setMinimumSize(new Dimension(500, 400));
+		updateLookAndFeel();
+		setMinimumSize(new Dimension(600, 500));
 		setTitle("SpaceRPG");
 		createLayout();
+		setLocationRelativeTo(null);
+		
+	}
+	
+	private void updateLookAndFeel() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			try {
+				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 
 	private void createLayout() {
