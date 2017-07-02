@@ -5,6 +5,7 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Random;
 
 import sineSection.spaceRPG.UI.GameUI;
@@ -29,7 +30,7 @@ public class SpaceRPG {
 	private static Player testPlayer;
 
 	public static void main(String[] args) {
-		loadFontFromFile("/font/Mars_Needs_Cunnilingus.ttf");
+		loadFontFromFile("Mars_Needs_Cunnilingus");
 		initRandom();
 		SpaceRPG.initialize();
 		new SpaceRPG().testGame();
@@ -101,13 +102,14 @@ public class SpaceRPG {
 		gui.write(in);
 	}
 
-	public static void loadFontFromFile(String fontFile) {
+	public static void loadFontFromFile(String fontName) {
 		try {
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontFile)));
-		} catch (IOException | FontFormatException e) {
-			
-			System.out.println("Can't load font: " + fontFile);
+			URL url = SpaceRPG.class.getResource("/font/" + fontName + ".ttf");
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(url.toURI())));
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Can't load font: " + fontName);
 		}
 	}
 }

@@ -31,13 +31,13 @@ public class LogWriter {
 			String sep = File.separator;
 			Date today = new Date();
 			String fileLocation = System.getProperty("user.dir") + sep + "logs" + sep + "Log " + today.toString() + ".sineLog";
-			System.out.println("Creating log file at: " + fileLocation);
-			File log = new File(fileLocation);
-			if (!log.exists()) {
-				log.createNewFile();
+			File file = new File(fileLocation);
+			if (file.createNewFile()) {
+				System.out.println("Log file created: " + fileLocation);
+			} else {
+				System.out.println("Log file already exists.");
 			}
-			PrintStream out = System.out;
-			out = new PrintStream(log);
+			PrintStream out = new PrintStream(file);
 			return out;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -46,5 +46,4 @@ public class LogWriter {
 			return null;
 		}
 	}
-
 }

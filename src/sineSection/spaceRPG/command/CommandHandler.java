@@ -21,6 +21,7 @@ public class CommandHandler {
 		case INFO:
 		case HELP:
 		case GO:
+		case DEBUG_DAMAGE:
 			break;
 		}
 	}
