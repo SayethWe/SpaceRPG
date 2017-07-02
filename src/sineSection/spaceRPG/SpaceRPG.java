@@ -1,10 +1,8 @@
 package sineSection.spaceRPG;
 
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 
