@@ -1,9 +1,12 @@
 package sineSection.spaceRPG;
 
+import java.io.File;
 import java.util.Random;
 
 import sineSection.spaceRPG.UI.GameUI;
 import sineSection.spaceRPG.character.Player;
+import sineSection.spaceRPG.save.SaveReader;
+import sineSection.spaceRPG.save.SaveState;
 import sineSection.spaceRPG.world.Generator;
 import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.PArmorItem;
@@ -16,13 +19,10 @@ public class SpaceRPG {
 	private static GameUI gui;
 	private static Generator<Item> itemGenerator;
 	private static Random seedGenerator;
+	private static SpaceRPG master; //The SPACERPG object to call for all your needs.
 	
 	public static void main(String[] args) {
-		if (args.length > 0) {
-			initRandom(Integer.parseInt(args[0]));
-		} else {
-			initRandom();
-		}
+		initRandom();
 		SpaceRPG.initialize();
 		new SpaceRPG().testGame();
 //		new GameUI().display();
@@ -39,12 +39,29 @@ public class SpaceRPG {
 		itemGenerator.addType(PArmorItem.class);
 	}
 	
+	public static SpaceRPG getMaster() {
+		return master;
+	}
+	
+	/**
+	 * start a new game
+	 */
 	public SpaceRPG() {
-		
+		seedGenerator = new Random();
+		master = this;
+		gui = new GameUI();
+	}
+	
+	/**
+	 * continue a previously started game
+	 * @param save
+	 */
+	public SpaceRPG(File saveFile) {
+		SaveState save = SaveReader.read(saveFile);
+		seedGenerator = new Random(save.getSeed());
 	}
 	
 	private void testGame() {
-		gui = new GameUI();
 		gui.display();
 		Player testPlayer = new Player("Katyusha");
 		Item testItem = itemGenerator.generate();
@@ -55,12 +72,11 @@ public class SpaceRPG {
 		writeToGui(testPlayer);
 	}
 	
+	/**
+	 * placeholder testing method for setting up the random generator
+	 */
 	private static void initRandom() {
 		seedGenerator = new Random();
-	}
-	
-	private static void initRandom(int gameSeed) {
-		seedGenerator = new Random(gameSeed);
 	}
 	
 	public static int getNewSeed() {

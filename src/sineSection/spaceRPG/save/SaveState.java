@@ -15,5 +15,9 @@ public class SaveState implements Serializable {
 	public SaveState() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public int getSeed() {
+		return randomSeed;
+	}
 
 }
