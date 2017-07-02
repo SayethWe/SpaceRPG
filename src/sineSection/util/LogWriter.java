@@ -34,13 +34,13 @@ public class LogWriter {
 			System.out.println("Creating log file at: " + fileLocation);
 			File log = new File(fileLocation);
 			if (!log.exists()) {
-				log.mkdirs();
 				log.createNewFile();
 			}
 			PrintStream out = System.out;
 			out = new PrintStream(log);
 			return out;
 		} catch (IOException e) {
+			e.printStackTrace();
 			System.err.println("Error creating log!");
 			return null;
 		}

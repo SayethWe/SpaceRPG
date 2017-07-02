@@ -18,13 +18,12 @@ import sineSection.util.GraphicsUtils;
  * the Hud. Displays your inventory, stats, health, etc. Maybe update w/ a
  * command
  * 
- * @author geekman9097, Richard Abbott
+ * @author geekman9097
+ * @author Richard Abbott
  *
  */
 public class HudPanel extends AbstractPanel implements Runnable {
 	private static final long serialVersionUID = -2435708821319951292L;
-	// private InfoPanel<Item> inventory;
-	// private InfoPanel<Stat> stats;
 
 	private static final int PANEL_WIDTH = 180;
 	private static final int PANEL_PADDING = 10;
@@ -43,9 +42,9 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	private static final Color PANEL_HEALTH_VALUE_COLOR = new Color(180, 180, 180);
 	private static final Font PANEL_HEALTH_TEXT_FONT = new Font("Mars Needs Cunnilingus", Font.PLAIN, 18);
 
-	private static final int PANEL_BAR_HEIGHT = 15;
+	private static final int PANEL_BAR_HEIGHT = 20;
 
-	private static final Color PANEL_HEALTH_BAR_BG_COLOR = Color.LIGHT_GRAY;
+	private static final Color PANEL_HEALTH_BAR_BG_COLOR = new Color(80, 80, 80);
 	private static final Color PANEL_HEALTH_BAR_FILL_COLOR = new Color(150, 150, 150);
 	private static final Color PANEL_HEALTH_BAR_BORDER_COLOR = new Color(80, 80, 80);
 
@@ -93,7 +92,8 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	 * Makes this HudPanel track a player.
 	 * 
 	 * @param p
-	 *            The player to track. If null, do not track a player.
+	 *            the player to track. if <code>null</code>, do not track a
+	 *            player.
 	 * @author Richard Abbott
 	 */
 	public void setPlayerToTrack(Player p) {
@@ -125,12 +125,39 @@ public class HudPanel extends AbstractPanel implements Runnable {
 		bfr.show();
 	}
 
+	float f = 0.0f;
+	float fSpeed = 0.0f;
+	boolean fIncreasing = true;
+	final float fAccel = 0.00002f;
+	final float fMaxSpeed = 0.008f;
+
 	/**
-	 * Takes a <code>Graphics2D</code> object and draws with it.
+	 * Takes a <code>{@link #Graphics2D}</code> object and draws with it.
 	 * 
 	 * @author Richard Abbott
 	 */
 	private void draw(Graphics2D g) {
+		if (fSpeed > fMaxSpeed) {
+			fSpeed = fMaxSpeed;
+		} else if (fSpeed < fMaxSpeed) {
+			fSpeed += fAccel;
+		}
+		if (fIncreasing) {
+			f += fSpeed;
+			if (f > 1.0f) {
+				f = 1.0f;
+				fSpeed = 0.0f;
+				fIncreasing = false;
+			}
+		} else {
+			f -= fSpeed;
+			if (f < 0.0f) {
+				f = 0.0f;
+				fSpeed = 0.0f;
+				fIncreasing = true;
+			}
+		}
+
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
@@ -160,7 +187,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 			g.setFont(PANEL_HEALTH_TEXT_FONT);
 			g.setColor(PANEL_HEALTH_TEXT_COLOR);
 			g.drawString("+", x, y);
-			x += 13;
+			x += 15;
 			g.setColor(PANEL_HEALTH_VALUE_COLOR);
 			g.drawString("" + player.getHealth(), x, y);
 			x += GraphicsUtils.getStringWidth(g, "" + player.getHealth()) + 2;
@@ -171,15 +198,9 @@ public class HudPanel extends AbstractPanel implements Runnable {
 			g.drawString("" + player.getMaxHealth(), x, y);
 			y += 2;
 
-			int barWidth = getWidth() - (PANEL_PADDING * 2) - 1;
+			int barWidth = getWidth() - (PANEL_PADDING * 2);
 
-			g.setColor(PANEL_HEALTH_BAR_BG_COLOR);
-			g.fillRect(PANEL_PADDING, y, barWidth, PANEL_BAR_HEIGHT);
-			g.setColor(PANEL_HEALTH_BAR_FILL_COLOR);
-			g.fillRect(PANEL_PADDING, y, (int) ((float) player.getHealth() * ((float) barWidth / (float) player.getMaxHealth())), PANEL_BAR_HEIGHT);
-			g.setColor(PANEL_HEALTH_BAR_BORDER_COLOR);
-			g.drawRect(PANEL_PADDING, y, barWidth, PANEL_BAR_HEIGHT);
-			y += PANEL_BAR_HEIGHT + 5;
+			GraphicsUtils.drawBar(g, PANEL_PADDING, y, barWidth, PANEL_BAR_HEIGHT, (float) player.getHealth() / (float) player.getMaxHealth(), GraphicsUtils.BAR_NO_BORDER, PANEL_HEALTH_BAR_BG_COLOR, PANEL_HEALTH_BAR_FILL_COLOR, PANEL_HEALTH_BAR_BORDER_COLOR);
 		} else {
 			g.setColor(PANEL_PLAYER_NAME_COLOR);
 			g.setFont(PANEL_PLAYER_NAME_FONT);
@@ -194,10 +215,10 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	 * <code>
 	 * "Intelligence" => "Int"<br>
 	 * </code> <br>
-	 * Simple <code>String.substring(0, 3)</code> call.
+	 * Simple <code>{@link String#substring(int, int)}</code> call. (for now.)
 	 * 
 	 * @param statName
-	 *            The stat name to abbreviate
+	 *            the stat name to abbreviate
 	 * @author Richard Abbott
 	 */
 	public String getStatNameAbrv(String statName) {

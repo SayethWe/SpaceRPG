@@ -106,7 +106,8 @@ public class SpaceRPG {
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontFile)));
 		} catch (IOException | FontFormatException e) {
-			System.out.println("Can't load font: ");
+			
+			System.out.println("Can't load font: " + fontFile);
 		}
 	}
 }

@@ -89,7 +89,7 @@ public class GameUI extends AbstractUI {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				if (commandArea.getText().equals(DEFAULT_TEXT))
-					commandArea.setText(" ");
+					commandArea.setText("");
 			}
 
 			@Override
