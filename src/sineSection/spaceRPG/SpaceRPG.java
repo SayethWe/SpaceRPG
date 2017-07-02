@@ -91,6 +91,10 @@ public class SpaceRPG {
 	public static int getNewSeed() {
 		return seedGenerator.nextInt();
 	}
+	
+	public Player getPlayer() {
+		return testPlayer;
+	}
 
 	public GameUI getGui() {
 		return gui;
