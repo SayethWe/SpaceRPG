@@ -9,7 +9,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import sineSection.spaceRPG.UI.panel.HudPanel;
+<<<<<<< HEAD
 import sineSection.spaceRPG.character.Player;
+=======
+import sineSection.spaceRPG.command.CommandHandler;
+>>>>>>> branch 'master' of https://github.com/geekman9097/SpaceRPG.git
 import sineSection.util.LogWriter;
 
 public class GameUI extends AbstractUI {
@@ -57,9 +61,11 @@ public class GameUI extends AbstractUI {
 	}
 	
 	private void commandSent() {
-		LogWriter.getLogger().info("Command Sent: " + commandArea.getText());
-		gameScreen.append(commandArea.getText());
+		String text = commandArea.getText();
+		LogWriter.getLogger().info("Command Sent: " + text);
+		gameScreen.append(text);
 		gameScreen.append("\n");
+		CommandHandler.sendCommand(text);
 		commandArea.setText(DEFAULT_TEXT);
 	}
 	

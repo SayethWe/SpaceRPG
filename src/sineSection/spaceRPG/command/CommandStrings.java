@@ -5,28 +5,25 @@ import java.util.Map;
 
 public class CommandStrings {
 
-	private Map<String, CommandString> validCommands;
+	private static Map<String, CommandString> validCommands = addCommands();
 	
-	public CommandStrings() {
-		validCommands = new HashMap<>();
-		addCommands();
-	}
-	
-	private void addCommands() {
+	private static Map<String, CommandString> addCommands() {
+		Map<String, CommandString> result = new HashMap<>();
 		for(CommandString command : CommandString.values()) {
-			validCommands.put(command.getCall(), command);
+			result.put(command.getCall(), command);
 		}
+		return result;
 	}
 	
-	public CommandString getCommandString(String commandString) {
+	public static CommandString getCommandString(String commandString) {
 		return validCommands.getOrDefault(commandString, CommandString.UNKNOWN);
 	}
 	
-	public boolean isCommand(String commandString) {
+	public static boolean isCommand(String commandString) {
 		return validCommands.containsKey(commandString);
 	}
 	
-	public String getCommands() {
+	public static String getCommands() {
 		StringBuilder result = new StringBuilder("Commands");
 		validCommands.keySet().forEach((command) -> result.append(" " + command));
 		return result.toString();
