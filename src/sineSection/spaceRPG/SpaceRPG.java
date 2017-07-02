@@ -17,6 +17,8 @@ public class SpaceRPG {
 	private static Generator<Item> itemGenerator;
 	private static Random seedGenerator;
 	
+	private static Player testPlayer;
+	
 	public static void main(String[] args) {
 		if (args.length > 0) {
 			initRandom(Integer.parseInt(args[0]));
@@ -40,9 +42,9 @@ public class SpaceRPG {
 	}
 	
 	private void testGame() {
-		gui = new GameUI();
+		testPlayer = new Player("Katyusha");
+		gui = new GameUI(testPlayer);
 		gui.display();
-		Player testPlayer = new Player("Katyusha");
 		Item testItem = itemGenerator.generate();
 		writeToGui(testPlayer);
 		testPlayer.addItem(testItem);

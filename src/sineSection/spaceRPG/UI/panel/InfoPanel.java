@@ -16,7 +16,6 @@ public class InfoPanel<E> extends AbstractPanel {
 		constraints.gridy = 1;
 		add(display,constraints);
 		
-		
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.gridy = 0;
 		constraints.weighty = 0;

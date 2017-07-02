@@ -87,6 +87,10 @@ public abstract class Creature {
 		return health.currentVal();
 	}
 	
+	public int getMaxHealth() {
+		return health.maxVal();
+	}
+	
 	public void addToBase(String stat, int incrementNum){
 		stats.get(stat).addToMax(incrementNum);
 	}
@@ -113,6 +117,10 @@ public abstract class Creature {
 		Set<Stat> result = new HashSet<>();
 		stats.forEach((name,stat) -> result.add(stat));
 		return result;
+	}
+	
+	public Map<String, Stat> getStatsAsMap() {
+		return stats;
 	}
 	
 	public void addAuras(List<Aura> auras) {

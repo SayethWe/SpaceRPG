@@ -9,6 +9,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import sineSection.spaceRPG.UI.panel.HudPanel;
+import sineSection.spaceRPG.character.Player;
 import sineSection.util.LogWriter;
 
 public class GameUI extends AbstractUI {
@@ -21,12 +22,12 @@ public class GameUI extends AbstractUI {
 	JTextField commandArea;
 	HudPanel hud;
 	
-	public GameUI() {
+	public GameUI(Player p) {
 		super();
-		createLayout();
+		createLayout(p);
 	}
 	
-	private void createLayout() {
+	private void createLayout(Player p) {
 		gameScreen = new JTextArea(TEXT_HISTORY,DEFAULT_WIDTH);
 		gameScreen.setAlignmentX(LEFT_ALIGNMENT);
 		gameScreen.setEditable(false);
@@ -34,7 +35,7 @@ public class GameUI extends AbstractUI {
 		JScrollPane scrollable = new JScrollPane(gameScreen);
 		add(scrollable, constraints);
 		
-		hud = new HudPanel();
+		hud = new HudPanel(p);
 		hud.setAlignmentX(CENTER_ALIGNMENT);
 		constraints.weightx = 0.25;
 		constraints.gridheight = 2;
