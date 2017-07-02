@@ -99,8 +99,9 @@ public abstract class Creature {
 			  .append("\n")
 			  .append("Health: ")
 			  .append(health)
+			  .append("\n")
 			  .append("Stats: ")
-			  .append("/n");
+			  .append("\n");
 		stats.forEach((title, value) -> string.append(title + ": " + value + "\n"));
 		return string.toString();
 	}

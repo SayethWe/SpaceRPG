@@ -84,10 +84,10 @@ public class Player extends Creature{
 	
 	/**
 	 * @Author William Black
-	 * @return A String array containing the inventory of the player
+	 * @return A String set containing the inventory of the player
 	 */
-	public List<String> getInventory(){
-		return new ArrayList<>(inventory.keySet());
+	public Set<String> getInventory(){
+		return inventory.keySet();
 	}
 	
 	/**

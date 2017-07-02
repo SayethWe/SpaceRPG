@@ -12,6 +12,7 @@ public abstract class AbstractPanel extends JPanel {
 	public AbstractPanel() {
 		super(new GridBagLayout());
 		constraints = new GridBagConstraints();
+		constraints.fill = GridBagConstraints.BOTH;
 		constraints.weightx = 0.5;
 		constraints.weighty = 0.5;
 	}

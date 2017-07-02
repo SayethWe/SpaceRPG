@@ -27,7 +27,7 @@ public class Aura {
 		StringBuilder result = new StringBuilder("Aura: ");
 		result.append("Effects ");
 		result.append(stat);
-		result.append(" by: ");
+		result.append(" by ");
 		result.append(effectAmt);
 		return result.toString();
 	}

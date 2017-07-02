@@ -39,6 +39,10 @@ public class SpaceRPG {
 		itemGenerator.addType(PArmorItem.class);
 	}
 	
+	public SpaceRPG() {
+		
+	}
+	
 	private void testGame() {
 		gui = new GameUI();
 		gui.display();
@@ -47,7 +51,7 @@ public class SpaceRPG {
 		writeToGui(testPlayer);
 		testPlayer.addItem(testItem);
 		writeToGui(testItem);
-		testPlayer.useItem(testPlayer.getInventory().get(0),testPlayer);
+		testPlayer.useItem((String)testPlayer.getInventory().toArray()[0],testPlayer);
 		writeToGui(testPlayer);
 	}
 	
