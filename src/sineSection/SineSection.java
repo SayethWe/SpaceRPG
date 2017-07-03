@@ -24,9 +24,9 @@ public class SineSection {
 		g.setColor(col);
 		for(int i = 0; i < p.length; i++) {
 			if(i == 0) 
-				g.drawLine(x + (int)(p[i].x * scale), y + (int)(p[i].y * scale), x +(int)(p[p.length - 1].x * scale), y + (int)(p[p.length - 1].y * scale));
+				g.drawLine(x + (int)(p[i].x * scale), y + (int)(-p[i].y * scale), x +(int)(p[p.length - 1].x * scale), y + (int)(-p[p.length - 1].y * scale));
 			else
-				g.drawLine(x + (int)(p[i].x * scale), y + (int)(p[i].y * scale), x +(int)(p[i - 1].x * scale), y + (int)(p[i - 1].y * scale));
+				g.drawLine(x + (int)(p[i].x * scale), y + (int)(-p[i].y * scale), x +(int)(p[i - 1].x * scale), y + (int)(-p[i - 1].y * scale));
 		}
 	}
 }
