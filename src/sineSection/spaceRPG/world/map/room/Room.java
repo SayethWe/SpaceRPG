@@ -2,6 +2,7 @@ package sineSection.spaceRPG.world.map.room;
 
 import java.util.Map;
 
+import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.world.Generator;
 import sineSection.spaceRPG.world.item.Item;
 
@@ -44,6 +45,8 @@ public abstract class Room {
 	public String getDescription() {
 		return description;
 	}
+	
+	public abstract void onRoomEnter(Player p);
 
 	public String getExitString() {
 		StringBuilder result = new StringBuilder("Exits: ");
