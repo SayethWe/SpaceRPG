@@ -11,8 +11,20 @@ public class CommandHandler {
 		Command comm = CommandParser.parseCommand(command);
 		CommandString c = comm.getCommand();
 		String[] args = comm.getArgs();
+		SpaceRPG master = SpaceRPG.getMaster();
 
 		switch (c) {
+		case UNKNOWN:
+			SpaceRPG.getMaster().writeToGui(FAILURE_MESSAGE);
+		case HELP:
+			if(args.length == 0) {
+				SpaceRPG.getMaster().writeToGui(CommandStrings.getCommands());
+			} else {
+				for (String helpText : args) {
+					master.writeToGui(helpText + ": " + CommandParser.parseCommand(helpText).getCommand().getDescription());
+				}
+			}
+			break;
 		case USE:
 		case TAKE:
 		case SAVE:
@@ -20,17 +32,9 @@ public class CommandHandler {
 		case LISTEN:
 		case INSPECT:
 		case INFO:
-		case UNKNOWN:
-			SpaceRPG.getMaster().writeToGui(FAILURE_MESSAGE);
-		case HELP_ALT:
-		case HELP:
-			if(args.length == 0) {
-				SpaceRPG.getMaster().writeToGui(CommandStrings.getCommands());
-			} else {
-				
-			}
-			break;
 		case GO:
+			master.writeToGui("Not Implemented");
+			break;
 		case DEBUG_DAMAGE:
 			if(args.length > 0) {
 				try {
