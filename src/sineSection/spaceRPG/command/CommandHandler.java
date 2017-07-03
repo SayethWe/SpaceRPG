@@ -4,6 +4,7 @@ import sineSection.spaceRPG.SpaceRPG;
 
 public class CommandHandler {
 	private static final String FAILURE_MESSAGE = "That's not a valid command";
+	private static final String NYI_MESSAGE = "Not yet implemented!";
 	private static final String INSUFFICIENT_ARGUMENTS_MESSAGE = "You need to give me more arguments, bucko";
 	private static final String ILLEGAL_ARGUMENT_MESSAGE = "Thats... not the argument I needed.";
 
@@ -13,6 +14,7 @@ public class CommandHandler {
 		String[] args = comm.getArgs();
 
 		switch (c) {
+		case GO:
 		case USE:
 		case TAKE:
 		case SAVE:
@@ -20,9 +22,9 @@ public class CommandHandler {
 		case LISTEN:
 		case INSPECT:
 		case INFO:
+			SpaceRPG.getMaster().writeToGui(NYI_MESSAGE);
 		case UNKNOWN:
 			SpaceRPG.getMaster().writeToGui(FAILURE_MESSAGE);
-		case HELP_ALT:
 		case HELP:
 			if(args.length == 0) {
 				SpaceRPG.getMaster().writeToGui(CommandStrings.getCommands());
@@ -30,7 +32,7 @@ public class CommandHandler {
 				
 			}
 			break;
-		case GO:
+		
 		case DEBUG_DAMAGE:
 			if(args.length > 0) {
 				try {
@@ -41,12 +43,34 @@ public class CommandHandler {
 					}
 					if(dmg >= SpaceRPG.getMaster().getPlayer().getHealth() && dmg >= SpaceRPG.getMaster().getPlayer().getMaxHealth() / 2) {
 						SpaceRPG.getMaster().writeToGui("You decide you cannot take this cruel world anymore, and you then snap your neck.\n(999 Damage)");
-						SpaceRPG.getMaster().getPlayer();
+						SpaceRPG.getMaster().getPlayer().damage(dmg);
 						SpaceRPG.getMaster().getPlayer().makeCharacterDie();
 						break;
 					}
 					SpaceRPG.getMaster().getPlayer().damage(dmg);
 					SpaceRPG.getMaster().writeToGui("You feel pain for no reason!\n(" + dmg + " Damage)");
+				} catch (NumberFormatException e) {
+					SpaceRPG.getMaster().writeToGui(ILLEGAL_ARGUMENT_MESSAGE);
+				}
+			} else {
+				SpaceRPG.getMaster().writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
+			}
+			break;
+		case DEBUG_HEAL:
+			if(args.length > 0) {
+				try {
+					int heal = Integer.parseInt(args[0]);
+					if(heal < 1) {
+						SpaceRPG.getMaster().writeToGui("You feel normal.");
+						break;
+					}
+					if(heal >= SpaceRPG.getMaster().getPlayer().getHealth() && heal >= SpaceRPG.getMaster().getPlayer().getMaxHealth() / 2) {
+						SpaceRPG.getMaster().writeToGui("You feel the best!\n(999 Healed)");
+						SpaceRPG.getMaster().getPlayer().heal(heal);
+						break;
+					}
+					SpaceRPG.getMaster().getPlayer().heal(heal);
+					SpaceRPG.getMaster().writeToGui("You feel better for no reason!\n(" + heal + " Healed)");
 				} catch (NumberFormatException e) {
 					SpaceRPG.getMaster().writeToGui(ILLEGAL_ARGUMENT_MESSAGE);
 				}
