@@ -5,13 +5,13 @@ public enum CommandString {
 	LISTEN("Listen", ""),
 	USE("Use", ""), TAKE("Take", ""),
 	INFO("Info", "Refresh all information in the HUD"),
-	HELP("Help", "See A list of Commands, or More Detail About a Command \n Args: None, or Command To Learn About"),
+	HELP("Help", "See A list of Commands, or More Detail About a Command \n Args: None, or Command(s) To Learn About"),
 	GO("move", "Move Between Rooms \n Args: Exit You Want To Go Through"),
 	QUIT("Quit", "Leave the Game Without Saving \n No Args"),
 	SAVE("Save", "Save your progress so far \n No Args"),
 	DEBUG_DAMAGE("db_dmg", "!DEBUG!\nDamage the player by <Number>\n Args: Number of hit points"),
 	DEBUG_HEAL("db_heal", "!DEBUG!\nHeal the player by <Number>\n Args: Number of hit points"),
-	UNKNOWN("", "");
+	UNKNOWN("", "Not a valid Command");
 
 	private final String call;
 	private final String description;
