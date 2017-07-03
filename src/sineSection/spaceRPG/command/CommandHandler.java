@@ -15,6 +15,7 @@ public class CommandHandler {
 		SpaceRPG master = SpaceRPG.getMaster();
 
 		switch (c) {
+		
 		case UNKNOWN:
 			SpaceRPG.getMaster().writeToGui(FAILURE_MESSAGE);
 			break;

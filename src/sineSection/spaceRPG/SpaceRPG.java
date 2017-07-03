@@ -15,6 +15,7 @@ import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.PArmorItem;
 import sineSection.spaceRPG.world.item.TestItem;
 import sineSection.util.LogWriter;
+import sineSection.util.SineSection;
 
 public class SpaceRPG {
 	public static final String TITLE = "SpaceRPG";
@@ -31,6 +32,7 @@ public class SpaceRPG {
 		loadFontFromFile("Mars_Needs_Cunnilingus");
 		initRandom();
 		SpaceRPG.initialize();
+		SineSection.initialize();
 		new SpaceRPG().testGame();
 		// new GameUI().display()
 	}

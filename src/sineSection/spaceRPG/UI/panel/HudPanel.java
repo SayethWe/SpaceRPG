@@ -13,6 +13,7 @@ import javax.swing.Box;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.character.Stat;
 import sineSection.util.GraphicsUtils;
+import sineSection.util.SineSection;
 
 /**
  * the Hud. Displays your inventory, stats, health, etc. Maybe update w/ a
@@ -201,6 +202,8 @@ public class HudPanel extends AbstractPanel implements Runnable {
 			int barWidth = getWidth() - (PANEL_PADDING * 2);
 
 			GraphicsUtils.drawBar(g, PANEL_PADDING, y, barWidth, PANEL_BAR_HEIGHT, (float) player.getHealth() / (float) player.getMaxHealth(), GraphicsUtils.BAR_NO_BORDER, PANEL_HEALTH_BAR_BG_COLOR, PANEL_HEALTH_BAR_FILL_COLOR, PANEL_HEALTH_BAR_BORDER_COLOR);
+			
+			SineSection.draw(g, 20, 200, 5, Color.RED);
 		} else {
 			g.setColor(PANEL_PLAYER_NAME_COLOR);
 			g.setFont(PANEL_PLAYER_NAME_FONT);

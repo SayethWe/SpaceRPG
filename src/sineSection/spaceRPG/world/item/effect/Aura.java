@@ -26,9 +26,13 @@ public class Aura {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder("Aura: ");
-		result.append("Effects ");
+		result.append("Affects ");
 		result.append(stat);
 		result.append(" by ");
+		if (effectAmt > 0)
+			result.append("+");
+		else
+			result.append("-");
 		result.append(effectAmt);
 		return result.toString();
 	}

@@ -34,7 +34,6 @@ public class GameUI extends AbstractUI {
 		setTitle("SpaceRPG");
 		createLayout();
 		setLocationRelativeTo(null);
-		
 	}
 	
 	private void updateLookAndFeel() {
