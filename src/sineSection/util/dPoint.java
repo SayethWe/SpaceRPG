@@ -19,5 +19,13 @@ public class dPoint {
 	public void setY(double y) {
 		this.y = y;
 	}
+	
+	public String toString() {
+		StringBuilder out = new StringBuilder();
+		out.append(x);
+		out.append(", ");
+		out.append(y);
+		return out.toString();
+	}
 
 }

@@ -6,6 +6,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.Random;
 
+import sineSection.SineSection;
 import sineSection.spaceRPG.UI.GameUI;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.save.SaveReader;
@@ -15,7 +16,6 @@ import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.PArmorItem;
 import sineSection.spaceRPG.world.item.TestItem;
 import sineSection.util.LogWriter;
-import sineSection.util.SineSection;
 
 public class SpaceRPG {
 	public static final String TITLE = "SpaceRPG";
