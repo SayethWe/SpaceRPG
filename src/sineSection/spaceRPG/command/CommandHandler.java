@@ -28,6 +28,12 @@ public class CommandHandler {
 			}
 			break;
 		case GO:
+			if(args.length > 0) {
+				//move by arg direction, then do room.onRoomEnter();
+			} else {
+				master.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
+			}
+			break;
 		case USE:
 		case TAKE:
 		case SAVE:
