@@ -52,7 +52,7 @@ public class GameUI extends AbstractUI {
 		gameScreen = new JTextArea(TEXT_HISTORY, DEFAULT_WIDTH);
 		gameScreen.setAlignmentX(LEFT_ALIGNMENT);
 		gameScreen.setEditable(false);
-		constraints.fill = GridBagConstraints.BOTH;
+		gameScreen.setWrapStyleWord(true);
 		JScrollPane scrollable = new JScrollPane(gameScreen);
 		add(scrollable, constraints);
 
