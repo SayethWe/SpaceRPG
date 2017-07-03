@@ -6,13 +6,19 @@ public class ComfortStat {
 	// private final int defaultValue;
 	private final int posTolerance;
 	private final int negTolerance;
+	private final int nativeDamping;
 
 	private int currentValue;
 
 	public ComfortStat(int defaultValue, int posTolerance, int negTolerance) {
-		// this.defaultValue = defaultValue;
+		this(defaultValue,posTolerance,negTolerance,0);
+	}
+	
+	public ComfortStat(int defaultValue, int posTolerance, int negTolerance, int nativeDamping) {
+		this.currentValue = defaultValue;
 		this.posTolerance = defaultValue + posTolerance;
 		this.negTolerance = defaultValue - negTolerance;
+		this.nativeDamping = nativeDamping;
 	}
 
 	/**
@@ -37,7 +43,7 @@ public class ComfortStat {
 
 	private void updateCurrent(int envValue, int damping) {
 		currentValue += envValue;
-		currentValue /= (2 * damping);
+		currentValue /= (2 * (damping + nativeDamping));
 	}
 
 }

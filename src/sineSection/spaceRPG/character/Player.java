@@ -30,6 +30,7 @@ public class Player extends Creature {
 
 	private Map<String, Item> inventory;
 	private Pos location;
+	private Map<String, ComfortStat> comfortStats;
 	// TODO add in 'comfort' like warmth/hunger/thirst, and environment checks for damage
 
 	/**
