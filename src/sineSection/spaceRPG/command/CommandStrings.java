@@ -10,17 +10,17 @@ public class CommandStrings {
 	private static Map<String, CommandString> addCommands() {
 		Map<String, CommandString> result = new HashMap<>();
 		for (CommandString command : CommandString.values()) {
-			result.put(command.getCall(), command);
+			result.put(command.getCall().toLowerCase(), command);
 		}
 		return result;
 	}
 
 	public static CommandString getCommandString(String commandString) {
-		return validCommands.getOrDefault(commandString, CommandString.UNKNOWN);
+		return validCommands.getOrDefault(commandString.toLowerCase(), CommandString.UNKNOWN);
 	}
 
 	public static boolean isCommand(String commandString) {
-		return validCommands.containsKey(commandString);
+		return validCommands.containsKey(commandString.toLowerCase());
 	}
 
 	public static String getCommands() {

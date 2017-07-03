@@ -68,6 +68,35 @@ public abstract class Creature {
 		}
 		return alive;
 	}
+	
+	/**
+	 * @param amt
+	 *            the amount of damage to give.
+	 * @return if this <code>Creature</code> will survive the damage.
+	 *         
+	 * @author Richard Abbott
+	 */
+	public boolean willSurvive(int amt) {
+		return healthAfterDamage(amt) > 0;
+	}
+
+	/**
+	 * @param amt
+	 *            the amount of damage to give.
+	 * @return how much health is left after this <code>Creature</code> takes
+	 *         damage.
+	 *         
+	 * @author Richard Abbott
+	 */
+	public int healthAfterDamage(int amt) {
+		amt = Math.abs(amt); // ensure that we will only deal damage
+		boolean alive = health.incrementAllowed(-amt);
+		if (alive) {
+			return health.currentVal() - amt;
+		} else {
+			return 0;
+		}
+	}
 
 	/**
 	 * Restore health points to the player
@@ -127,6 +156,7 @@ public abstract class Creature {
 
 	public abstract boolean hasItem(Item item); // Returns true if item is in
 												// the inventory
+
 	public abstract boolean addItem(Item item); // Returns true if item was
 												// successfully added to
 												// inventory, returns false if

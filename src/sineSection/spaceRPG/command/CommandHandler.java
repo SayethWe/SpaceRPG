@@ -13,9 +13,6 @@ public class CommandHandler {
 		String[] args = comm.getArgs();
 
 		switch (c) {
-		case UNKNOWN:
-			SpaceRPG.getMaster().writeToGui(FAILURE_MESSAGE);
-			break;
 		case USE:
 		case TAKE:
 		case SAVE:
@@ -23,6 +20,9 @@ public class CommandHandler {
 		case LISTEN:
 		case INSPECT:
 		case INFO:
+		case UNKNOWN:
+			SpaceRPG.getMaster().writeToGui(FAILURE_MESSAGE);
+		case HELP_ALT:
 		case HELP:
 			if(args.length == 0) {
 				SpaceRPG.getMaster().writeToGui(CommandStrings.getCommands());
@@ -34,7 +34,19 @@ public class CommandHandler {
 		case DEBUG_DAMAGE:
 			if(args.length > 0) {
 				try {
-					SpaceRPG.getMaster().getPlayer().damage(Integer.parseInt(args[0]));
+					int dmg = Integer.parseInt(args[0]);
+					if(dmg < 1) {
+						SpaceRPG.getMaster().writeToGui("A speck of dust lands on you, dealing no damage.");
+						break;
+					}
+					if(dmg >= SpaceRPG.getMaster().getPlayer().getHealth() && dmg >= SpaceRPG.getMaster().getPlayer().getMaxHealth() / 2) {
+						SpaceRPG.getMaster().writeToGui("You decide you cannot take this cruel world anymore, and you then snap your neck.\n(999 Damage)");
+						SpaceRPG.getMaster().getPlayer();
+						SpaceRPG.getMaster().getPlayer().makeCharacterDie();
+						break;
+					}
+					SpaceRPG.getMaster().getPlayer().damage(dmg);
+					SpaceRPG.getMaster().writeToGui("You feel pain for no reason!\n(" + dmg + " Damage)");
 				} catch (NumberFormatException e) {
 					SpaceRPG.getMaster().writeToGui(ILLEGAL_ARGUMENT_MESSAGE);
 				}
@@ -43,6 +55,7 @@ public class CommandHandler {
 			}
 			break;
 		}
+		SpaceRPG.getMaster().writeToGui("\n");
 	}
 
 }

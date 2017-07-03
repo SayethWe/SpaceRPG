@@ -2,8 +2,8 @@ package sineSection.spaceRPG.UI;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -67,7 +67,11 @@ public class GameUI extends AbstractUI {
 
 		commandArea = new JTextField(DEFAULT_TEXT);
 		commandArea.addActionListener((e) -> commandSent());
-		commandArea.addKeyListener(CreateFocusListener());
+		commandArea.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e){
+            	commandArea.setText("");
+            }
+        });
 		commandArea.setEditable(true);
 		constraints.weightx = 0.5;
 		constraints.gridheight = 1;
@@ -84,27 +88,9 @@ public class GameUI extends AbstractUI {
 		gameScreen.append(text);
 		gameScreen.append("\n");
 		CommandHandler.sendCommand(text);
-		commandArea.setText(DEFAULT_TEXT);
+		commandArea.setText("");
 	}
-
-	private KeyListener CreateFocusListener() {
-		return new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				if (commandArea.getText().equals(DEFAULT_TEXT))
-					commandArea.setText("");
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-		};
-	}
-
+	
 	private WindowAdapter CreateWindowAdapter() {
 		return new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -128,6 +114,7 @@ public class GameUI extends AbstractUI {
 	private void write(String in) {
 		gameScreen.append(in);
 		gameScreen.append("\n");
+		gameScreen.setCaretPosition(gameScreen.getDocument().getLength());
 	}
 
 	public void write(Object in) {
