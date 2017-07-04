@@ -7,7 +7,8 @@ import sineSection.spaceRPG.character.Creature;
 import sineSection.spaceRPG.world.item.effect.Aura;
 
 /**
- * @Author William Black Abstract class for Item
+ * Abstract class for Item
+ * @Author William Black 
  */
 public abstract class Item {
 	private final static int NO_DURABILITY = 0;

@@ -203,7 +203,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 
 			GraphicsUtils.drawBar(g, PANEL_PADDING, y, barWidth, PANEL_BAR_HEIGHT, (float) player.getHealth() / (float) player.getMaxHealth(), GraphicsUtils.BAR_NO_BORDER, PANEL_HEALTH_BAR_BG_COLOR, PANEL_HEALTH_BAR_FILL_COLOR, PANEL_HEALTH_BAR_BORDER_COLOR);
 			
-			SineSection.draw(g, 20, 200, 10, Color.RED);
+			SineSection.draw(g, 20, 200, 20, Color.RED);
 		} else {
 			g.setColor(PANEL_PLAYER_NAME_COLOR);
 			g.setFont(PANEL_PLAYER_NAME_FONT);

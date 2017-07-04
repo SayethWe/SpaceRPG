@@ -1,0 +1,75 @@
+<define>
+	<item>
+		<name>Health Kit</name>
+		<desc>A small first-aid kit to heal superficial wounds.\nHeals %healAmt% health.</desc>
+		<properties>let uses = 1, healAmt = 10</properties>
+		<effects></effects>
+		<use>	
+		if(canUse) {
+			print(&quot;You throw a grenade!&quot;);
+			let i = 0;
+			for(i &lt; targets.length) {
+				targets[i].damage(dmg);
+				i++;
+			}
+			used();
+		}
+		</use>
+	</item>
+	<item>
+		<name>Power Armor</name>
+		<desc>Powerful armor that increases your defense.</desc>
+		<init></init>
+		<effects>
+		user.addAura("Strength", 10);
+		user.addAura("Intelligence", 3);
+		user.addAura("Defense", 5);
+		</effects>
+		<use>
+		if(canUse) {
+			print(&quot;!!WARNING!!: Suit does not contain Bubblegum&quot;);
+		}
+		</use>
+	</item>
+	<item>
+		<name>Grenade</name>
+		<desc>A simple frag grenade.\nDamage: %dmg%</desc>
+		<init>
+		let uses = 1, dmg = 25;
+		</init>
+		<effects></effects>
+		<use>
+		if(canUse) {
+			print(&quot;You throw a grenade!&quot;);
+			let i = 0;
+			for(i &lt; targets.length) {
+				targets[i].damage(dmg);
+				i++;
+			}
+			used();
+		}
+		</use>
+	</item>
+	<item>
+		<name>Grenade Crate</name>
+		<desc>A crate of frag grenade.\nDamage: %dmg%\nUses left: %uses%</desc>
+		<init>
+		let uses = 10, dmg = 25;
+		function unpack() {
+			user.addItem("Grenade", uses);
+		}
+	 	</init>
+		<effects></effects>
+		<use>
+		if(canUse) {
+			print(&quot;You throw a grenade!&quot;);
+			let i = 0;
+			for(i &lt; targets.length) {
+				targets[i].damage(dmg);
+				i++;
+			}
+			used();
+		}
+		</use>
+	</item>
+</define>

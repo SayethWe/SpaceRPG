@@ -15,6 +15,7 @@ import sineSection.spaceRPG.world.Generator;
 import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.PArmorItem;
 import sineSection.spaceRPG.world.item.TestItem;
+import sineSection.spaceRPG.world.item.loader.ItemLoader;
 import sineSection.util.LogWriter;
 
 public class SpaceRPG {
@@ -33,6 +34,10 @@ public class SpaceRPG {
 		initRandom();
 		SpaceRPG.initialize();
 		SineSection.initialize();
+		if(!ItemLoader.loadItemsFrom("items")) {
+			System.err.println("Something went wrong when loading items!");
+			System.exit(-1);
+		}
 		new SpaceRPG().testGame();
 		// new GameUI().display()
 	}
