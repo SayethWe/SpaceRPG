@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import sineSection.spaceRPG.world.item.Item;
+import sineSection.spaceRPG.world.map.Pos;
 
 /**
  * @Author William Black A class that stores the stats and inventory of a player
@@ -28,7 +29,8 @@ public class Player extends Creature {
 	private static final int POWER_MIN = 1;
 
 	private Map<String, Item> inventory;
-	// TODO add in 'comfort' like warmth, and environment checks for damage
+	private Pos location;
+	// TODO add in 'comfort' like warmth/hunger/thirst, and environment checks for damage
 
 	/**
 	 * Initializes 'inventory' and 'stats', adds all the 'stats' into the
@@ -92,15 +94,6 @@ public class Player extends Creature {
 	}
 
 	/**
-	 * Makes character die
-	 * 
-	 * @Author William Black
-	 */
-	public void makeCharacterDie() {
-		// TODO make character die (riparoni)
-	}
-
-	/**
 	 * Checks to see if item is in inventory, if the item is not permanent and
 	 * out of uses, then delete it from the inventory
 	 * 
@@ -123,5 +116,9 @@ public class Player extends Creature {
 		Set<Item> result = new HashSet<>();
 		inventory.forEach((name, item) -> result.add(item));
 		return result;
+	}
+	
+	public Pos getPos() {
+		return location;
 	}
 }
