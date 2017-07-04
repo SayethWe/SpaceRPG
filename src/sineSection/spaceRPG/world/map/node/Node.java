@@ -30,6 +30,7 @@ public abstract class Node {
 
 	public Room getRoom(Pos pos) {
 		return map.get(pos);
+		//TODO: find way to tell code caller that that room is either not generated, or outside the node.
 	}
 
 	protected abstract void addRoomTypes();
