@@ -16,6 +16,7 @@ public class AbstractUI extends JFrame {
 		constraints = new GridBagConstraints();
 		constraints.weightx = 0.5;
 		constraints.weighty = 0.5;
+		constraints.fill = GridBagConstraints.BOTH;
 	}
 
 	public AbstractUI(JPanel content) {

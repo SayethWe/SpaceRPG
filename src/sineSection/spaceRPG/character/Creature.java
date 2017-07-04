@@ -21,12 +21,14 @@ public abstract class Creature {
 	// private final ComfortStat warmth;
 	private Stat health;
 	private Map<String, Stat> stats;
+	boolean alive;
 
 	public Creature(String name, int hpMax) {
 		this.name = name;
 		stats = new HashMap<>();
 		health = new Stat(HEALTH_MIN, hpMax);
 		health.topOff();
+		alive = true;
 	}
 
 	public void addStat(String name, Stat stat) {
@@ -106,14 +108,18 @@ public abstract class Creature {
 	 * @return true if the character is now fully healthy
 	 */
 	public boolean heal(int amt) {
-		amt = Math.abs(amt); // ensure that we will only heal
-		boolean fullHeal = !health.incrementAllowed(amt);
-		if (fullHeal) {
-			health.topOff();
+		if (alive) { //Even Rick Can't heal Death
+			amt = Math.abs(amt); // ensure that we will only heal
+			boolean fullHeal = !health.incrementAllowed(amt);
+			if (fullHeal) {
+				health.topOff();
+			} else {
+				health.increment(amt);
+			}
+			return fullHeal;
 		} else {
-			health.increment(amt);
+			return false;
 		}
-		return fullHeal;
 	}
 
 	public int getHealth() {
@@ -150,7 +156,18 @@ public abstract class Creature {
 		return stats;
 	}
 
-	public void addAuras(List<Aura> auras) {
+
+	/**
+	 * Makes character die
+	 * 
+	 * @Author William Black
+	 */
+	public void makeCharacterDie() {
+		alive = false;
+		// TODO make character die (riparoni)
+	}
+
+	public void addAuras(Set<Aura> auras) {
 		auras.forEach((aura) -> addToStat(aura.getStat(), aura.getAmount()));
 	}
 

@@ -10,7 +10,7 @@ public class CommandStrings {
 	private static Map<String, CommandString> addCommands() {
 		Map<String, CommandString> result = new HashMap<>();
 		for (CommandString command : CommandString.values()) {
-			result.put(command.getCall().toLowerCase(), command);
+			if(command != CommandString.UNKNOWN) result.put(command.getCall().toLowerCase(), command);
 		}
 		return result;
 	}
@@ -25,7 +25,7 @@ public class CommandStrings {
 
 	public static String getCommands() {
 		StringBuilder result = new StringBuilder("Commands: ");
-		validCommands.keySet().forEach((command) -> result.append(" " + command));
+		validCommands.keySet().forEach((command) -> result.append(command + "; "));
 		return result.toString();
 	}
 
