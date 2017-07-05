@@ -11,7 +11,7 @@ public class PowerDistributer extends Room implements PowerPlant {
 
 	@Override
 	public void onRoomEnter(Player p) {
-		// TODO Auto-generated method stub
+		// TODO Dramatic Spark
 		
 	}
 

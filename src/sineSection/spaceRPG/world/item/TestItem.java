@@ -12,7 +12,6 @@ public class TestItem extends Item {
 		super(ITEM_NAME, DESCRIPTION);
 		addAura(new Aura(Player.POWER, 1));
 		addAura(new Aura(Player.INTELLECT, 2));
-		// TODO add nightvision
 	}
 
 	public boolean use(Creature target) {
