@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import sineSection.spaceRPG.world.item.Item;
-import sineSection.spaceRPG.world.map.Pos;
+import sineSection.spaceRPG.world.map.WorldPos;
 
 /**
  * @Author William Black A class that stores the stats and inventory of a player
@@ -31,8 +31,8 @@ public class Player extends Creature {
 	private static final int POWER_MIN = 1;
 
 	private Map<String, Item> inventory;
-	private Pos location;
-	// private Map<String, ComfortStat> comfortStats;
+	private WorldPos location;
+//	private Map<String, ComfortStat> comfortStats;
 	// TODO add in 'comfort' like warmth/hunger/thirst, and environment checks for damage
 
 	/**
@@ -142,7 +142,7 @@ public class Player extends Creature {
 		return result;
 	}
 	
-	public Pos getPos() {
+	public WorldPos getPos() {
 		return location;
 	}
 
