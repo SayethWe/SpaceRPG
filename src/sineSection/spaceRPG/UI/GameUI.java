@@ -1,6 +1,7 @@
 package sineSection.spaceRPG.UI;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -22,6 +23,8 @@ public class GameUI extends AbstractUI {
 	private static final String DEFAULT_TEXT = "Enter Command Here";
 	private static final int TEXT_HISTORY = 9;
 	private static final int DEFAULT_WIDTH = 10;
+	
+	private static final Font GAME_SCREEN_FONT = new Font("VT323" , Font.PLAIN, 16);
 
 	JTextArea gameScreen;
 	JTextField commandArea;
@@ -53,6 +56,7 @@ public class GameUI extends AbstractUI {
 		gameScreen.setAlignmentX(LEFT_ALIGNMENT);
 		gameScreen.setEditable(false);
 		gameScreen.setWrapStyleWord(true);
+		gameScreen.setFont(GAME_SCREEN_FONT);
 		JScrollPane scrollable = new JScrollPane(gameScreen);
 		add(scrollable, constraints);
 

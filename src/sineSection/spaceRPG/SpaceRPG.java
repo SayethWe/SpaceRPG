@@ -34,22 +34,24 @@ public class SpaceRPG {
 	private Client gameClient; //the client object this uses to talk to the server
 
 	public static void main(String[] args) {
-		loadFontFromFile("Mars_Needs_Cunnilingus");
-		initRandom();
-		SineSection.initialize();
-		if(!ItemLoader.loadItemsFrom("items")) {
-			System.err.println("Something went wrong when loading items!");
-			System.exit(-1);
-		}
 		SpaceRPG.initialize();
+		SineSection.initialize();
+		
 		new SpaceRPG().testGame();
 		// new GameUI().display()
 	}
 
 	private static void initialize() {
-		itemGenerator = new ItemGenerator();
-		addItemTypes();
 		LogWriter.createLogger(TITLE);
+		initRandom();
+		itemGenerator = new ItemGenerator();
+		if(!ItemLoader.loadItemsFrom("items")) {
+			System.err.println("Something went wrong when loading items!");
+			System.exit(-1);
+		}
+		addItemTypes();
+		loadFontFromFile("Mars_Needs_Cunnilingus");
+		loadFontFromFile("VT323");
 	}
 
 	private static void addItemTypes() {
