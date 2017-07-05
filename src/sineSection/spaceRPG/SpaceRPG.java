@@ -3,6 +3,7 @@ package sineSection.spaceRPG;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
@@ -136,8 +137,8 @@ public class SpaceRPG {
 	public static void loadFontFromFile(String fontName) {
 		try {
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			URL url = SpaceRPG.class.getResource("/font/" + fontName + ".ttf");
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(url.toURI())));
+			InputStream f = SpaceRPG.class.getResourceAsStream("/font/" + fontName + ".ttf");
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, f));
 		} catch (Exception e) {
 			e.printStackTrace();
 			LogWriter.print("Can't load font: " + fontName);
