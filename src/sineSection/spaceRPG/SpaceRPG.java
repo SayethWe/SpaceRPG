@@ -11,10 +11,9 @@ import sineSection.spaceRPG.UI.GameUI;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.save.SaveReader;
 import sineSection.spaceRPG.save.SaveState;
-import sineSection.spaceRPG.world.Generator;
+import sineSection.spaceRPG.world.ItemGenerator;
 import sineSection.spaceRPG.world.item.Item;
-import sineSection.spaceRPG.world.item.PArmorItem;
-import sineSection.spaceRPG.world.item.TestItem;
+import sineSection.spaceRPG.world.item.ItemReference;
 import sineSection.spaceRPG.world.item.loader.ItemLoader;
 import sineSection.util.LogWriter;
 
@@ -22,7 +21,7 @@ public class SpaceRPG {
 	public static final String TITLE = "SpaceRPG";
 
 	private static GameUI gui;
-	private static Generator<Item> itemGenerator;
+	private static ItemGenerator itemGenerator;
 	private static Random seedGenerator;
 	private static SpaceRPG master; // The SPACERPG object to call for all your
 									// needs.
@@ -32,25 +31,26 @@ public class SpaceRPG {
 	public static void main(String[] args) {
 		loadFontFromFile("Mars_Needs_Cunnilingus");
 		initRandom();
-		SpaceRPG.initialize();
 		SineSection.initialize();
 		if(!ItemLoader.loadItemsFrom("items")) {
 			System.err.println("Something went wrong when loading items!");
 			System.exit(-1);
 		}
+		SpaceRPG.initialize();
 		new SpaceRPG().testGame();
 		// new GameUI().display()
 	}
 
 	private static void initialize() {
-		itemGenerator = new Generator<>();
+		itemGenerator = new ItemGenerator();
 		addItemTypes();
 		LogWriter.createLogger(TITLE);
 	}
 
 	private static void addItemTypes() {
-		itemGenerator.addType(TestItem.class);
-		itemGenerator.addType(PArmorItem.class);
+		for(ItemReference ref : ItemReference.itemRefs) {
+			itemGenerator.addType(ref);
+		}
 	}
 
 	public static SpaceRPG getMaster() {

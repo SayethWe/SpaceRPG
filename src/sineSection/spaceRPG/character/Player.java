@@ -1,5 +1,7 @@
 package sineSection.spaceRPG.character;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -30,7 +32,7 @@ public class Player extends Creature {
 
 	private Map<String, Item> inventory;
 	private Pos location;
-	private Map<String, ComfortStat> comfortStats;
+	// private Map<String, ComfortStat> comfortStats;
 	// TODO add in 'comfort' like warmth/hunger/thirst, and environment checks for damage
 
 	/**
@@ -100,20 +102,41 @@ public class Player extends Creature {
 	 * 
 	 * @Author William Black
 	 * @param itemName
+	 * @param target
+	 * @return <true> if the Item was used successfully
+	 */
+	public boolean useItem(String itemName, ArrayList<Creature> target) {
+		Item item = inventory.get(itemName);
+		boolean result = item != null;
+		if (result) {
+			if (item.use(this, target)) {
+				removeItem(itemName);
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * Checks to see if item is in inventory, if the item is not permanent and
+	 * out of uses, then delete it from the inventory
+	 * 
+	 * @Author William Black
+	 * @param itemName
+	 * @param target
 	 * @return <true> if the Item was used successfully
 	 */
 	public boolean useItem(String itemName, Creature target) {
 		Item item = inventory.get(itemName);
 		boolean result = item != null;
 		if (result) {
-			if (inventory.get(itemName).use(target)) {
+			if (item.use(this, target)) {
 				removeItem(itemName);
 			}
 		}
 		return result;
 	}
 
-	public Set<? extends Object> getAllItems() {
+	public Set<Item> getAllItems() {
 		Set<Item> result = new HashSet<>();
 		inventory.forEach((name, item) -> result.add(item));
 		return result;
@@ -121,5 +144,28 @@ public class Player extends Creature {
 	
 	public Pos getPos() {
 		return location;
+	}
+
+	public HashMap<String, Object> getScriptVars() {
+		HashMap<String, Object> ret = super.getScriptVars();
+		ret.put("location", null);
+		return ret;
+	}
+
+	public ArrayList<Method> getScriptFunctions() {
+		ArrayList<Method> ret = super.getScriptFunctions();
+		try {
+			ret.add(getClass().getMethod("damage", new Class[] { int.class }));
+			ret.add(getClass().getMethod("hasItem", new Class[] { String.class }));
+			ret.add(getClass().getMethod("addItem", new Class[] { Item.class }));
+			ret.add(getClass().getMethod("removeItem", new Class[] { String.class }));
+			ret.add(getClass().getMethod("getInventory", new Class[] {}));
+			ret.add(getClass().getMethod("useItem", new Class[] { String.class, ArrayList.class }));
+			ret.add(getClass().getMethod("useItem", new Class[] { String.class, Creature.class }));
+			ret.add(getClass().getMethod("getAllItems", new Class[] {}));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ret;
 	}
 }

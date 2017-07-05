@@ -1,9 +1,6 @@
 package sineSection.spaceRPG.world.item.loader;
 
-import java.util.HashMap;
-
-import sineSection.spaceRPG.character.Creature;
-import sineSection.spaceRPG.script.ItemScript;
+import sineSection.spaceRPG.script.Script;
 
 public class ItemAttribute {
 
@@ -12,9 +9,9 @@ public class ItemAttribute {
 	}
 
 	private ItemAttribType type;
-	private ItemScript script;
+	private Script script;
 
-	public ItemAttribute(ItemAttribType type, ItemScript script) {
+	public ItemAttribute(ItemAttribType type, Script script) {
 		this.type = type;
 		this.script = script;
 	}
@@ -22,13 +19,9 @@ public class ItemAttribute {
 	public ItemAttribType getType() {
 		return type;
 	}
-
-	public void runScript(Creature user, Creature[] targets) {
-		HashMap<String, Object> vars = new HashMap<String, Object>();
-		vars.put("user", user);
-		vars.put("targets", targets);
-		if (script != null)
-			script.run(vars);
+	
+	public Script getScript() {
+		return script;
 	}
 
 }

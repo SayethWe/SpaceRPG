@@ -16,7 +16,7 @@
 		}
 		</use>
 	</item>
-	<item>
+	<item scriptLang="JavaScript">
 		<name>Power Armor</name>
 		<desc>Powerful armor that increases your defense.</desc>
 		<init></init>
@@ -31,7 +31,7 @@
 		}
 		</use>
 	</item>
-	<item>
+	<item scriptLang="JavaScript">
 		<name>Grenade</name>
 		<desc>A simple frag grenade.\nDamage: %dmg%</desc>
 		<init>
@@ -40,17 +40,17 @@
 		<effects></effects>
 		<use>
 		if(canUse) {
-			print(&quot;You throw a grenade!&quot;);
 			let i = 0;
 			for(i &lt; targets.length) {
 				targets[i].damage(dmg);
 				i++;
 			}
 			used();
+			print('You throw a grenade!');
 		}
 		</use>
 	</item>
-	<item>
+	<item scriptLang="JavaScript">
 		<name>Grenade Crate</name>
 		<desc>A crate of frag grenade.\nDamage: %dmg%\nUses left: %uses%</desc>
 		<init>

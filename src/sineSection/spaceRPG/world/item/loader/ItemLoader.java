@@ -13,9 +13,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import sineSection.spaceRPG.SpaceRPG;
-import sineSection.spaceRPG.script.ItemScript;
+import sineSection.spaceRPG.script.Script;
 import sineSection.spaceRPG.world.item.Item;
-import sineSection.spaceRPG.world.item.loader.ItemAttribute;
+import sineSection.spaceRPG.world.item.ItemReference;
 import sineSection.spaceRPG.world.item.loader.ItemAttribute.ItemAttribType;
 
 public class ItemLoader {
@@ -57,7 +57,7 @@ public class ItemLoader {
 			String name = e.getElementsByTagName("name").item(0).getTextContent();
 			printLn(null, name);
 			String desc = e.getElementsByTagName("desc").item(0).getTextContent();
-
+			String scriptLang = e.getAttribute("scriptLang");
 			ArrayList<ItemAttribute> attribs = new ArrayList<ItemAttribute>();
 
 			NodeList initList = e.getElementsByTagName("init");
@@ -70,9 +70,9 @@ public class ItemLoader {
 			if (useList.getLength() > 0)
 				attribs.addAll(loadItemAttribs(ItemAttribType.USE_FUNC, useList));
 
-			ItemReference.registerItemRef(new ItemReference(name, desc, attribs));
+			ItemReference.registerItemRef(new ItemReference(name, desc, attribs, scriptLang));
 		} else {
-			printErrLn(ItemLoader.class, "loadItemFromNode: Node is not correct type! Expected: " + Node.ELEMENT_NODE + ", Received: " + n.getNodeType());
+			printErrLn(ItemLoader.class, "loadItemFromNode(Node n): Node is not correct type! Expected: " + Node.ELEMENT_NODE + ", Received: " + n.getNodeType());
 			errorFlag += 1;
 		}
 		return errorFlag;
@@ -84,8 +84,7 @@ public class ItemLoader {
 			Node n = attribList.item(i);
 			if (n.getNodeType() == Node.ELEMENT_NODE) {
 				Element e = (Element) n;
-				ItemScript script = new ItemScript(e.getTextContent());
-				script.parse();
+				Script script = new Script(e.getTextContent());
 				attribs.add(new ItemAttribute(type, script));
 			}
 		}

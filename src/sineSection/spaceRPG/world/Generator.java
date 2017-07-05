@@ -24,8 +24,8 @@ import sineSection.util.LogWriter;
  *            the type of object you want to generate.
  */
 public class Generator<T> {
-	private List<Class<? extends T>> validTypes = new ArrayList<>();
-	private Random RNJesus;
+	protected List<Class<? extends T>> validTypes = new ArrayList<>();
+	protected Random RNJesus;
 
 	/**
 	 * Creates a new Generator with a system-determined seed

@@ -1,10 +1,13 @@
 package sineSection.spaceRPG.character;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import sineSection.spaceRPG.script.Scriptable;
 import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.effect.Aura;
 
@@ -13,7 +16,7 @@ import sineSection.spaceRPG.world.item.effect.Aura;
  * 
  * @Author William Black
  */
-public abstract class Creature {
+public abstract class Creature implements Scriptable {
 	private static final int HEALTH_MIN = 0;
 
 	private final String name; // Name of the character
@@ -178,4 +181,30 @@ public abstract class Creature {
 												// inventory, returns false if
 												// the item is unable to be
 												// added
+	
+	public HashMap<String, Object> getScriptVars() {
+		HashMap<String, Object> ret = new HashMap<>();
+		ret.put("name", name);
+		ret.put("health", health);
+		ret.put("stats", stats);
+		ret.put("alive", alive);
+		return ret;
+	}
+
+	public ArrayList<Method> getScriptFunctions() {
+		ArrayList<Method> ret = new ArrayList<>();
+		try {
+			ret.add(getClass().getMethod("damage", new Class[] { int.class }));
+			ret.add(getClass().getMethod("hasItem", new Class[] { String.class }));
+			ret.add(getClass().getMethod("addItem", new Class[] { Item.class }));
+			ret.add(getClass().getMethod("removeItem", new Class[] { String.class }));
+			ret.add(getClass().getMethod("getInventory", new Class[] {}));
+			ret.add(getClass().getMethod("useItem", new Class[] { String.class, Creature[].class }));
+			ret.add(getClass().getMethod("useItem", new Class[] { String.class, Creature.class }));
+			ret.add(getClass().getMethod("getAllItems", new Class[] {}));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ret;
+	}
 }
