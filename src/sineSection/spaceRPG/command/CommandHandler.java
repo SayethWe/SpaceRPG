@@ -24,8 +24,14 @@ public class CommandHandler {
 			if(args.length == 0) {
 				doctor.writeToGui(CommandStrings.getCommands());
 			} else {
-				for (String helpText : args) {
-					doctor.writeToGui(helpText + ": " + CommandParser.parseCommand(helpText).getCommand().getDescription());
+				if (args[0].equalsIgnoreCase("all")) {
+					for (CommandString helpCommand : CommandString.values()) {
+						doctor.writeToGui(helpCommand.getCall() + ": " + helpCommand.getDescription());
+					}
+				} else {
+					for (String helpText : args) {
+						doctor.writeToGui(helpText + ": " + CommandParser.parseCommand(helpText).getCommand().getDescription());
+					}
 				}
 			}
 			break;
@@ -56,6 +62,17 @@ public class CommandHandler {
 		case INSPECT:
 		case INFO:
 			doctor.writeToGui(NYI_MESSAGE);
+			break;
+		case CHAT:
+			StringBuilder send = new StringBuilder(doctor.getPlayer().getName() + " says: ");
+			if(args.length > 0) {
+				for(String word : args) {
+					send.append(word).append(" ");
+				}
+				doctor.sendChat(send.toString());
+			} else {
+				doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
+			}
 			break;
 		case DEBUG_DAMAGE:
 			if(args.length > 0) {
@@ -103,7 +120,7 @@ public class CommandHandler {
 			}
 			break;
 		}
-		doctor.writeToGui("\n");
+		doctor.writeToGui("");
 	}
 
 }

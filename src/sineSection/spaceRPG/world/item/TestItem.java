@@ -5,7 +5,7 @@ import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.world.item.effect.Aura;
 
 public class TestItem extends Item {
-	final static private String ITEM_NAME = "Fred the Test Item";
+	final static private String ITEM_NAME = "Fred";
 	final static private String DESCRIPTION = "His love, it is eternal.";
 
 	public TestItem() {

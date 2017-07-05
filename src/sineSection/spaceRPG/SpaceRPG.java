@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Random;
 
 import sineSection.SineSection;
+import sineSection.networking.client.Client;
 import sineSection.spaceRPG.UI.GameUI;
 import sineSection.spaceRPG.character.Creature;
 import sineSection.spaceRPG.character.Player;
@@ -31,6 +32,7 @@ public class SpaceRPG {
 
 	private static Player testPlayer;
 	private Map<String, Creature> creatures; //characters the player can target with items
+	private Client gameClient; //the client object this uses to talk to the server
 
 	public static void main(String[] args) {
 		loadFontFromFile("Mars_Needs_Cunnilingus");
@@ -67,6 +69,7 @@ public class SpaceRPG {
 		seedGenerator = new Random();
 		master = this;
 		gui = new GameUI();
+		gameClient = new Client();
 	}
 
 	/**
@@ -123,6 +126,10 @@ public class SpaceRPG {
 			e.printStackTrace();
 			System.out.println("Can't load font: " + fontName);
 		}
+	}
+	
+	public void sendChat(String chat) {
+		if(gameClient != null) gameClient.sendChat(chat);
 	}
 
 	public Creature getCharacter(String name) {
