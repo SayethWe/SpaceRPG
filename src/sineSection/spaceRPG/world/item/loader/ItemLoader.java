@@ -1,7 +1,6 @@
 package sineSection.spaceRPG.world.item.loader;
 
-import java.io.File;
-import java.net.URL;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -28,9 +27,8 @@ public class ItemLoader {
 
 		items = new ArrayList<Item>();
 
-		URL url = SpaceRPG.class.getResource("/data/" + xmlSheet + ".xml");
+		InputStream f = SpaceRPG.class.getResourceAsStream("/data/" + xmlSheet + ".xml");
 		try {
-			File f = new File(url.toURI());
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			Document doc = dBuilder.parse(f);
 			Element base = doc.getDocumentElement();
