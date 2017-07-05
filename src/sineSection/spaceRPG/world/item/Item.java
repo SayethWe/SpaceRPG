@@ -15,6 +15,7 @@ import sineSection.spaceRPG.script.Scriptable;
 import sineSection.spaceRPG.world.item.effect.Aura;
 import sineSection.spaceRPG.world.item.loader.ItemAttribute;
 import sineSection.spaceRPG.world.item.loader.ItemAttribute.ItemAttribType;
+import sineSection.util.LogWriter;
 import sineSection.util.ScriptHelper;
 
 /**
@@ -44,6 +45,10 @@ public class Item implements Scriptable {
 		this.auras = new ArrayList<Aura>();
 		ScriptEngineManager enMgr = new ScriptEngineManager();
 		this.sEng = enMgr.getEngineByName(ref.getScriptLanguage());
+		if(this.sEng == null) {
+			System.err.println(ref.getScriptLanguage() + " is not a valid language name!");
+		}
+		init();
 	}
 
 	public boolean init() {
@@ -57,29 +62,30 @@ public class Item implements Scriptable {
 				}
 			}
 		} catch (ScriptException e) {
-			System.err.println(getName() + ": SCRIPT EXCEPTION!\n" + e.toString());
+			LogWriter.printErr(getName() + ": SCRIPT EXCEPTION!\n" + e.toString());
 		}
 		return false;
 	}
-
+	
+	@Deprecated
 	public boolean effect(Creature user) {
-		try {
-			for (ItemAttribute attrib : this.ref.getAttribs()) {
-				if (attrib.getType() == ItemAttribType.EFFECT_FUNC) {
-					if (user == null) {
-						System.err.println("Item.use(): Argument \"User\" must not be null!");
-						return false;
-					}
-					Script s = attrib.getScript();
-					s.addScriptable(this);
-					s.addScriptable(user);
-					s.run(sEng);
-					return true;
-				}
-			}
-		} catch (ScriptException e) {
-			System.err.println(getName() + ": SCRIPT EXCEPTION!\n" + e.toString());
-		}
+//		try {
+//			for (ItemAttribute attrib : this.ref.getAttribs()) {
+//				if (attrib.getType() == ItemAttribType.EFFECT_FUNC) {
+//					if (user == null) {
+//						System.err.println("Item.use(): Argument \"User\" must not be null!");
+//						return false;
+//					}
+//					Script s = attrib.getScript();
+//					s.addScriptable(this);
+//					s.addScriptable(user);
+//					s.run(sEng);
+//					return true;
+//				}
+//			}
+//		} catch (ScriptException e) {
+//			System.err.println(getName() + ": SCRIPT EXCEPTION!\n" + e.toString());
+//		}
 		return false;
 	}
 
@@ -106,7 +112,7 @@ public class Item implements Scriptable {
 				}
 			}
 		} catch (ScriptException e) {
-			System.err.println(getName() + ": SCRIPT EXCEPTION!\n" + e.toString());
+			LogWriter.printErr(getName() + ": SCRIPT EXCEPTION!\n" + e.toString());
 		}
 		return false;
 	}
@@ -135,22 +141,24 @@ public class Item implements Scriptable {
 	}
 
 	public String getName() {
-		if(ScriptHelper.hasVarsInString(sEng, ref.getName())) {
-			return ScriptHelper.putVarsInString(sEng, ref.getName());
+		String s = ScriptHelper.replaceAllNewLinesInString(ref.getName());
+		if(ScriptHelper.hasVarsInString(sEng, s)) {
+			return ScriptHelper.putVarsInString(sEng, s);
 		} else {
-			return ScriptHelper.removeAllVarsFromString(ref.getName());
+			return ScriptHelper.removeAllVarsFromString(s);
 		}
 	}
 	
 	public String getDescription() {
-		if(ScriptHelper.hasVarsInString(sEng, ref.getDescription())) {
-			return ScriptHelper.putVarsInString(sEng, ref.getDescription());
+		String s = ScriptHelper.replaceAllNewLinesInString(ref.getDescription());
+		if(ScriptHelper.hasVarsInString(sEng, s)) {
+			return ScriptHelper.putVarsInString(sEng, s);
 		} else {
-			return ScriptHelper.removeAllVarsFromString(ref.getDescription());
+			return ScriptHelper.removeAllVarsFromString(s);
 		}
 	}
 
-	protected void used() {
+	public void used() {
 		if (uses > NO_DURABILITY) {
 			uses--;
 			canUse = false;
@@ -185,7 +193,6 @@ public class Item implements Scriptable {
 			ret.add(getClass().getMethod("addAura", new Class[] {Aura.class}));
 			ret.add(getClass().getMethod("getAuras", new Class[] {}));
 			ret.add(getClass().getMethod("hasAuraEffect", new Class[] {}));
-			ret.add(getClass().getMethod("removeItem", new Class[] {String.class}));
 			ret.add(getClass().getMethod("getName", new Class[] {}));
 			ret.add(getClass().getMethod("getDescription", new Class[] {}));
 			ret.add(getClass().getMethod("used", new Class[] {}));

@@ -34,7 +34,11 @@ public abstract class Creature implements Scriptable {
 	}
 
 	public void addStat(String name, Stat stat) {
-		stats.put(name, stat);
+		if(stats.containsKey(name)) {
+			stats.replace(name, stat);
+		} else {
+			stats.put(name, stat);
+		}
 	}
 
 	public int getStatVal(String stat) {
@@ -46,12 +50,12 @@ public abstract class Creature implements Scriptable {
 	 * HEALTH
 	 * 
 	 * @Author William Black
-	 * @param status
+	 * @param stat
 	 * @param number
 	 * @return if the update was successful or not
 	 */
-	public boolean addToStat(String status, int number) {
-		return stats.get(status).increment(number);
+	public boolean addToStat(String stat, int number) {
+		return stats.get(stat).increment(number);
 	}
 
 	/**

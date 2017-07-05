@@ -4,8 +4,10 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import sineSection.SineSection;
 import sineSection.networking.client.Client;
@@ -22,6 +24,8 @@ import sineSection.util.LogWriter;
 
 public class SpaceRPG {
 	public static final String TITLE = "SpaceRPG";
+	
+	public static boolean DEBUG = false;
 
 	private static GameUI gui;
 	private static ItemGenerator itemGenerator;
@@ -30,13 +34,23 @@ public class SpaceRPG {
 									// needs.
 
 	private static Player testPlayer;
-	private Map<String, Creature> creatures; //characters the player can target with items
-	private Client gameClient; //the client object this uses to talk to the server
+	private Map<String, Creature> creatures; // characters the player can target
+												// with items
+	private Client gameClient; // the client object this uses to talk to the
+								// server
 
 	public static void main(String[] args) {
+		if(args.length > 0) {
+			for(int i = 0; i < args.length; i++) {
+				if(args[i].equalsIgnoreCase("debug")) {
+					System.out.println("!DEBUG MODE ENABLED!");
+					DEBUG = true;
+				}
+			}
+		}
+
 		SpaceRPG.initialize();
 		SineSection.initialize();
-		
 		new SpaceRPG().testGame();
 		// new GameUI().display()
 	}
@@ -45,8 +59,8 @@ public class SpaceRPG {
 		LogWriter.createLogger(TITLE);
 		initRandom();
 		itemGenerator = new ItemGenerator();
-		if(!ItemLoader.loadItemsFrom("items")) {
-			System.err.println("Something went wrong when loading items!");
+		if (!ItemLoader.loadItemsFrom("items")) {
+			LogWriter.printErr("Something went wrong when loading items!");
 			System.exit(-1);
 		}
 		addItemTypes();
@@ -55,7 +69,7 @@ public class SpaceRPG {
 	}
 
 	private static void addItemTypes() {
-		for(ItemReference ref : ItemReference.itemRefs) {
+		for (ItemReference ref : ItemReference.itemRefs) {
 			itemGenerator.addType(ref);
 		}
 	}
@@ -106,7 +120,7 @@ public class SpaceRPG {
 	public static int getNewSeed() {
 		return seedGenerator.nextInt();
 	}
-	
+
 	public Player getPlayer() {
 		return testPlayer;
 	}
@@ -126,12 +140,13 @@ public class SpaceRPG {
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(url.toURI())));
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Can't load font: " + fontName);
+			LogWriter.print("Can't load font: " + fontName);
 		}
 	}
-	
+
 	public void sendChat(String chat) {
-		if(gameClient != null) gameClient.sendChat(chat);
+		if (gameClient != null)
+			gameClient.sendChat(chat);
 	}
 
 	public Creature getCharacter(String name) {

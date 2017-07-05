@@ -30,7 +30,7 @@ public class ItemGenerator {
 		ItemReference result;
 		int index = RNJesus.nextInt(validTypes.size());
 		result = validTypes.get(index);
-		LogWriter.getLogger().info("Crafting a item: " + result);
+		LogWriter.print("Crafting a item: " + result);
 		return result;
 	}
 	

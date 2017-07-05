@@ -1,16 +1,16 @@
 <define>
-	<item>
+	<item scriptLang="JavaScript">
 		<name>Health Kit</name>
-		<desc>A small first-aid kit to heal superficial wounds.\nHeals %healAmt% health.</desc>
-		<properties>let uses = 1, healAmt = 10</properties>
-		<effects></effects>
+		<desc>A small first-aid kit to heal superficial wounds.%nHeals %healAmt% health.</desc>
+		<init>
+		let uses = 1, healAmt = 10;
+		</init>
+		<effect></effect>
 		<use>	
 		if(canUse) {
 			print(&quot;You throw a grenade!&quot;);
-			let i = 0;
-			for(i &lt; targets.length) {
+			for(let i = 0; i &lt; targets.length; i++) {
 				targets[i].damage(dmg);
-				i++;
 			}
 			used();
 		}
@@ -19,12 +19,13 @@
 	<item scriptLang="JavaScript">
 		<name>Power Armor</name>
 		<desc>Powerful armor that increases your defense.</desc>
-		<init></init>
-		<effects>
-		user.addAura("Strength", 10);
-		user.addAura("Intelligence", 3);
-		user.addAura("Defense", 5);
-		</effects>
+		<init>
+		addAura("Strength", 10);
+		addAura("Intelligence", 3);
+		addAura("Defense", 5);
+		</init>
+		<effect>
+		</effect>
 		<use>
 		if(canUse) {
 			print(&quot;!!WARNING!!: Suit does not contain Bubblegum&quot;);
@@ -33,11 +34,11 @@
 	</item>
 	<item scriptLang="JavaScript">
 		<name>Grenade</name>
-		<desc>A simple frag grenade.\nDamage: %dmg%</desc>
+		<desc>A simple frag grenade.%nDamage: %dmg%</desc>
 		<init>
 		let uses = 1, dmg = 25;
 		</init>
-		<effects></effects>
+		<effect></effect>
 		<use>
 		if(canUse) {
 			let i = 0;
@@ -52,7 +53,7 @@
 	</item>
 	<item scriptLang="JavaScript">
 		<name>Grenade Crate</name>
-		<desc>A crate of frag grenade.\nDamage: %dmg%\nUses left: %uses%</desc>
+		<desc>A crate of frag grenade.%nDamage: %dmg%%nUses left: %uses%</desc>
 		<init>
 		let uses = 10, dmg = 25;
 		function unpack() {

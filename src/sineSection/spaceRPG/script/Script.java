@@ -25,13 +25,15 @@ public class Script {
 	}
 
 	public void run(ScriptEngine sEng) throws ScriptException {
-		for (Scriptable s : scriptables) {
-			if (s.getScriptFunctions() != null)
-				s.getScriptFunctions().forEach((method) -> ScriptHelper.addMethodToScriptEngine(sEng, method));
-			if (s.getScriptVars() != null)
-				s.getScriptVars().forEach((name, value) -> sEng.put(name, value));
+		if (sEng != null) {
+			for (Scriptable s : scriptables) {
+				if (s.getScriptFunctions() != null)
+					s.getScriptFunctions().forEach((method) -> ScriptHelper.addMethodToScriptEngine(sEng, method)); // TODO addMethodToScriptEngine(ScriptEngine, Method);
+				if (s.getScriptVars() != null)
+					s.getScriptVars().forEach((name, value) -> sEng.put(name, value));
+			}
+			sEng.eval(script);
 		}
-		sEng.eval(script);
 	}
 
 }

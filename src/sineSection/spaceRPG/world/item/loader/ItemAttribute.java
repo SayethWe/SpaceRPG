@@ -5,7 +5,16 @@ import sineSection.spaceRPG.script.Script;
 public class ItemAttribute {
 
 	public enum ItemAttribType {
-		EFFECT_FUNC, USE_FUNC, INIT_FUNC
+		INIT_FUNC("init"), USE_FUNC("use");
+		
+		private final String xmlElementName;
+		private ItemAttribType(String xmlElementName) {
+			this.xmlElementName = xmlElementName;
+		}
+		
+		public String getXmlElementName() {
+			return xmlElementName;
+		}
 	}
 
 	private ItemAttribType type;

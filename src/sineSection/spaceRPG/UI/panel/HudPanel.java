@@ -29,25 +29,25 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	private static final int PANEL_WIDTH = 180;
 	private static final int PANEL_PADDING = 10;
 
-	private static final Color PANEL_BG = new Color(100, 100, 100);
+	private static final Color PANEL_BG = new Color(0, 0, 0);
 
-	private static final Color PANEL_PLAYER_NAME_BG = new Color(60, 60, 60);
-	private static final Color PANEL_PLAYER_NAME_COLOR = new Color(100, 100, 100);
+	private static final Color PANEL_PLAYER_NAME_BG = new Color(0, 60, 0);
+	private static final Color PANEL_PLAYER_NAME_COLOR = new Color(0, 255, 0);
 	private static final Font PANEL_PLAYER_NAME_FONT = new Font("Mars Needs Cunnilingus", Font.BOLD, 24);
 
-	private static final Color PANEL_PLAYER_STAT_COLOR = new Color(150, 150, 150);
-	private static final Color PANEL_PLAYER_STAT_VALUE_COLOR = new Color(180, 180, 180);
+	private static final Color PANEL_PLAYER_STAT_COLOR = new Color(0, 150, 0);
+	private static final Color PANEL_PLAYER_STAT_VALUE_COLOR = new Color(0, 255, 0);
 	private static final Font PANEL_PLAYER_STAT_FONT = new Font("Mars Needs Cunnilingus", Font.PLAIN, 16);
 
-	private static final Color PANEL_HEALTH_TEXT_COLOR = new Color(150, 150, 150);
-	private static final Color PANEL_HEALTH_VALUE_COLOR = new Color(180, 180, 180);
+	private static final Color PANEL_HEALTH_TEXT_COLOR = new Color(0, 150, 0);
+	private static final Color PANEL_HEALTH_VALUE_COLOR = new Color(0, 255, 0);
 	private static final Font PANEL_HEALTH_TEXT_FONT = new Font("Mars Needs Cunnilingus", Font.PLAIN, 18);
 
 	private static final int PANEL_BAR_HEIGHT = 20;
 
-	private static final Color PANEL_HEALTH_BAR_BG_COLOR = new Color(80, 80, 80);
-	private static final Color PANEL_HEALTH_BAR_FILL_COLOR = new Color(150, 150, 150);
-	private static final Color PANEL_HEALTH_BAR_BORDER_COLOR = new Color(80, 80, 80);
+	private static final Color PANEL_HEALTH_BAR_BG_COLOR = new Color(0, 60, 0);
+	private static final Color PANEL_HEALTH_BAR_FILL_COLOR = new Color(0, 255, 0);
+	private static final Color PANEL_HEALTH_BAR_BORDER_COLOR = new Color(0, 60, 0);
 
 	private Canvas canvas;
 	private BufferStrategy bfr;
@@ -202,8 +202,6 @@ public class HudPanel extends AbstractPanel implements Runnable {
 			int barWidth = getWidth() - (PANEL_PADDING * 2);
 
 			GraphicsUtils.drawBar(g, PANEL_PADDING, y, barWidth, PANEL_BAR_HEIGHT, (float) player.getHealth() / (float) player.getMaxHealth(), GraphicsUtils.BAR_NO_BORDER, PANEL_HEALTH_BAR_BG_COLOR, PANEL_HEALTH_BAR_FILL_COLOR, PANEL_HEALTH_BAR_BORDER_COLOR);
-			
-			SineSection.draw(g, 20, 200, 20, Color.RED);
 		} else {
 			g.setColor(PANEL_PLAYER_NAME_COLOR);
 			g.setFont(PANEL_PLAYER_NAME_FONT);

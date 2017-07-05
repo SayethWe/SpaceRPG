@@ -16,7 +16,6 @@ public class CommandHandler {
 		SpaceRPG doctor = SpaceRPG.getMaster(); //Everyone knows the Doctor IS the master.
 
 		switch (c) {
-		
 		case UNKNOWN:
 			doctor.writeToGui(FAILURE_MESSAGE);
 			break;
@@ -54,6 +53,12 @@ public class CommandHandler {
 			} else {
 				doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
 			}
+			break;
+		case DECREASE_FONT_SIZE:
+			doctor.getGui().decreaseFontSize();
+			break;
+		case INCREASE_FONT_SIZE:
+			doctor.getGui().increaseFontSize();
 			break;
 		case TAKE:
 		case SAVE:
@@ -119,6 +124,7 @@ public class CommandHandler {
 				doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
 			}
 			break;
+		
 		}
 		doctor.writeToGui("");
 	}

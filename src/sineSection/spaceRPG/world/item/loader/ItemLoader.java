@@ -17,6 +17,7 @@ import sineSection.spaceRPG.script.Script;
 import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.ItemReference;
 import sineSection.spaceRPG.world.item.loader.ItemAttribute.ItemAttribType;
+import sineSection.util.LogWriter;
 
 public class ItemLoader {
 
@@ -51,34 +52,29 @@ public class ItemLoader {
 	private static int loadItemFromNode(Node n) {
 		int errorFlag = 0;
 		if (n.getNodeType() == Node.ELEMENT_NODE) {
-			print(ItemLoader.class, "Loading Item: ");
+
 			Element e = (Element) n;
 
 			String name = e.getElementsByTagName("name").item(0).getTextContent();
-			printLn(null, name);
 			String desc = e.getElementsByTagName("desc").item(0).getTextContent();
 			String scriptLang = e.getAttribute("scriptLang");
 			ArrayList<ItemAttribute> attribs = new ArrayList<ItemAttribute>();
 
-			NodeList initList = e.getElementsByTagName("init");
-			if (initList.getLength() > 0)
-				attribs.addAll(loadItemAttribs(ItemAttribType.INIT_FUNC, initList));
-			NodeList effectsList = e.getElementsByTagName("effects");
-			if (effectsList.getLength() > 0)
-				attribs.addAll(loadItemAttribs(ItemAttribType.EFFECT_FUNC, effectsList));
-			NodeList useList = e.getElementsByTagName("use");
-			if (useList.getLength() > 0)
-				attribs.addAll(loadItemAttribs(ItemAttribType.USE_FUNC, useList));
-
+			for(ItemAttribType type : ItemAttribType.values()) {
+				NodeList typeList = e.getElementsByTagName(type.getXmlElementName());
+				if (typeList.getLength() > 0)
+					attribs.addAll(loadItemAttrib(type, typeList));
+			}
+			LogWriter.print("Loading Item: " + name);
 			ItemReference.registerItemRef(new ItemReference(name, desc, attribs, scriptLang));
 		} else {
-			printErrLn(ItemLoader.class, "loadItemFromNode(Node n): Node is not correct type! Expected: " + Node.ELEMENT_NODE + ", Received: " + n.getNodeType());
+			LogWriter.printErr("loadItemFromNode(Node n): Node is not correct type! Expected: " + Node.ELEMENT_NODE + ", Received: " + n.getNodeType());
 			errorFlag += 1;
 		}
 		return errorFlag;
 	}
 
-	private static ArrayList<ItemAttribute> loadItemAttribs(ItemAttribType type, NodeList attribList) {
+	private static ArrayList<ItemAttribute> loadItemAttrib(ItemAttribType type, NodeList attribList) {
 		ArrayList<ItemAttribute> attribs = new ArrayList<ItemAttribute>();
 		for (int i = 0; i < attribList.getLength(); i++) {
 			Node n = attribList.item(i);
@@ -89,21 +85,5 @@ public class ItemLoader {
 			}
 		}
 		return attribs;
-	}
-
-	private static void print(Class<?> c, String msg) {
-		System.out.print((c == null ? "" : "[" + c.getName() + "] ") + msg);
-	}
-
-	private static void printLn(Class<?> c, String msg) {
-		print(c, msg + "\n");
-	}
-
-	private static void printErr(Class<?> c, String error) {
-		System.err.print((c == null ? "" : "[" + c.getName() + "] ") + error);
-	}
-
-	private static void printErrLn(Class<?> c, String error) {
-		printErr(c, error + "\n");
 	}
 }

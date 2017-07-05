@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.script.Bindings;
 import javax.script.ScriptEngine;
 
 /**
@@ -14,8 +13,9 @@ import javax.script.ScriptEngine;
  */
 public class ScriptHelper {
 
-	public static final String VAR_STRING_INSERTION_REGEX = "(%[a-zA-Z]+%)";
+	public static final String VAR_STRING_INSERTION_REGEX = "(%\\w+%)";
 	private static final Pattern VAR_STRING_INSERTION_PATTERN = Pattern.compile(VAR_STRING_INSERTION_REGEX);
+	public static final String STRING_NEW_LINE_REGEX = "(%n(?!\\w*%))";
 
 	/**
 	 * Takes the input <code>string</code> and replaces all
@@ -47,10 +47,10 @@ public class ScriptHelper {
 	public static String putVarsInString(ScriptEngine sEng, String s) {
 		String ret = s.toString();
 		Matcher m = VAR_STRING_INSERTION_PATTERN.matcher(s);
-		while(m.find()) {
+		while (m.find()) {
 			String varInsert = s.substring(m.start(), m.end());
 			String varName = varInsert.substring(1, varInsert.length() - 1);
-			if(sEng.get(varName) != null) {
+			if (sEng.get(varName) != null) {
 				ret.substring(m.start(), m.end());
 				String[] parts = Utils.splitString(ret, m.start());
 				ret = parts[0];
@@ -98,30 +98,34 @@ public class ScriptHelper {
 	public static boolean hasVarsInString(ScriptEngine sEng, String s) {
 		int validVars = 0;
 		Matcher m = VAR_STRING_INSERTION_PATTERN.matcher(s);
-		while(m.find()) {
-			String varInsert = s.substring(m.start(), m.end());
-			String varName = varInsert.substring(1, varInsert.length() - 1);
-			if(sEng.get(varName) != null) {
-				validVars++;
+		if (sEng != null)
+			while (m.find()) {
+				String varInsert = s.substring(m.start(), m.end());
+				String varName = varInsert.substring(1, varInsert.length() - 1);
+				if (sEng.get(varName) != null) {
+					validVars++;
+				}
 			}
-		}
 		return validVars > 0;
 	}
 
+	@Deprecated
 	public static void addMethodToScriptEngine(ScriptEngine sEng, Method method) {
 		try {
-			Bindings tempBindings = sEng.createBindings();
-			tempBindings.put("method", method);
-			tempBindings.put("className", method.getDeclaringClass());
-			tempBindings.put("arguments", method.getParameterTypes());
-			sEng.eval("method.apply(className, arguments)", tempBindings);
+			// TODO adding methods to script engine
+//			Bindings tempBindings = sEng.createBindings();
+//			tempBindings.put("method", method);
+//			tempBindings.put("className", method.getDeclaringClass());
+//			tempBindings.put("arguments", method.getParameterTypes());
+//			sEng.eval("method.apply(className, arguments)", tempBindings);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * Takes the input <code>string</code> and removes all <code>%&lt;varName&gt;%</code><br>
+	 * Takes the input <code>string</code> and removes all
+	 * <code>%&lt;varName&gt;%</code><br>
 	 * Example:
 	 * <p>
 	 * <code>
@@ -133,13 +137,34 @@ public class ScriptHelper {
 	 * <p>
 	 * "Hey, this is not a string containing a var! "
 	 * </p>
-	 * </code>
-	 * Does not remove spaces that are left. Use {@link String#trim()}.
+	 * </code> Does not remove spaces that are left. Use {@link String#trim()}.
+	 * 
 	 * @return the replaced string
 	 * @author Richard Abbott
 	 */
 	public static String removeAllVarsFromString(String s) {
 		return s.replaceAll(VAR_STRING_INSERTION_REGEX, "");
+	}
+	
+	/**
+	 * Takes the input <code>string</code> and replaces all <code>%n</code> it with a newline char.
+	 * Example:
+	 * <p>
+	 * <code>
+	 * Input:
+	 * <p>
+	 * "Hey, this is a string%ncontaining a new line!"
+	 * </p>
+	 * Returns:<br>
+	 * <p>
+	 * "Hey, this is a string\ncontaining a new line! "
+	 * </p>
+	 * 
+	 * @return the replaced string
+	 * @author Richard Abbott
+	 */
+	public static String replaceAllNewLinesInString(String s) {
+		return s.replaceAll(STRING_NEW_LINE_REGEX, "\n");
 	}
 
 }
