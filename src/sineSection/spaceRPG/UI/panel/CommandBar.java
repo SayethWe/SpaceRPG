@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.UI.GameUI;
 import sineSection.util.GraphicsUtils;
 
@@ -24,11 +25,11 @@ public class CommandBar extends JTextField {
 
 	private static final Font COMMAND_BAR_FONT = GameUI.GAME_SCREEN_FONT.deriveFont(18f);
 	private static final Font COMMAND_BAR_INFO_FONT = HudPanel.PANEL_PLAYER_NAME_FONT.deriveFont(10f);
-	
+
 	private static final Color COMMAND_BAR_TEXT_COLOR = new Color(0, 255, 0);
 	private static final Color COMMAND_BAR_DEFAULT_TEXT_COLOR = new Color(0, 150, 0);
 	private static final Color COMMAND_BAR_BG_COLOR = new Color(0, 30, 0);
-	
+
 	private static final String DEFAULT_TEXT = "Enter Command Here";
 	private static final int BLINK_INTERVAL = 2500;
 	private static final int MAX_COMMAND_HISTORY = 50;
@@ -37,9 +38,9 @@ public class CommandBar extends JTextField {
 	private boolean drawCursor = true;
 	private LinkedList<String> commandHistory = new LinkedList<String>();
 	private int commandHistoryIndex = -1;
-	
+
 	private int caretPos = 0;
-	
+
 	private JFrame commandList;
 
 	public CommandBar(GameUI ui) {
@@ -98,13 +99,14 @@ public class CommandBar extends JTextField {
 								commandHistoryIndex = -1;
 							}
 						}
-						if(commandHistoryIndex > -1) setText(commandHistory.get(commandHistoryIndex));
+						if (commandHistoryIndex > -1)
+							setText(commandHistory.get(commandHistoryIndex));
 					}
 					break;
 				}
 			}
 		});
-		
+
 		addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
 				caretPos = e.getDot();
@@ -120,12 +122,13 @@ public class CommandBar extends JTextField {
 			commandHistory.removeLast();
 		}
 	}
-	
+
 	public void clearCommandHistory() {
 		commandHistory.clear();
 	}
 
 	public void paint(Graphics g) {
+		super.paint(g);
 		blinkTimer++;
 		if (blinkTimer > BLINK_INTERVAL) {
 			drawCursor = !drawCursor;
@@ -136,8 +139,8 @@ public class CommandBar extends JTextField {
 		g.setFont(COMMAND_BAR_FONT);
 		int offs = 0;
 		if (!getText().isEmpty()) {
-			if (GraphicsUtils.getStringWidth(g, getText()) + 12 > getWidth()) {
-				offs = GraphicsUtils.getStringWidth(g, getText()) + 12 - getWidth();
+			if (GraphicsUtils.getStringWidth(g, getText()) + 25 > getWidth()) {
+				offs = GraphicsUtils.getStringWidth(g, getText()) + 25 - getWidth();
 			}
 			g.setColor(COMMAND_BAR_TEXT_COLOR);
 			g.drawString(getText(), 3 - offs, getHeight() - 3);
@@ -148,17 +151,19 @@ public class CommandBar extends JTextField {
 		}
 		if (selected && drawCursor) {
 			g.setColor(COMMAND_BAR_TEXT_COLOR);
-			int x = GraphicsUtils.getStringWidth(g, getText()) + 5 - offs;
+			int x = GraphicsUtils.getStringWidth(g, getText().substring(0, caretPos)) + 2 - offs;
 			g.drawLine(x, 2, x, getHeight() - 2);
 		}
 
 		if (offs > 0) {
 			g.fillRect(0, 0, 5, getHeight());
 		}
-		g.setColor(Color.GREEN);
-		g.setFont(COMMAND_BAR_INFO_FONT);
-		g.drawString("" + caretPos, getWidth() - GraphicsUtils.getStringWidth(g, "" + caretPos) - 3, 8);
-		g.drawString("" + commandHistoryIndex, getWidth() - GraphicsUtils.getStringWidth(g, "" + commandHistoryIndex) - 3, 18);
+		if (SpaceRPG.DEBUG) {
+			g.setColor(Color.GREEN);
+			g.setFont(COMMAND_BAR_INFO_FONT);
+			g.drawString("" + caretPos, getWidth() - GraphicsUtils.getStringWidth(g, "" + caretPos) - 3, 8);
+			g.drawString("" + commandHistoryIndex, getWidth() - GraphicsUtils.getStringWidth(g, "" + commandHistoryIndex) - 3, 18);
+		}
 		repaint();
 	}
 

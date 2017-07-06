@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import javax.swing.Box;
 
+import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.character.Stat;
 import sineSection.util.GraphicsUtils;
@@ -33,6 +34,8 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	public static final Color PANEL_PLAYER_NAME_BG = new Color(0, 60, 0);
 	public static final Color PANEL_PLAYER_NAME_COLOR = new Color(0, 255, 0);
 	public static final Font PANEL_PLAYER_NAME_FONT = new Font("Mars Needs Cunnilingus", Font.BOLD, 24);
+	
+	public static final Font PANEL_DEBUG_MODE_FONT = new Font("Mars Needs Cunnilingus", Font.BOLD, 10);
 
 	public static final Color PANEL_PLAYER_STAT_COLOR = new Color(0, 150, 0);
 	public static final Color PANEL_PLAYER_STAT_VALUE_COLOR = new Color(0, 255, 0);
@@ -125,39 +128,12 @@ public class HudPanel extends AbstractPanel implements Runnable {
 		bfr.show();
 	}
 
-	float f = 0.0f;
-	float fSpeed = 0.0f;
-	boolean fIncreasing = true;
-	final float fAccel = 0.00002f;
-	final float fMaxSpeed = 0.008f;
-
 	/**
 	 * Takes a <code>{@link #Graphics2D}</code> object and draws with it.
 	 * 
 	 * @author Richard Abbott
 	 */
 	private void draw(Graphics2D g) {
-		if (fSpeed > fMaxSpeed) {
-			fSpeed = fMaxSpeed;
-		} else if (fSpeed < fMaxSpeed) {
-			fSpeed += fAccel;
-		}
-		if (fIncreasing) {
-			f += fSpeed;
-			if (f > 1.0f) {
-				f = 1.0f;
-				fSpeed = 0.0f;
-				fIncreasing = false;
-			}
-		} else {
-			f -= fSpeed;
-			if (f < 0.0f) {
-				f = 0.0f;
-				fSpeed = 0.0f;
-				fIncreasing = true;
-			}
-		}
-
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
@@ -205,6 +181,11 @@ public class HudPanel extends AbstractPanel implements Runnable {
 			g.setColor(PANEL_PLAYER_NAME_COLOR);
 			g.setFont(PANEL_PLAYER_NAME_FONT);
 			g.drawString("No player", 30, getHeight() / 2 - 15);
+		}
+		if(SpaceRPG.DEBUG) {
+			g.setColor(new Color(0.0f, 0.3f, 0.0f));
+			g.setFont(PANEL_DEBUG_MODE_FONT);
+			g.drawString("DEBUG MODE", (getWidth() / 2) - (GraphicsUtils.getStringWidth(g, "DEBUG MODE") / 2), getHeight() - 5);
 		}
 	}
 
