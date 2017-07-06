@@ -1,8 +1,13 @@
 package sineSection.spaceRPG.world.map.node;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
+import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.world.Generator;
+import sineSection.spaceRPG.world.map.Direction;
 import sineSection.spaceRPG.world.map.Pos;
 import sineSection.spaceRPG.world.map.room.Room;
 import sineSection.spaceRPG.world.map.room.RoomThreshold;
@@ -14,6 +19,7 @@ public abstract class Node {
 	private int size;
 	private Map<Pos, Room> map;
 	private Generator<Room> roomGenerator;
+	private Random doorRandomizer;
 	
 	public Node() {
 //		this((int) (Math.pow(SIZE_TUNER, Math.random() * (Utils.log(SIZE_TUNER, MAX_GEN_SIZE) + 1)) + 0.5));
@@ -26,6 +32,7 @@ public abstract class Node {
 		roomGenerator = new Generator<>();
 		generate();
 		addRoomTypes();
+		doorRandomizer = new Random(SpaceRPG.getNewSeed());
 	}
 
 	public void addRoomType(Class<? extends Room> type) {
@@ -54,6 +61,48 @@ public abstract class Node {
 			result = map.get(pos);
 		}
 		return result;
+	}
+	
+	/**
+	 * Generate all the doorways
+	 * uses the pentadact method, described at <br>
+	 * <a href="http://www.pentadact.com/2014-07-19-improving-heat-signatures-randomly-generated-ships-inside-and-out/">
+	 * pentadact.com </a>
+	 */
+	public void generateExits() {
+		final int doorChance = 6; //about one in every #VALUE, generate a door to the next row
+		final int cutoffChance = 3; //if we have a way back, about one in every VALUE, don't go to the previous cell. 
+		
+		Set<Integer> prevDoors = new HashSet<>();
+		for (int y = 0; y < size; y++) {
+			Set<Integer> doorsHere = prevDoors;
+			prevDoors.clear();
+			doorsHere.add(Integer.valueOf(doorRandomizer.nextInt(size)));
+			boolean doorRight = false;
+			for (int x = 0; x < size; x++) {
+				Set<Direction> exits = new HashSet<>();
+				boolean doorLeft = true;
+				if(doorRight) {
+					doorRight = false;
+					exits.add(Direction.STARBOARD);
+				}
+				if(doorsHere.contains(Integer.valueOf(x))) {
+					//generate a door to the previously generated row
+					doorLeft = doorRandomizer.nextInt(cutoffChance) == 0;
+					exits.add(Direction.FORE);
+				}
+				if(doorRandomizer.nextInt(doorChance) == 0) {
+					//generate a door to the next row
+					prevDoors.add(x);
+					exits .add(Direction.AFT);
+				}
+				if(doorLeft) {
+					doorRight = true;
+					exits.add(Direction.PORT);
+				}
+			}
+		}
+		
 	}
 
 	protected abstract void addRoomTypes();
