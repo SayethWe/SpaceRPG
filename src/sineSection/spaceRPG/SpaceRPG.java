@@ -4,11 +4,8 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import sineSection.SineSection;
 import sineSection.networking.client.Client;

@@ -9,7 +9,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.LinkedList;
 
+import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 import sineSection.spaceRPG.UI.GameUI;
 import sineSection.util.GraphicsUtils;
@@ -20,6 +23,7 @@ public class CommandBar extends JTextField {
 	private boolean selected = false;
 
 	private static final Font COMMAND_BAR_FONT = GameUI.GAME_SCREEN_FONT.deriveFont(18f);
+	private static final Font COMMAND_BAR_CARET_INDEX_FONT = GameUI.GAME_SCREEN_FONT.deriveFont(18f);
 	
 	private static final Color COMMAND_BAR_TEXT_COLOR = new Color(0, 255, 0);
 	private static final Color COMMAND_BAR_DEFAULT_TEXT_COLOR = new Color(0, 150, 0);
@@ -31,8 +35,12 @@ public class CommandBar extends JTextField {
 
 	private int blinkTimer = 0;
 	private boolean drawCursor = true;
-	private LinkedList<String> commandHistory;
+	private LinkedList<String> commandHistory = new LinkedList<String>();
 	private int commandHistoryIndex = 0;
+	
+	private int caretPos = 0;
+	
+	private JFrame commandList;
 
 	public CommandBar(GameUI ui) {
 		this("", ui);
@@ -40,7 +48,9 @@ public class CommandBar extends JTextField {
 
 	public CommandBar(String defaultText, GameUI ui) {
 		super(defaultText);
-		this.commandHistory = new LinkedList<String>();
+		commandList = new JFrame();
+		commandList.setUndecorated(true);
+		commandList.setLocationRelativeTo(this);
 
 		addFocusListener(new FocusListener() {
 			public void focusLost(FocusEvent e) {
@@ -79,7 +89,22 @@ public class CommandBar extends JTextField {
 						}
 					}
 					break;
+				case KeyEvent.VK_DOWN:
+					if (commandHistory.size() > 0) {
+						setText(commandHistory.get(commandHistoryIndex));
+						commandHistoryIndex--;
+						if (commandHistoryIndex < 0) {
+							commandHistoryIndex = 0;
+						}
+					}
+					break;
 				}
+			}
+		});
+		
+		addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent e) {
+				caretPos = e.getDot();
 			}
 		});
 	}
