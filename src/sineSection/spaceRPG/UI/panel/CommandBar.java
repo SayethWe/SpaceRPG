@@ -32,6 +32,7 @@ public class CommandBar extends JTextField {
 
 	private static final String DEFAULT_TEXT = "Enter Command Here";
 	private static final int BLINK_INTERVAL = 2500;
+	private static final int BLINK_LENGTH = 250;
 	private static final int MAX_COMMAND_HISTORY = 50;
 
 	private int blinkTimer = 0;
@@ -130,7 +131,7 @@ public class CommandBar extends JTextField {
 	public void paint(Graphics g) {
 		super.paint(g);
 		blinkTimer++;
-		if (blinkTimer > BLINK_INTERVAL) {
+		if ((blinkTimer > BLINK_INTERVAL && drawCursor) || (blinkTimer > BLINK_LENGTH && !drawCursor)) {
 			drawCursor = !drawCursor;
 			blinkTimer = 0;
 		}
