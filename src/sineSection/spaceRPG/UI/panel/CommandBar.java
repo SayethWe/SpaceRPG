@@ -23,7 +23,7 @@ public class CommandBar extends JTextField {
 	private boolean selected = false;
 
 	private static final Font COMMAND_BAR_FONT = GameUI.GAME_SCREEN_FONT.deriveFont(18f);
-	private static final Font COMMAND_BAR_CARET_INDEX_FONT = GameUI.GAME_SCREEN_FONT.deriveFont(18f);
+	private static final Font COMMAND_BAR_INFO_FONT = HudPanel.PANEL_PLAYER_NAME_FONT.deriveFont(10f);
 	
 	private static final Color COMMAND_BAR_TEXT_COLOR = new Color(0, 255, 0);
 	private static final Color COMMAND_BAR_DEFAULT_TEXT_COLOR = new Color(0, 150, 0);
@@ -36,7 +36,7 @@ public class CommandBar extends JTextField {
 	private int blinkTimer = 0;
 	private boolean drawCursor = true;
 	private LinkedList<String> commandHistory = new LinkedList<String>();
-	private int commandHistoryIndex = 0;
+	private int commandHistoryIndex = -1;
 	
 	private int caretPos = 0;
 	
@@ -78,24 +78,27 @@ public class CommandBar extends JTextField {
 					ui.commandSent(getText());
 					addCommandToHistory(getText());
 					setText("");
-					commandHistoryIndex = 0;
+					commandHistoryIndex = -1;
 					break;
 				case KeyEvent.VK_UP:
 					if (commandHistory.size() > 0) {
-						setText(commandHistory.get(commandHistoryIndex));
 						commandHistoryIndex++;
 						if (commandHistoryIndex >= commandHistory.size()) {
 							commandHistoryIndex = commandHistory.size() - 1;
 						}
+						setText(commandHistory.get(commandHistoryIndex));
 					}
 					break;
 				case KeyEvent.VK_DOWN:
 					if (commandHistory.size() > 0) {
-						setText(commandHistory.get(commandHistoryIndex));
 						commandHistoryIndex--;
 						if (commandHistoryIndex < 0) {
-							commandHistoryIndex = 0;
+							setText("");
+							if (commandHistoryIndex < -1) {
+								commandHistoryIndex = -1;
+							}
 						}
+						if(commandHistoryIndex > -1) setText(commandHistory.get(commandHistoryIndex));
 					}
 					break;
 				}
@@ -152,6 +155,10 @@ public class CommandBar extends JTextField {
 		if (offs > 0) {
 			g.fillRect(0, 0, 5, getHeight());
 		}
+		g.setColor(Color.GREEN);
+		g.setFont(COMMAND_BAR_INFO_FONT);
+		g.drawString("" + caretPos, getWidth() - GraphicsUtils.getStringWidth(g, "" + caretPos) - 3, 8);
+		g.drawString("" + commandHistoryIndex, getWidth() - GraphicsUtils.getStringWidth(g, "" + commandHistoryIndex) - 3, 18);
 		repaint();
 	}
 
