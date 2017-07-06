@@ -34,7 +34,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	public static final Color PANEL_PLAYER_NAME_BG = new Color(0, 60, 0);
 	public static final Color PANEL_PLAYER_NAME_COLOR = new Color(0, 255, 0);
 	public static final Font PANEL_PLAYER_NAME_FONT = new Font("Mars Needs Cunnilingus", Font.BOLD, 24);
-	
+
 	public static final Font PANEL_DEBUG_MODE_FONT = new Font("Mars Needs Cunnilingus", Font.BOLD, 10);
 
 	public static final Color PANEL_PLAYER_STAT_COLOR = new Color(0, 150, 0);
@@ -182,7 +182,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 			g.setFont(PANEL_PLAYER_NAME_FONT);
 			g.drawString("No player", 30, getHeight() / 2 - 15);
 		}
-		if(SpaceRPG.DEBUG) {
+		if (SpaceRPG.DEBUG) {
 			g.setColor(new Color(0.0f, 0.3f, 0.0f));
 			g.setFont(PANEL_DEBUG_MODE_FONT);
 			g.drawString("DEBUG MODE", (getWidth() / 2) - (GraphicsUtils.getStringWidth(g, "DEBUG MODE") / 2), getHeight() - 5);

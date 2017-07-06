@@ -3,16 +3,20 @@ package sineSection.spaceRPG.UI.panel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.LinkedList;
 
-import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.UI.GameUI;
@@ -27,6 +31,7 @@ public class CommandBar extends JTextField {
 	private static final Font COMMAND_BAR_INFO_FONT = HudPanel.PANEL_PLAYER_NAME_FONT.deriveFont(10f);
 
 	private static final Color COMMAND_BAR_TEXT_COLOR = new Color(0, 255, 0);
+	private static final Color COMMAND_BAR_SELECT_COLOR = new Color(0, 150, 0);
 	private static final Color COMMAND_BAR_DEFAULT_TEXT_COLOR = new Color(0, 150, 0);
 	private static final Color COMMAND_BAR_BG_COLOR = new Color(0, 30, 0);
 
@@ -40,9 +45,10 @@ public class CommandBar extends JTextField {
 	private LinkedList<String> commandHistory = new LinkedList<String>();
 	private int commandHistoryIndex = -1;
 
-	private int caretPos = 0;
+	private int caretPos = 0, markerPos = 0;
 
-	private JFrame commandList;
+	private CommandList commandList;
+	private GameUI ui;
 
 	public CommandBar(GameUI ui) {
 		this("", ui);
@@ -50,9 +56,9 @@ public class CommandBar extends JTextField {
 
 	public CommandBar(String defaultText, GameUI ui) {
 		super(defaultText);
-		commandList = new JFrame();
-		commandList.setUndecorated(true);
+		commandList = new CommandList(ui);
 		commandList.setLocationRelativeTo(this);
+		this.ui = ui;
 
 		addFocusListener(new FocusListener() {
 			public void focusLost(FocusEvent e) {
@@ -111,8 +117,52 @@ public class CommandBar extends JTextField {
 		addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
 				caretPos = e.getDot();
+				markerPos = e.getMark();
 			}
 		});
+
+		getDocument().addDocumentListener(new DocumentListener() {
+			public void removeUpdate(DocumentEvent e) {
+				updateCommandList();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				updateCommandList();
+			}
+
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+
+		this.ui.addComponentListener(new ComponentListener() {
+			public void componentShown(ComponentEvent e) {
+			}
+
+			public void componentResized(ComponentEvent e) {
+				updateCommandList();
+			}
+
+			public void componentMoved(ComponentEvent e) {
+				updateCommandList();
+			}
+
+			public void componentHidden(ComponentEvent e) {
+			}
+		});
+	}
+
+	public void disposeCommandList() {
+		commandList.dispose();
+	}
+
+	private void updateCommandList() {
+		commandList.update(getText(), selected);
+		if (commandList.isVisible()) {
+			Point loc = getLocationOnScreen();
+			commandList.setLocation((int) loc.getX(), (int) loc.getY() - commandList.getHeight());
+		}
+		this.requestFocus();
+		this.requestFocusInWindow();
 	}
 
 	private void addCommandToHistory(String c) {
@@ -143,7 +193,8 @@ public class CommandBar extends JTextField {
 		if (!getText().isEmpty()) {
 			if (GraphicsUtils.getStringWidth(g, getText()) + endSpace > getWidth()) {
 				offs = GraphicsUtils.getStringWidth(g, getText().substring(0, caretPos)) + endSpace - getWidth();
-				if(offs < 0) offs = 0;
+				if (offs < 0)
+					offs = 0;
 			}
 			g.setColor(COMMAND_BAR_TEXT_COLOR);
 			g.drawString(getText(), 3 - offs, getHeight() - 3);
@@ -152,10 +203,21 @@ public class CommandBar extends JTextField {
 			int x = (getWidth() / 2) - (GraphicsUtils.getStringWidth(g, DEFAULT_TEXT) / 2);
 			g.drawString(DEFAULT_TEXT, x, getHeight() - 3);
 		}
-		if (selected && drawCursor) {
-			g.setColor(COMMAND_BAR_TEXT_COLOR);
-			int x = GraphicsUtils.getStringWidth(g, getText().substring(0, caretPos)) + 2 - offs;
-			g.drawLine(x, 2, x, getHeight() - 2);
+		if (selected) {
+			if (caretPos == markerPos) {
+				if (drawCursor) {
+					g.setColor(COMMAND_BAR_TEXT_COLOR);
+					int x = GraphicsUtils.getStringWidth(g, getText().substring(0, caretPos)) + 2 - offs;
+					g.drawLine(x, 2, x, getHeight() - 2);
+				}
+			} else {
+				g.setColor(COMMAND_BAR_SELECT_COLOR);
+				int beginPos = Math.min(markerPos, caretPos);
+				int endPos = Math.max(markerPos, caretPos);
+				int x = GraphicsUtils.getStringWidth(g, getText().substring(0, beginPos)) + 2 - offs;
+				int w = GraphicsUtils.getStringWidth(g, getText().substring(beginPos, endPos));
+				g.drawRect(x, 2, w, getHeight() - 4);
+			}
 		}
 
 		if (offs > 0) {

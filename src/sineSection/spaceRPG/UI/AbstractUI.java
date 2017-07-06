@@ -20,7 +20,7 @@ public class AbstractUI extends JFrame {
 		constraints.weighty = 0.5;
 		constraints.fill = GridBagConstraints.BOTH;
 	}
-	
+
 	private void updateLookAndFeel() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

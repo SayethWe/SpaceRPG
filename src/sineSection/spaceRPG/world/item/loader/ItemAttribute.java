@@ -6,12 +6,13 @@ public class ItemAttribute {
 
 	public enum ItemAttribType {
 		INIT_FUNC("init"), USE_FUNC("use");
-		
+
 		private final String xmlElementName;
+
 		private ItemAttribType(String xmlElementName) {
 			this.xmlElementName = xmlElementName;
 		}
-		
+
 		public String getXmlElementName() {
 			return xmlElementName;
 		}
@@ -28,7 +29,7 @@ public class ItemAttribute {
 	public ItemAttribType getType() {
 		return type;
 	}
-	
+
 	public Script getScript() {
 		return script;
 	}

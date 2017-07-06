@@ -58,7 +58,7 @@ public class ItemLoader {
 			String scriptLang = e.getAttribute("scriptLang");
 			ArrayList<ItemAttribute> attribs = new ArrayList<ItemAttribute>();
 
-			for(ItemAttribType type : ItemAttribType.values()) {
+			for (ItemAttribType type : ItemAttribType.values()) {
 				NodeList typeList = e.getElementsByTagName(type.getXmlElementName());
 				if (typeList.getLength() > 0)
 					attribs.addAll(loadItemAttrib(type, typeList));

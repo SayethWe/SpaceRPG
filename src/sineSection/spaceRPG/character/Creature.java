@@ -1,11 +1,15 @@
 package sineSection.spaceRPG.character;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import sineSection.spaceRPG.script.Scriptable;
 import sineSection.spaceRPG.world.item.Item;
@@ -34,7 +38,7 @@ public abstract class Creature implements Scriptable {
 	}
 
 	public void addStat(String name, Stat stat) {
-		if(stats.containsKey(name)) {
+		if (stats.containsKey(name)) {
 			stats.replace(name, stat);
 		} else {
 			stats.put(name, stat);
@@ -76,12 +80,12 @@ public abstract class Creature implements Scriptable {
 		}
 		return alive;
 	}
-	
+
 	/**
 	 * @param amt
 	 *            the amount of damage to give.
 	 * @return if this <code>Creature</code> will survive the damage.
-	 *         
+	 * 
 	 * @author Richard Abbott
 	 */
 	public boolean willSurvive(int amt) {
@@ -93,7 +97,7 @@ public abstract class Creature implements Scriptable {
 	 *            the amount of damage to give.
 	 * @return how much health is left after this <code>Creature</code> takes
 	 *         damage.
-	 *         
+	 * 
 	 * @author Richard Abbott
 	 */
 	public int healthAfterDamage(int amt) {
@@ -114,7 +118,7 @@ public abstract class Creature implements Scriptable {
 	 * @return true if the character is now fully healthy
 	 */
 	public boolean heal(int amt) {
-		if (alive) { //Even Rick Can't heal Death
+		if (alive) { // Even Rick Can't heal Death
 			amt = Math.abs(amt); // ensure that we will only heal
 			boolean fullHeal = !health.incrementAllowed(amt);
 			if (fullHeal) {
@@ -152,8 +156,8 @@ public abstract class Creature implements Scriptable {
 		return name;
 	}
 
-	public Set<? extends Object> getAllStats() {
-		Set<Stat> result = new HashSet<>();
+	public List<Stat> getAllStats() {
+		List<Stat> result = new ArrayList<>();
 		stats.forEach((name, stat) -> result.add(stat));
 		return result;
 	}
@@ -161,7 +165,6 @@ public abstract class Creature implements Scriptable {
 	public Map<String, Stat> getStatsAsMap() {
 		return stats;
 	}
-
 
 	/**
 	 * Makes character die
@@ -185,7 +188,9 @@ public abstract class Creature implements Scriptable {
 												// inventory, returns false if
 												// the item is unable to be
 												// added
-	
+
+	public abstract boolean removeItem(String itemName);
+
 	public HashMap<String, Object> getScriptVars() {
 		HashMap<String, Object> ret = new HashMap<>();
 		ret.put("name", name);
@@ -195,20 +200,44 @@ public abstract class Creature implements Scriptable {
 		return ret;
 	}
 
-	public ArrayList<Method> getScriptFunctions() {
-		ArrayList<Method> ret = new ArrayList<>();
-		try {
-			ret.add(getClass().getMethod("damage", new Class[] { int.class }));
-			ret.add(getClass().getMethod("hasItem", new Class[] { String.class }));
-			ret.add(getClass().getMethod("addItem", new Class[] { Item.class }));
-			ret.add(getClass().getMethod("removeItem", new Class[] { String.class }));
-			ret.add(getClass().getMethod("getInventory", new Class[] {}));
-			ret.add(getClass().getMethod("useItem", new Class[] { String.class, Creature[].class }));
-			ret.add(getClass().getMethod("useItem", new Class[] { String.class, Creature.class }));
-			ret.add(getClass().getMethod("getAllItems", new Class[] {}));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public HashMap<String, Supplier<?>> getScriptSuppliers() {
+		HashMap<String, Supplier<?>> ret = new HashMap<>();
+		ret.put("getHealth", (Supplier<Integer>) this::getHealth);
+		ret.put("getMaxHealth", (Supplier<Integer>) this::getMaxHealth);
+		ret.put("toString", (Supplier<String>) this::toString);
+		ret.put("getName", (Supplier<String>) this::getName);
+		ret.put("getAllStats", (Supplier<List<Stat>>) this::getAllStats);
+		ret.put("getStatsAsMap", (Supplier<Map<String, Stat>>) this::getStatsAsMap);
 		return ret;
+	}
+
+	public HashMap<String, Function<?, ?>> getScriptFunctions() {
+		HashMap<String, Function<?, ?>> ret = new HashMap<>();
+		ret.put("getStatVal", (Function<String, Integer>) this::getStatVal);
+		ret.put("damage", (Function<Integer, Boolean>) this::damage);
+		ret.put("willSurvive", (Function<Integer, Boolean>) this::willSurvive);
+		ret.put("healthAfterDamage", (Function<Integer, Integer>) this::healthAfterDamage);
+		ret.put("heal", (Function<Integer, Boolean>) this::heal);
+		ret.put("hasItem", (Function<Item, Boolean>) this::hasItem);
+		ret.put("addItem", (Function<Item, Boolean>) this::addItem);
+		ret.put("removeItem", (Function<String, Boolean>) this::removeItem);
+		return ret;
+	}
+
+	public HashMap<String, BiFunction<?, ?, ?>> getScriptBiFunctions() {
+		HashMap<String, BiFunction<?, ?, ?>> ret = new HashMap<>();
+		ret.put("addToStat", (BiFunction<String, Integer, Boolean>) this::addToStat);
+		return ret;
+	}
+
+	public HashMap<String, BiConsumer<?, ?>> getScriptBiConsumers() {
+		HashMap<String, BiConsumer<?, ?>> ret = new HashMap<>();
+		ret.put("addStat", (BiConsumer<String, Stat>) this::addStat);
+		ret.put("addToBase", (BiConsumer<String, Integer>) this::addToBase);
+		return ret;
+	}
+
+	public HashMap<String, Consumer<?>> getScriptConsumers() {
+		return null;
 	}
 }

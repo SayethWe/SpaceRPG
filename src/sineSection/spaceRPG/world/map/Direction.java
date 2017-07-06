@@ -1,10 +1,7 @@
 package sineSection.spaceRPG.world.map;
 
 public enum Direction {
-	FORE("Fore", 0, 1),
-	AFT("Aft", 0, -1),
-	PORT("Port", -1, 0),
-	STARBOARD("Starboard", 1, 0);
+	FORE("Fore", 0, 1), AFT("Aft", 0, -1), PORT("Port", -1, 0), STARBOARD("Starboard", 1, 0);
 
 	String call;
 	int delX;

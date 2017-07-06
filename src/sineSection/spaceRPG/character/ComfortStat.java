@@ -2,7 +2,7 @@ package sineSection.spaceRPG.character;
 
 public class ComfortStat {
 	private static final double EXPONENTIAL_BASE = 1.2;
-	private static final double MIN_DIVS = 0.1; //prevents div0 errors
+	private static final double MIN_DIVS = 0.1; // prevents div0 errors
 
 	// private final int defaultValue;
 	private final int posTolerance;
@@ -12,9 +12,9 @@ public class ComfortStat {
 	private int currentValue;
 
 	public ComfortStat(int defaultValue, int posTolerance, int negTolerance) {
-		this(defaultValue,posTolerance,negTolerance,0);
+		this(defaultValue, posTolerance, negTolerance, 0);
 	}
-	
+
 	public ComfortStat(int defaultValue, int posTolerance, int negTolerance, int nativeDamping) {
 		this.currentValue = defaultValue;
 		this.posTolerance = defaultValue + posTolerance;
@@ -39,12 +39,12 @@ public class ComfortStat {
 			result = currentValue - posTolerance;
 		}
 
-		return (int) ((Math.pow(EXPONENTIAL_BASE, result) / Math.max(resistance,MIN_DIVS)) + 0.5);
+		return (int) ((Math.pow(EXPONENTIAL_BASE, result) / Math.max(resistance, MIN_DIVS)) + 0.5);
 	}
 
 	private void updateCurrent(int envValue, int damping) {
 		currentValue += envValue;
-		currentValue /= (2 * (Math.max(damping + nativeDamping,MIN_DIVS)));
+		currentValue /= (2 * (Math.max(damping + nativeDamping, MIN_DIVS)));
 	}
 
 }

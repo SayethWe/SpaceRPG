@@ -23,7 +23,7 @@ import sineSection.util.LogWriter;
 
 public class SpaceRPG {
 	public static final String TITLE = "SpaceRPG";
-	
+
 	public static boolean DEBUG = false;
 
 	private static GameUI gui;
@@ -40,9 +40,9 @@ public class SpaceRPG {
 	private Ship gameWorld;
 
 	public static void main(String[] args) {
-		if(args.length > 0) {
-			for(int i = 0; i < args.length; i++) {
-				if(args[i].equalsIgnoreCase("debug")) {
+		if (args.length > 0) {
+			for (int i = 0; i < args.length; i++) {
+				if (args[i].equalsIgnoreCase("debug")) {
 					System.out.println("!DEBUG MODE ENABLED!");
 					DEBUG = true;
 				}
@@ -87,7 +87,7 @@ public class SpaceRPG {
 		gui = new GameUI();
 		gameClient = new Client();
 	}
-	
+
 	public Ship getWorld() {
 		return gameWorld;
 	}

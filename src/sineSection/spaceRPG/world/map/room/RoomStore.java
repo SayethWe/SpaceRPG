@@ -12,7 +12,7 @@ public class RoomStore extends Room {
 	@Override
 	public void onRoomEnter(Player p) {
 		// TODO Have Clerk Greet You
-		
+
 	}
 
 }

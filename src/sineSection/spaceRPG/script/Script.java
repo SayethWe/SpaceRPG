@@ -21,13 +21,25 @@ public class Script {
 		else
 			scriptables.add(scriptable);
 	}
-	
-	// TODO addMethodToScriptEngine(ScriptEngine, Method); 
+
 	public void run(ScriptEngine sEng) throws ScriptException {
 		if (sEng != null) {
 			for (Scriptable s : scriptables) {
-//				if (s.getScriptFunctions() != null)
-//					s.getScriptFunctions().forEach((method) -> ScriptHelper.addMethodToScriptEngine(sEng, method));
+				if (s.getScriptSuppliers() != null)
+					s.getScriptSuppliers().forEach((name, supplier) -> sEng.put(name, supplier));
+
+				if (s.getScriptConsumers() != null)
+					s.getScriptConsumers().forEach((name, consumer) -> sEng.put(name, consumer));
+
+				if (s.getScriptBiConsumers() != null)
+					s.getScriptBiConsumers().forEach((name, biConsumer) -> sEng.put(name, biConsumer));
+
+				if (s.getScriptFunctions() != null)
+					s.getScriptFunctions().forEach((name, function) -> sEng.put(name, function));
+
+				if (s.getScriptBiFunctions() != null)
+					s.getScriptBiFunctions().forEach((name, biFunction) -> sEng.put(name, biFunction));
+
 				if (s.getScriptVars() != null)
 					s.getScriptVars().forEach((name, value) -> sEng.put(name, value));
 			}

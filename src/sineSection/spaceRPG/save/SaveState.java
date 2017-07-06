@@ -9,8 +9,8 @@ public class SaveState implements Serializable {
 	 */
 	private static final long serialVersionUID = 8196755643718748825L;
 	private int randomSeed;
-//	private MapState world;
-//	private PlayerState player;
+	// private MapState world;
+	// private PlayerState player;
 
 	public SaveState() {
 		// TODO Auto-generated constructor stub

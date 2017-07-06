@@ -1,11 +1,11 @@
 package sineSection.spaceRPG.character;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
 
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.world.item.Item;
@@ -34,8 +34,9 @@ public class Player extends Creature {
 
 	private Map<String, Item> inventory;
 	private WorldPos location;
-//	private Map<String, ComfortStat> comfortStats;
-	// TODO add in 'comfort' like warmth/hunger/thirst, and environment checks for damage
+	// private Map<String, ComfortStat> comfortStats;
+	// TODO add in 'comfort' like warmth/hunger/thirst, and environment checks
+	// for damage
 
 	/**
 	 * Initializes 'inventory' and 'stats', adds all the 'stats' into the
@@ -82,12 +83,29 @@ public class Player extends Creature {
 		return result;
 	}
 
-	public void removeItem(String itemName) {
+	public boolean removeItem(String itemName) {
 		Item item = inventory.get(itemName);
-		if (item.hasAuraEffect()) {
-			item.getAuras().forEach((aura) -> addToStat(aura.getStat(), -aura.getAmount()));
+		if (item != null) {
+			if (item.hasAuraEffect()) {
+				item.getAuras().forEach((aura) -> addToStat(aura.getStat(), -aura.getAmount()));
+			}
+			inventory.remove(itemName);
+			return true;
+		} else {
+			return false;
 		}
-		inventory.remove(itemName);
+	}
+
+	public boolean removeItem(Item item) {
+		if (inventory.containsValue(item)) {
+			if (item.hasAuraEffect()) {
+				item.getAuras().forEach((aura) -> addToStat(aura.getStat(), -aura.getAmount()));
+			}
+			inventory.remove(inventory);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -117,7 +135,7 @@ public class Player extends Creature {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Checks to see if item is in inventory, if the item is not permanent and
 	 * out of uses, then delete it from the inventory
@@ -143,36 +161,26 @@ public class Player extends Creature {
 		inventory.forEach((name, item) -> result.add(item));
 		return result;
 	}
-	
+
 	public WorldPos getPos() {
 		return location;
 	}
-	
+
 	public void move(Direction dir) {
 		SpaceRPG.getMaster().writeToGui(getName() + " Moved " + dir.getCall());
-		//TODO: Actually move
+		// TODO: Actually move
 	}
 
 	public HashMap<String, Object> getScriptVars() {
 		HashMap<String, Object> ret = super.getScriptVars();
-		ret.put("location", null);
+		ret.put("location", location);
 		return ret;
 	}
 
-	public ArrayList<Method> getScriptFunctions() {
-		ArrayList<Method> ret = super.getScriptFunctions();
-		try {
-			ret.add(getClass().getMethod("damage", new Class[] { int.class }));
-			ret.add(getClass().getMethod("hasItem", new Class[] { String.class }));
-			ret.add(getClass().getMethod("addItem", new Class[] { Item.class }));
-			ret.add(getClass().getMethod("removeItem", new Class[] { String.class }));
-			ret.add(getClass().getMethod("getInventory", new Class[] {}));
-			ret.add(getClass().getMethod("useItem", new Class[] { String.class, ArrayList.class }));
-			ret.add(getClass().getMethod("useItem", new Class[] { String.class, Creature.class }));
-			ret.add(getClass().getMethod("getAllItems", new Class[] {}));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public HashMap<String, BiFunction<?, ?, ?>> getScriptBiFunctions() {
+		HashMap<String, BiFunction<?, ?, ?>> ret = super.getScriptBiFunctions();
+		ret.put("useItem", (BiFunction<String, Creature, Boolean>) this::useItem);
+		ret.put("useItem", (BiFunction<String, ArrayList<Creature>, Boolean>) this::useItem);
 		return ret;
 	}
 }

@@ -1,21 +1,26 @@
 package sineSection.spaceRPG.command;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import sineSection.spaceRPG.SpaceRPG;
+import sineSection.util.Utils;
 
 public class CommandStrings {
-	public static final String DEBUG_COMMAND_PREFIX = "db_";
 
 	private static Map<String, CommandString> validCommands = addCommands();
 
 	private static Map<String, CommandString> addCommands() {
 		Map<String, CommandString> result = new HashMap<>();
 		for (CommandString command : CommandString.values()) {
-			if (command != CommandString.UNKNOWN && !result.containsKey(command.getCall()) && (command.getCall().startsWith(DEBUG_COMMAND_PREFIX) ? SpaceRPG.DEBUG : true))
-				result.put(command.getCall(), command);
+			String[] calls = command.getCall().split(";");
+			for (int i = 0; i < calls.length; i++) {
+				if (command != CommandString.UNKNOWN && !result.containsKey(calls[i]) && (command.isDebugCommand() ? SpaceRPG.DEBUG : true))
+					result.put(calls[i], command);
+			}
+
 		}
 		return result;
 	}
@@ -32,13 +37,17 @@ public class CommandStrings {
 	}
 
 	public static boolean isCommand(String commandString) {
-		return validCommands.containsKey(commandString.toLowerCase());
+		return getCommandString(commandString) != CommandString.UNKNOWN;
 	}
 
 	public static String getCommands() {
 		StringBuilder result = new StringBuilder("Commands: ");
 		validCommands.keySet().forEach((command) -> result.append(command + "; "));
 		return result.toString();
+	}
+
+	public static List<String> getCommandCalls() {
+		return Utils.toList(validCommands.keySet());
 	}
 
 }

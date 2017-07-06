@@ -39,7 +39,7 @@ public class LogWriter {
 				} else {
 					System.out.println("Log file already exists, Or cannot be created.");
 				}
-				if(file.exists()) {
+				if (file.exists()) {
 					out = new PrintStream(file);
 				}
 			} else {
@@ -53,7 +53,7 @@ public class LogWriter {
 			return null;
 		}
 	}
-	
+
 	public static void print(String msg) {
 		LogWriter.getLogger().logp(Level.INFO, getCallerClassName(), getCallerMethodName(), msg);
 	}
@@ -61,26 +61,26 @@ public class LogWriter {
 	public static void printErr(String error) {
 		LogWriter.getLogger().logp(Level.WARNING, getCallerClassName(), getCallerMethodName(), error);
 	}
-	
-	private static String getCallerClassName() { 
-        StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
-        for (int i=1; i<stElements.length; i++) {
-            StackTraceElement ste = stElements[i];
-            if (!ste.getClassName().equals(LogWriter.class.getName()) && ste.getClassName().indexOf("java.lang.Thread")!=0) {
-                return ste.getClassName();
-            }
-        }
-        return "";
-     }
-	
-	private static String getCallerMethodName() { 
-        StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
-        for (int i=1; i<stElements.length; i++) {
-            StackTraceElement ste = stElements[i];
-            if (!ste.getClassName().equals(LogWriter.class.getName()) && ste.getClassName().indexOf("java.lang.Thread")!=0) {
-                return ste.getMethodName() + "()";
-            }
-        }
-        return "";
-     }
+
+	private static String getCallerClassName() {
+		StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
+		for (int i = 1; i < stElements.length; i++) {
+			StackTraceElement ste = stElements[i];
+			if (!ste.getClassName().equals(LogWriter.class.getName()) && ste.getClassName().indexOf("java.lang.Thread") != 0) {
+				return ste.getClassName();
+			}
+		}
+		return "";
+	}
+
+	private static String getCallerMethodName() {
+		StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
+		for (int i = 1; i < stElements.length; i++) {
+			StackTraceElement ste = stElements[i];
+			if (!ste.getClassName().equals(LogWriter.class.getName()) && ste.getClassName().indexOf("java.lang.Thread") != 0) {
+				return ste.getMethodName() + "()";
+			}
+		}
+		return "";
+	}
 }

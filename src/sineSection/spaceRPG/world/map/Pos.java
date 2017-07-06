@@ -3,7 +3,8 @@ package sineSection.spaceRPG.world.map;
 import sineSection.util.HashCoder;
 
 /**
- * a position far a node in the world, ar a room in a node. Effectively, a two-tuple of an int
+ * a position far a node in the world, ar a room in a node. Effectively, a
+ * two-tuple of an int
  * 
  * @author geekman9097
  *

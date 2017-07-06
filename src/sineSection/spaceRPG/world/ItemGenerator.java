@@ -21,7 +21,7 @@ public class ItemGenerator {
 	public ItemGenerator() {
 		RNJesus = new Random(SpaceRPG.getNewSeed());
 	}
-	
+
 	public void addType(ItemReference type) {
 		validTypes.add(type);
 	}
@@ -33,7 +33,7 @@ public class ItemGenerator {
 		LogWriter.print("Crafting a item: " + result);
 		return result;
 	}
-	
+
 	public Item generate() {
 		Item result;
 		result = generateType().createItem();

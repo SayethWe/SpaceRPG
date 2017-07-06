@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
+import java.util.List;
 
 public class GraphicsUtils {
 
@@ -23,6 +26,16 @@ public class GraphicsUtils {
 		return fm.stringWidth(str);
 	}
 
+	public static int getLargestWidth(Graphics g, List<String> strs) {
+		int ret = 0;
+		for (String str : strs) {
+			if (getStringWidth(g, str) > ret) {
+				ret = getStringWidth(g, str);
+			}
+		}
+		return ret;
+	}
+
 	/**
 	 * Gets the height of the current font in a graphics context.
 	 * 
@@ -33,6 +46,28 @@ public class GraphicsUtils {
 	public static int getFontHeight(Graphics g) {
 		FontMetrics fm = g.getFontMetrics();
 		return fm.getHeight();
+	}
+
+	public static int getFontHeight(Font f) {
+		AffineTransform affinetransform = new AffineTransform();
+		FontRenderContext frc = new FontRenderContext(affinetransform, false, false);
+		return (int) f.getStringBounds(" ", frc).getHeight();
+	}
+
+	public static int getStringWidth(Font f, String s) {
+		AffineTransform affinetransform = new AffineTransform();
+		FontRenderContext frc = new FontRenderContext(affinetransform, false, false);
+		return (int) f.getStringBounds(s, frc).getWidth();
+	}
+
+	public static int getLargestWidth(Font f, List<String> strs) {
+		int ret = 0;
+		for (String str : strs) {
+			if (getStringWidth(f, str) > ret) {
+				ret = getStringWidth(f, str);
+			}
+		}
+		return ret;
 	}
 
 	public static final int BAR_DIR_LEFT_TO_RIGHT = 1; // 00001
@@ -57,7 +92,8 @@ public class GraphicsUtils {
 	 * @param value
 	 *            the amount of the bar that is filled (0.0f - 1.0f)
 	 * @param flags
-	 *           draw flags. use the "or" <code>( | )</code> bit operator to combine flags.<br>
+	 *            draw flags. use the "or" <code>( | )</code> bit operator to
+	 *            combine flags.<br>
 	 *            <ul>
 	 *            <li>{@link #BAR_DIR_LEFT_TO_RIGHT}
 	 *            <li>{@link #BAR_DIR_RIGHT_TO_LEFT}
@@ -113,7 +149,7 @@ public class GraphicsUtils {
 			g.fillRect(x, y, width, barLength);
 			break;
 		}
-		
+
 		if (drawBorder) {
 			g.setColor(brdr);
 			g.drawRect(x, y, width - 1, height - 1);

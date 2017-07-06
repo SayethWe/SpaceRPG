@@ -26,15 +26,15 @@ public class Ship {
 		nodeGenerator = new Generator<>();
 		addNodeTypes();
 	}
-	
-	private static Map<String, Direction > initDirs() {
+
+	private static Map<String, Direction> initDirs() {
 		HashMap<String, Direction> result = new HashMap<>();
 		for (Direction dir : Direction.values()) {
 			result.put(dir.getCall().toLowerCase(), dir);
 		}
 		return result;
 	}
-	
+
 	public static Direction getDir(String call) {
 		return dirs.get(call.toLowerCase());
 	}

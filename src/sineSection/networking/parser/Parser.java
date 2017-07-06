@@ -1,7 +1,9 @@
 package sineSection.networking.parser;
 
 /**
- * turns rooms and inventories and commands into transmittable data and back again
+ * turns rooms and inventories and commands into transmittable data and back
+ * again
+ * 
  * @author geekman9097
  *
  */

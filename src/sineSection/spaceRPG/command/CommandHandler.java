@@ -15,41 +15,43 @@ public class CommandHandler {
 		Command comm = CommandParser.parseCommand(command);
 		CommandString c = comm.getCommand();
 		String[] args = comm.getArgs();
-		SpaceRPG doctor = SpaceRPG.getMaster(); //Everyone knows the Doctor IS the master.
+		SpaceRPG doctor = SpaceRPG.getMaster(); // Everyone knows the Doctor IS
+												// the master. no
 
 		switch (c) {
 		case UNKNOWN:
 			doctor.writeToGui(FAILURE_MESSAGE);
 			break;
 		case HELP:
-			if(args.length == 0) {
+			if (args.length == 0) {
 				doctor.writeToGui(CommandStrings.getCommands());
 			} else {
 				if (args[0].equalsIgnoreCase("all")) {
 					for (CommandString helpCommand : CommandString.values()) {
-						doctor.writeToGui(helpCommand.getCall() + ": " + helpCommand.getDescription());
+						doctor.writeToGui(helpCommand.getHelpString());
 					}
 				} else {
 					for (String helpText : args) {
-						doctor.writeToGui(helpText + ": " + CommandParser.parseCommand(helpText).getCommand().getDescription());
+						CommandString cmd = CommandParser.parseCommand(helpText).getCommand();
+						doctor.writeToGui(cmd.getHelpString());
 					}
 				}
 			}
 			break;
 		case GO:
-			if(args.length > 0) {
+			if (args.length > 0) {
 				Direction dir = Ship.getDir(args[0]);
-				if(dir != null) {
+				if (dir != null) {
 					doctor.getPlayer().move(dir);
 				} else {
 					doctor.writeToGui(ILLEGAL_ARGUMENT_MESSAGE);
 				}
-				//move by arg direction, then do room.onRoomEnter();
+				// move by arg direction, then do room.onRoomEnter();
 			} else {
 				doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
 			}
 			break;
-//		case ALIAS:
+		// case ALIAS:
 		case USE:
 			if (args.length >= 2) {
 				Creature target = doctor.getCharacter(args[1]);
@@ -78,8 +80,8 @@ public class CommandHandler {
 			break;
 		case CHAT:
 			StringBuilder send = new StringBuilder(doctor.getPlayer().getName() + " says: ");
-			if(args.length > 0) {
-				for(String word : args) {
+			if (args.length > 0) {
+				for (String word : args) {
 					send.append(word).append(" ");
 				}
 				doctor.sendChat(send.toString());
@@ -88,14 +90,14 @@ public class CommandHandler {
 			}
 			break;
 		case DEBUG_DAMAGE:
-			if(args.length > 0) {
+			if (args.length > 0) {
 				try {
 					int dmg = Integer.parseInt(args[0]);
-					if(dmg < 1) {
+					if (dmg < 1) {
 						doctor.writeToGui("A speck of dust lands on you, dealing no damage.");
 						break;
 					}
-					if(dmg >= doctor.getPlayer().getHealth() && dmg >= doctor.getPlayer().getMaxHealth() / 2) {
+					if (dmg >= doctor.getPlayer().getHealth() && dmg >= doctor.getPlayer().getMaxHealth() / 2) {
 						doctor.writeToGui("You decide you cannot take this cruel world anymore, and you then snap your neck.\n(999 Damage)");
 						doctor.getPlayer().damage(dmg);
 						doctor.getPlayer().makeCharacterDie();
@@ -111,14 +113,14 @@ public class CommandHandler {
 			}
 			break;
 		case DEBUG_HEAL:
-			if(args.length > 0) {
+			if (args.length > 0) {
 				try {
 					int heal = Integer.parseInt(args[0]);
-					if(heal < 1) {
+					if (heal < 1) {
 						doctor.writeToGui("You feel normal.");
 						break;
 					}
-					if(heal >= doctor.getPlayer().getHealth() && heal >= doctor.getPlayer().getMaxHealth() / 2) {
+					if (heal >= doctor.getPlayer().getHealth() && heal >= doctor.getPlayer().getMaxHealth() / 2) {
 						doctor.writeToGui("You feel the best!\n(999 Healed)");
 						doctor.getPlayer().heal(heal);
 						break;
@@ -132,7 +134,7 @@ public class CommandHandler {
 				doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
 			}
 			break;
-		
+
 		}
 		doctor.writeToGui("");
 	}

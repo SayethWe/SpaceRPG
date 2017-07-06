@@ -3,9 +3,10 @@ package sineSection.spaceRPG.world.map.room;
 import sineSection.spaceRPG.character.Player;
 
 /**
- * It's outer space. It kills you.
- * There should be warning lights before you open a door to one of these.
- * Also, maybe there can be non-functional lights so you have to be careful when there's a cracked light.
+ * It's outer space. It kills you. There should be warning lights before you
+ * open a door to one of these. Also, maybe there can be non-functional lights
+ * so you have to be careful when there's a cracked light.
+ * 
  * @author geekman9097
  *
  */

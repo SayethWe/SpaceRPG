@@ -12,7 +12,7 @@ public class RoomQuarters extends Room {
 	@Override
 	public void onRoomEnter(Player p) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

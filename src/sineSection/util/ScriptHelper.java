@@ -1,6 +1,5 @@
 package sineSection.util;
 
-import java.lang.reflect.Method;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -109,20 +108,6 @@ public class ScriptHelper {
 		return validVars > 0;
 	}
 
-	@Deprecated
-	public static void addMethodToScriptEngine(ScriptEngine sEng, Method method) {
-		try {
-			// TODO adding methods to script engine
-//			Bindings tempBindings = sEng.createBindings();
-//			tempBindings.put("method", method);
-//			tempBindings.put("className", method.getDeclaringClass());
-//			tempBindings.put("arguments", method.getParameterTypes());
-//			sEng.eval("method.apply(className, arguments)", tempBindings);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * Takes the input <code>string</code> and removes all
 	 * <code>%&lt;varName&gt;%</code><br>
@@ -145,13 +130,12 @@ public class ScriptHelper {
 	public static String removeAllVarsFromString(String s) {
 		return s.replaceAll(VAR_STRING_INSERTION_REGEX, "");
 	}
-	
+
 	/**
-	 * Takes the input <code>string</code> and replaces all <code>%n</code> it with a newline char.
-	 * Example:
+	 * Takes the input <code>string</code> and replaces all <code>%n</code> it
+	 * with a newline char. Example:
 	 * <p>
-	 * <code>
-	 * Input:
+	 * <code> Input:
 	 * <p>
 	 * "Hey, this is a string%ncontaining a new line!"
 	 * </p>

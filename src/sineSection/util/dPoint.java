@@ -1,7 +1,7 @@
 package sineSection.util;
 
 public class dPoint {
-	
+
 	public double x, y;
 
 	public double getX() {
@@ -19,7 +19,7 @@ public class dPoint {
 	public void setY(double y) {
 		this.y = y;
 	}
-	
+
 	public String toString() {
 		StringBuilder out = new StringBuilder();
 		out.append(x);

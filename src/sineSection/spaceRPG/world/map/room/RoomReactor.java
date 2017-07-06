@@ -12,6 +12,6 @@ public class RoomReactor extends Room implements PowerPlant {
 	@Override
 	public void onRoomEnter(Player p) {
 		// TODO nuke player
-		
+
 	}
 }

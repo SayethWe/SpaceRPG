@@ -8,17 +8,22 @@ import sineSection.spaceRPG.world.map.room.Room;
 import sineSection.spaceRPG.world.map.room.RoomThreshold;
 
 public abstract class Node {
-	private static final int MAX_GEN_SIZE = 15; //maximum size this can randomly generate itself to be;
-	private static final double SIZE_TUNER = 1.1; //make it so that smaller nodes are favoured
-	
+	private static final int MAX_GEN_SIZE = 15; // maximum size this can
+												// randomly generate itself to
+												// be;
+	private static final double SIZE_TUNER = 1.1; // make it so that smaller
+													// nodes are favoured
+
 	private int size;
 	private Map<Pos, Room> map;
 	private Generator<Room> roomGenerator;
-	
+
 	public Node() {
-//		this((int) (Math.pow(SIZE_TUNER, Math.random() * (Utils.log(SIZE_TUNER, MAX_GEN_SIZE) + 1)) + 0.5));
-		this(MAX_GEN_SIZE); //because There'd be now way right now to handle diff sized nodes & movement between
-		//TODO change the above comment to be false
+		// this((int) (Math.pow(SIZE_TUNER, Math.random() *
+		// (Utils.log(SIZE_TUNER, MAX_GEN_SIZE) + 1)) + 0.5));
+		this(MAX_GEN_SIZE); // because There'd be now way right now to handle
+							// diff sized nodes & movement between
+		// TODO change the above comment to be false
 	}
 
 	public Node(int size) {
@@ -39,7 +44,7 @@ public abstract class Node {
 			}
 		}
 	}
-	
+
 	public void generateAt(Pos room) {
 		map.put(room, roomGenerator.generate());
 	}

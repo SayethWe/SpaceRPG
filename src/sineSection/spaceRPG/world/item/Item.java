@@ -1,9 +1,14 @@
 package sineSection.spaceRPG.world.item;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -45,7 +50,7 @@ public class Item implements Scriptable {
 		this.auras = new ArrayList<Aura>();
 		ScriptEngineManager enMgr = new ScriptEngineManager();
 		this.sEng = enMgr.getEngineByName(ref.getScriptLanguage());
-		if(this.sEng == null) {
+		if (this.sEng == null) {
 			System.err.println(ref.getScriptLanguage() + " is not a valid language name!");
 		}
 		init();
@@ -66,26 +71,28 @@ public class Item implements Scriptable {
 		}
 		return false;
 	}
-	
+
 	@Deprecated
 	public boolean effect(Creature user) {
-//		try {
-//			for (ItemAttribute attrib : this.ref.getAttribs()) {
-//				if (attrib.getType() == ItemAttribType.EFFECT_FUNC) {
-//					if (user == null) {
-//						System.err.println("Item.use(): Argument \"User\" must not be null!");
-//						return false;
-//					}
-//					Script s = attrib.getScript();
-//					s.addScriptable(this);
-//					s.addScriptable(user);
-//					s.run(sEng);
-//					return true;
-//				}
-//			}
-//		} catch (ScriptException e) {
-//			System.err.println(getName() + ": SCRIPT EXCEPTION!\n" + e.toString());
-//		}
+		// try {
+		// for (ItemAttribute attrib : this.ref.getAttribs()) {
+		// if (attrib.getType() == ItemAttribType.EFFECT_FUNC) {
+		// if (user == null) {
+		// System.err.println("Item.use(): Argument \"User\" must not be
+		// null!");
+		// return false;
+		// }
+		// Script s = attrib.getScript();
+		// s.addScriptable(this);
+		// s.addScriptable(user);
+		// s.run(sEng);
+		// return true;
+		// }
+		// }
+		// } catch (ScriptException e) {
+		// System.err.println(getName() + ": SCRIPT EXCEPTION!\n" +
+		// e.toString());
+		// }
 		return false;
 	}
 
@@ -102,11 +109,11 @@ public class Item implements Scriptable {
 						System.err.println("Item.use(): Argument \"User\" must not be null!");
 						return false;
 					}
-					
+
 					Script s = attrib.getScript();
 					s.addScriptable(this);
 					s.addScriptable(user);
-					targets.forEach((target)->s.addScriptable(target));
+					targets.forEach((target) -> s.addScriptable(target));
 					s.run(sEng);
 					return true;
 				}
@@ -116,7 +123,7 @@ public class Item implements Scriptable {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * use this item to get the active effect.
 	 * 
@@ -142,16 +149,16 @@ public class Item implements Scriptable {
 
 	public String getName() {
 		String s = ScriptHelper.replaceAllNewLinesInString(ref.getName());
-		if(ScriptHelper.hasVarsInString(sEng, s)) {
+		if (ScriptHelper.hasVarsInString(sEng, s)) {
 			return ScriptHelper.putVarsInString(sEng, s);
 		} else {
 			return ScriptHelper.removeAllVarsFromString(s);
 		}
 	}
-	
+
 	public String getDescription() {
 		String s = ScriptHelper.replaceAllNewLinesInString(ref.getDescription());
-		if(ScriptHelper.hasVarsInString(sEng, s)) {
+		if (ScriptHelper.hasVarsInString(sEng, s)) {
 			return ScriptHelper.putVarsInString(sEng, s);
 		} else {
 			return ScriptHelper.removeAllVarsFromString(s);
@@ -187,20 +194,32 @@ public class Item implements Scriptable {
 		return ret;
 	}
 
-	public ArrayList<Method> getScriptFunctions() {
-		ArrayList<Method> ret = new ArrayList<>();
-		try {
-			ret.add(getClass().getMethod("addAura", new Class[] {Aura.class}));
-			ret.add(getClass().getMethod("getAuras", new Class[] {}));
-			ret.add(getClass().getMethod("hasAuraEffect", new Class[] {}));
-			ret.add(getClass().getMethod("getName", new Class[] {}));
-			ret.add(getClass().getMethod("getDescription", new Class[] {}));
-			ret.add(getClass().getMethod("used", new Class[] {}));
-			ret.add(getClass().getMethod("canUse", new Class[] {}));
-			ret.add(getClass().getMethod("toString", new Class[] {}));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public HashMap<String, Supplier<?>> getScriptSuppliers() {
+		HashMap<String, Supplier<?>> ret = new HashMap<>();
+		ret.put("getAuras", (Supplier<List<Aura>>) this::getAuras);
+		ret.put("getName", (Supplier<String>) this::getName);
+		ret.put("getDescription", (Supplier<String>) this::getDescription);
+		ret.put("hasAuraEffect", (Supplier<?>) (BooleanSupplier) this::hasAuraEffect);
+		ret.put("canUse", (Supplier<?>) (BooleanSupplier) this::canUse);
+		ret.put("toString", (Supplier<?>) (BooleanSupplier) this::canUse);
 		return ret;
+	}
+
+	public HashMap<String, Consumer<?>> getScriptConsumers() {
+		HashMap<String, Consumer<?>> ret = new HashMap<>();
+		ret.put("addAura", (Consumer<Aura>) this::addAura);
+		return ret;
+	}
+
+	public HashMap<String, BiConsumer<?, ?>> getScriptBiConsumers() {
+		return null;
+	}
+
+	public HashMap<String, Function<?, ?>> getScriptFunctions() {
+		return null;
+	}
+
+	public HashMap<String, BiFunction<?, ?, ?>> getScriptBiFunctions() {
+		return null;
 	}
 }

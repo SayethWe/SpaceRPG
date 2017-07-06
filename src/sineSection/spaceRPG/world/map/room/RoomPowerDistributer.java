@@ -12,7 +12,7 @@ public class RoomPowerDistributer extends Room implements PowerPlant {
 	@Override
 	public void onRoomEnter(Player p) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
