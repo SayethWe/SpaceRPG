@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import sineSection.util.ScriptHelper;
-
 public class Script {
 
 	private String script;
@@ -23,12 +21,13 @@ public class Script {
 		else
 			scriptables.add(scriptable);
 	}
-
+	
+	// TODO addMethodToScriptEngine(ScriptEngine, Method); 
 	public void run(ScriptEngine sEng) throws ScriptException {
 		if (sEng != null) {
 			for (Scriptable s : scriptables) {
-				if (s.getScriptFunctions() != null)
-					s.getScriptFunctions().forEach((method) -> ScriptHelper.addMethodToScriptEngine(sEng, method)); // TODO addMethodToScriptEngine(ScriptEngine, Method);
+//				if (s.getScriptFunctions() != null)
+//					s.getScriptFunctions().forEach((method) -> ScriptHelper.addMethodToScriptEngine(sEng, method));
 				if (s.getScriptVars() != null)
 					s.getScriptVars().forEach((name, value) -> sEng.put(name, value));
 			}
