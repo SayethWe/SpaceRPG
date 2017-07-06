@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 
 import javax.swing.Box;
 
-import sineSection.SineSection;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.character.Stat;
 import sineSection.util.GraphicsUtils;
