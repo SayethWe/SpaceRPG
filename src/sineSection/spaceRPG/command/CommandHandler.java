@@ -2,6 +2,8 @@ package sineSection.spaceRPG.command;
 
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.character.Creature;
+import sineSection.spaceRPG.world.map.Direction;
+import sineSection.spaceRPG.world.map.Ship;
 
 public class CommandHandler {
 	private static final String FAILURE_MESSAGE = "That's not a valid command";
@@ -36,6 +38,12 @@ public class CommandHandler {
 			break;
 		case GO:
 			if(args.length > 0) {
+				Direction dir = Ship.getDir(args[0]);
+				if(dir != null) {
+					doctor.getPlayer().move(dir);
+				} else {
+					doctor.writeToGui(ILLEGAL_ARGUMENT_MESSAGE);
+				}
 				//move by arg direction, then do room.onRoomEnter();
 			} else {
 				doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);

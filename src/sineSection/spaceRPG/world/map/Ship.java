@@ -19,20 +19,24 @@ public class Ship {
 	private Generator<Node> nodeGenerator;
 	private Map<Pos, Node> map;
 	private int size;
-	private static Map<String, Direction> dirs;
+	private static final Map<String, Direction> dirs = initDirs();;
 
 	public Ship() {
 		map = new HashMap<>();
 		nodeGenerator = new Generator<>();
 		addNodeTypes();
-		initDirs();
 	}
 	
-	private void initDirs() {
-		dirs = new HashMap<>();
+	private static Map<String, Direction > initDirs() {
+		HashMap<String, Direction> result = new HashMap<>();
 		for (Direction dir : Direction.values()) {
-			dirs.put(dir.getCall(), dir);
+			result.put(dir.getCall().toLowerCase(), dir);
 		}
+		return result;
+	}
+	
+	public static Direction getDir(String call) {
+		return dirs.get(call.toLowerCase());
 	}
 
 	public Map<Pos, Node> getMap() {
@@ -63,9 +67,5 @@ public class Ship {
 
 	public void addNodeType(Class<? extends Node> type) {
 		nodeGenerator.addType(type);
-	}
-
-	public static Direction getDir(String call) {
-		return dirs.get(call);
 	}
 }

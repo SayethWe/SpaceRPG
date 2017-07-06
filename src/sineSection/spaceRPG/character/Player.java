@@ -7,7 +7,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.world.item.Item;
+import sineSection.spaceRPG.world.map.Direction;
 import sineSection.spaceRPG.world.map.WorldPos;
 
 /**
@@ -144,6 +146,11 @@ public class Player extends Creature {
 	
 	public WorldPos getPos() {
 		return location;
+	}
+	
+	public void move(Direction dir) {
+		SpaceRPG.getMaster().writeToGui(getName() + " Moved " + dir.getCall());
+		//TODO: Actually move
 	}
 
 	public HashMap<String, Object> getScriptVars() {
