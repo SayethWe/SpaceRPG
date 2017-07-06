@@ -18,6 +18,7 @@ import sineSection.spaceRPG.world.ItemGenerator;
 import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.ItemReference;
 import sineSection.spaceRPG.world.item.loader.ItemLoader;
+import sineSection.spaceRPG.world.map.Ship;
 import sineSection.util.LogWriter;
 
 public class SpaceRPG {
@@ -36,6 +37,7 @@ public class SpaceRPG {
 												// with items
 	private Client gameClient; // the client object this uses to talk to the
 								// server
+	private Ship gameWorld;
 
 	public static void main(String[] args) {
 		if(args.length > 0) {
@@ -84,6 +86,10 @@ public class SpaceRPG {
 		master = this;
 		gui = new GameUI();
 		gameClient = new Client();
+	}
+	
+	public Ship getWorld() {
+		return gameWorld;
 	}
 
 	/**

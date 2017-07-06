@@ -17,5 +17,11 @@ public class Utils {
 		ret[1] = s.substring(index);
 		return ret;
 	}
+	
+	public static double log(double base, double num) {
+		double result = Math.log(num);
+		result /= Math.log(base);
+		return result;
+	}
 
 }

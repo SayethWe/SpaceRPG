@@ -46,6 +46,10 @@ public abstract class Room {
 		return description;
 	}
 	
+	/**
+	 * run when a room is entered. Does room specific actions.
+	 * @param p
+	 */
 	public abstract void onRoomEnter(Player p);
 
 	public String getExitString() {
