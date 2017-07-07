@@ -49,7 +49,7 @@ public class Ship {
 	 * @param pos
 	 * @return
 	 */
-	public Node get(Pos pos) {
+	public Node getNode(Pos pos) {
 		return map.get(pos);
 	}
 

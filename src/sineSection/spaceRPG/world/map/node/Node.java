@@ -36,6 +36,7 @@ public abstract class Node {
 		this.size = size;
 		roomGenerator = new Generator<>();
 		generate();
+		generateExits();
 		addRoomTypes();
 		doorRandomizer = new Random(SpaceRPG.getNewSeed());
 	}
@@ -85,25 +86,26 @@ public abstract class Node {
 			doorsHere.add(Integer.valueOf(doorRandomizer.nextInt(size)));
 			boolean doorRight = false;
 			for (int x = 0; x < size; x++) {
+				Room setting = map.get(new Pos(x,y));
 				Set<Direction> exits = new HashSet<>();
 				boolean doorLeft = true;
 				if(doorRight) {
 					doorRight = false;
-					exits.add(Direction.STARBOARD);
+					setting.addExit(Direction.STARBOARD);
 				}
 				if(doorsHere.contains(Integer.valueOf(x))) {
 					//generate a door to the previously generated row
 					doorLeft = doorRandomizer.nextInt(cutoffChance) == 0;
-					exits.add(Direction.FORE);
+					setting.addExit(Direction.FORE);
 				}
 				if(doorRandomizer.nextInt(doorChance) == 0) {
 					//generate a door to the next row
 					prevDoors.add(x);
-					exits .add(Direction.AFT);
+					setting.addExit(Direction.AFT);
 				}
 				if(doorLeft) {
 					doorRight = true;
-					exits.add(Direction.PORT);
+					setting.addExit(Direction.PORT);
 				}
 			}
 		}

@@ -1,13 +1,15 @@
 package sineSection.spaceRPG.world.map.room;
 
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.world.Generator;
 import sineSection.spaceRPG.world.item.Item;
+import sineSection.spaceRPG.world.map.Direction;
 
 public abstract class Room {
-	private Map<String, Room> exits;
+	private Set<Direction> exits;
 	private final String description;
 	private boolean hasPower;
 	private Generator<Item> itemGenerator;
@@ -16,6 +18,7 @@ public abstract class Room {
 	protected Room(String description) {
 		this.description = description;
 		itemGenerator = new Generator<>();
+		exits = new HashSet<>();
 	}
 
 	public void addItemType(Class<? extends Item> type) {
@@ -38,10 +41,6 @@ public abstract class Room {
 		isPressurized = arg;
 	}
 
-	public Room exit(String dir) {
-		return exits.get(dir);
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -55,7 +54,7 @@ public abstract class Room {
 
 	public String getExitString() {
 		StringBuilder result = new StringBuilder("Exits: ");
-		exits.keySet().forEach((str) -> result.append(str + "; "));
+		exits.forEach((str) -> result.append(str + "; "));
 		return result.toString();
 	}
 
@@ -64,5 +63,13 @@ public abstract class Room {
 		StringBuilder result = new StringBuilder("Room");
 		result.append(this.hashCode());
 		return result.toString();
+	}
+	
+	public void addExit(Direction exit) {
+		exits.add(exit);
+	}
+
+	public Set<Direction> getExits() {
+		return exits;
 	}
 }
