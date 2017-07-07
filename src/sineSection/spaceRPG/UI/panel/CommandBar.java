@@ -3,6 +3,7 @@ package sineSection.spaceRPG.UI.panel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -11,6 +12,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,8 +53,7 @@ public class CommandBar extends JTextField {
 	private int caretPos = 0, markerPos = 0;
 
 	private List<String> autoCompleteCommands = new ArrayList<String>();
-	private List<String> lastAutoCompleteCommands = autoCompleteCommands;
-	
+
 	private CommandList commandList;
 	private GameUI ui;
 
@@ -65,6 +66,8 @@ public class CommandBar extends JTextField {
 		commandList = new CommandList(ui);
 		commandList.setLocationRelativeTo(this);
 		this.ui = ui;
+
+		setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.emptySet());
 
 		addFocusListener(new FocusListener() {
 			public void focusLost(FocusEvent e) {
@@ -87,13 +90,20 @@ public class CommandBar extends JTextField {
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_ENTER:
-					if (getText().isEmpty())
+					if (getText().isEmpty() && autoCompleteIndex < 0)
 						return;
+					if (autoCompleteIndex > -1) {
+						setText(autoCompleteCommands.get(autoCompleteIndex) + " ");
+						commandHistoryIndex = -1;
+						autoCompleteIndex = -1;
+						break;
+					}
 					ui.commandSent(getText());
 					addCommandToHistory(getText());
 					updateCommandList();
 					setText("");
 					commandHistoryIndex = -1;
+					autoCompleteIndex = -1;
 					break;
 				case KeyEvent.VK_UP:
 					if (commandHistory.size() > 0) {
@@ -101,6 +111,7 @@ public class CommandBar extends JTextField {
 						if (commandHistoryIndex >= commandHistory.size()) {
 							commandHistoryIndex = commandHistory.size() - 1;
 						}
+						autoCompleteIndex = -1;
 						setText(commandHistory.get(commandHistoryIndex));
 					}
 					updateCommandList();
@@ -115,8 +126,17 @@ public class CommandBar extends JTextField {
 							}
 						}
 						if (commandHistoryIndex > -1) {
+							autoCompleteIndex = -1;
 							setText(commandHistory.get(commandHistoryIndex));
 						}
+					}
+					updateCommandList();
+					break;
+				case KeyEvent.VK_TAB:
+					commandHistoryIndex = -1;
+					autoCompleteIndex++;
+					if (autoCompleteIndex > autoCompleteCommands.size() - 1) {
+						autoCompleteIndex = -1;
 					}
 					updateCommandList();
 					break;
@@ -133,7 +153,6 @@ public class CommandBar extends JTextField {
 
 		getDocument().addDocumentListener(new DocumentListener() {
 			public void removeUpdate(DocumentEvent e) {
-				
 				updateCommandList();
 			}
 
@@ -147,6 +166,9 @@ public class CommandBar extends JTextField {
 
 		this.ui.addComponentListener(new ComponentListener() {
 			public void componentShown(ComponentEvent e) {
+				if(autoCompleteCommands.size() > 0) {
+					commandList.setVisible(true);
+				}
 			}
 
 			public void componentResized(ComponentEvent e) {
@@ -158,6 +180,7 @@ public class CommandBar extends JTextField {
 			}
 
 			public void componentHidden(ComponentEvent e) {
+				commandList.setVisible(false);
 			}
 		});
 	}
@@ -170,17 +193,18 @@ public class CommandBar extends JTextField {
 		autoCompleteCommands.clear();
 		if (!getText().isEmpty() && selected) {
 			for (String s : CommandStrings.getCommandCalls()) {
-				if (s.toLowerCase().startsWith(getText().toLowerCase()))
+				if (s.toLowerCase().startsWith(getText().toLowerCase()) && !s.equalsIgnoreCase(getText()))
 					autoCompleteCommands.add(s);
 			}
 		}
 		commandList.update(autoCompleteCommands, autoCompleteIndex);
+		repaint();
 		if (commandList.isVisible()) {
 			Point loc = getLocationOnScreen();
 			commandList.setLocation((int) loc.getX(), (int) loc.getY() - commandList.getHeight());
 		}
-		this.requestFocus();
-		this.requestFocusInWindow();
+		requestFocus();
+		requestFocusInWindow();
 	}
 
 	private void addCommandToHistory(String c) {
@@ -244,10 +268,14 @@ public class CommandBar extends JTextField {
 		if (SpaceRPG.DEBUG) {
 			g.setColor(Color.GREEN);
 			g.setFont(COMMAND_BAR_INFO_FONT);
-			g.drawString("" + caretPos, getWidth() - GraphicsUtils.getStringWidth(g, "" + caretPos) - 3, 8);
-			g.drawString("" + commandHistoryIndex, getWidth() - GraphicsUtils.getStringWidth(g, "" + commandHistoryIndex) - 3, 18);
+			g.drawString("" + commandHistoryIndex, getWidth() - GraphicsUtils.getStringWidth(g, "" + commandHistoryIndex) - 3, 8);
+			g.drawString("" + autoCompleteIndex, getWidth() - GraphicsUtils.getStringWidth(g, "" + autoCompleteIndex) - 3, 18);
 		}
 		repaint();
+	}
+
+	public boolean isManagingFocus() {
+		return false;
 	}
 
 }

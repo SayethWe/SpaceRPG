@@ -28,15 +28,25 @@ public class Stat {
 	}
 
 	public boolean increment(int amt) {
-		boolean result = incrementAllowed(amt);
+		boolean result = isIncrementAllowed(amt);
 		if (result) {
 			value += amt;
 		}
 		return result;
 	}
 
-	public boolean incrementAllowed(int amt) {
+	public boolean isIncrementAllowed(int amt) {
 		return ((value + amt) > maxValue) || (value + amt < minValue) ? false : true;
+	}
+	
+	public int incrementAllowed(int amt) {
+		if(value > 0) {
+			return Math.max(value + amt, maxValue);
+		} else if(value < 0) {
+			return Math.min(value + amt, maxValue);
+		} else {
+			return 0;
+		}
 	}
 
 	@Override
