@@ -116,7 +116,6 @@ public class SpaceRPG {
 		writeToGui(testPlayer);
 		writeToGui(testItem);
 		gameWorld = new Ship();
-
 	}
 
 	/**
