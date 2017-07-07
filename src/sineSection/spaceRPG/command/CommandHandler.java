@@ -47,7 +47,7 @@ public class CommandHandler {
 		case GO:
 			if (args.length > 0) {
 				Direction dir = Ship.getDir(args[0]);
-				if (dir != null || !halCortex.getExits().contains(dir)) {
+				if (dir != null && halCortex.getExits().contains(dir)) {
 					doctor.getPlayer().move(dir);
 				} else {
 					doctor.writeToGui(ILLEGAL_ARGUMENT_MESSAGE);
@@ -66,6 +66,8 @@ public class CommandHandler {
 				} else {
 					doctor.writeToGui(ILLEGAL_ARGUMENT_MESSAGE + " You had an invalid target name.");
 				}
+			} else if (args.length == 1) {
+				
 			} else {
 				doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
 			}
@@ -86,10 +88,10 @@ public class CommandHandler {
 		case SAVE:
 		case QUIT:
 		case LISTEN:
-		case INSPECT:
+		case INFO:
 			doctor.writeToGui(NYI_MESSAGE);
 			break;
-		case INFO:
+		case INSPECT:
 			doctor.writeToGui(halCortex.getInfoText());
 			break;
 		case CHAT:

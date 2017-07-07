@@ -44,4 +44,13 @@ public class Pos {
 	public int hashCode() {
 		return new HashCoder(11, 23).append(x).append(y).getHash();
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder("Pos:");
+		result.append(x)
+			.append(",")
+			.append(y);
+		return result.toString();
+	}
 }

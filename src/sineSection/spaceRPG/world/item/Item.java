@@ -154,6 +154,10 @@ public class Item implements Scriptable {
 			return ScriptHelper.removeAllVarsFromString(s);
 		}
 	}
+	
+	public String getAlias() {
+		return ref.getAlias();
+	}
 
 	public String getDescription() {
 		String s = ScriptHelper.replaceAllNewLinesInString(ref.getDescription());
@@ -179,7 +183,7 @@ public class Item implements Scriptable {
 
 	public String toString() {
 		StringBuilder result = new StringBuilder("Item:");
-		result.append("\n").append(getName()).append("\n").append(getDescription()).append("\n");
+		result.append("\n").append(getName()).append("\n").append("Alias: ").append(getAlias()).append("\n").append(getDescription()).append("\n");
 		if (auras.size() > 0) {
 			result.append("Passives:").append("\n");
 			auras.forEach((aura) -> result.append(aura.toString() + "\n"));

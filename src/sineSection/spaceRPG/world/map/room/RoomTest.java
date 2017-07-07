@@ -12,7 +12,7 @@ public class RoomTest extends Room {
 
 	@Override
 	public void onRoomEnter(Player p) {
-		p.heal(5);
+		p.heal(1);
 	}
 
 }

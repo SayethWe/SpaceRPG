@@ -11,7 +11,7 @@ public class NodeTest extends Node {
 	@Override
 	protected void addRoomTypes() {
 		addRoomType(RoomTest.class);
-		addRoomType(RoomTestDanger.class);
+//		addRoomType(RoomTestDanger.class);
 	}
 
 }
