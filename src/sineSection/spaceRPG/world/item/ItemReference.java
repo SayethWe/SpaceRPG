@@ -33,12 +33,25 @@ public class ItemReference {
 	public Item createItem() {
 		return new Item(this);
 	}
+	
+	public String getScriptLanguage() {
+		return scriptLang;
+	}
+	
+	public String toString() {
+		return getName();
+	}
 
 	public static void registerItemRef(ItemReference ref) {
 		itemRefs.add(ref);
 	}
 
-	public String getScriptLanguage() {
-		return scriptLang;
+	public static ItemReference getFromName(String refName) {
+		for(ItemReference ref : itemRefs) {
+			if(ref.getName().equalsIgnoreCase(refName))
+				return ref;
+		}
+		return null;
 	}
+	
 }

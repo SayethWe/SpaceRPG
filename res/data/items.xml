@@ -3,9 +3,9 @@
 		<name>Health Kit</name>
 		<desc>A small first-aid kit to heal superficial wounds.%nHeals %healAmt% health.</desc>
 		<init>
-		let uses = 1, healAmt = 10;
+		var uses = 1;
+		var healAmt = 10;
 		</init>
-		<effect></effect>
 		<use>	
 		if(canUse) {
 			print(&quot;You throw a grenade!&quot;);
@@ -20,12 +20,11 @@
 		<name>Power Armor</name>
 		<desc>Powerful armor that increases your defense.</desc>
 		<init>
+		log("POWER ARMOR: Trying to add auras...");
 		addAura("Strength", 10);
 		addAura("Intelligence", 3);
 		addAura("Defense", 5);
 		</init>
-		<effect>
-		</effect>
 		<use>
 		if(canUse) {
 			print(&quot;!!WARNING!!: Suit does not contain Bubblegum&quot;);
@@ -36,18 +35,20 @@
 		<name>Grenade</name>
 		<desc>A simple frag grenade.%nDamage: %dmg%</desc>
 		<init>
-		let uses = 1, dmg = 25;
+		var uses = 1;
+		var dmg = 25;
 		</init>
-		<effect></effect>
 		<use>
 		if(canUse) {
-			let i = 0;
-			for(i &lt; targets.length) {
+			write('You throw a grenade!\nTargets:');
+			for(var i = 0; i &lt; targets.length; i++) {
+				write(targets[i].getName() + '\n');
+			}
+			for(var i = 0; i &lt; targets.length; i++) {
+				write(targets[i].getName() + ' takes ' + dmg + ' damage!');
 				targets[i].damage(dmg);
-				i++;
 			}
 			used();
-			print('You throw a grenade!');
 		}
 		</use>
 	</item>
@@ -55,19 +56,23 @@
 		<name>Grenade Crate</name>
 		<desc>A crate of frag grenade.%nDamage: %dmg%%nUses left: %uses%</desc>
 		<init>
-		let uses = 10, dmg = 25;
-		function unpack() {
+		var uses = 10
+		var dmg = 25;
+		var unpack = function() {
 			user.addItem("Grenade", uses);
+			used();
 		}
 	 	</init>
 		<effects></effects>
 		<use>
 		if(canUse) {
-			print(&quot;You throw a grenade!&quot;);
-			let i = 0;
-			for(i &lt; targets.length) {
+			write('You throw a grenade!\nTargets:');
+			for(var i = 0; i &lt; targets.length; i++) {
+				write(targets[i].getName() + '\n');
+			}
+			for(var i = 0; i &lt; targets.length; i++) {
+				write(targets[i].getName() + ' takes ' + dmg + ' damage!');
 				targets[i].damage(dmg);
-				i++;
 			}
 			used();
 		}

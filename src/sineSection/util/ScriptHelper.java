@@ -50,16 +50,11 @@ public class ScriptHelper {
 			String varInsert = s.substring(m.start(), m.end());
 			String varName = varInsert.substring(1, varInsert.length() - 1);
 			if (sEng.get(varName) != null) {
-				ret.substring(m.start(), m.end());
-				String[] parts = Utils.splitString(ret, m.start());
-				ret = parts[0];
-				ret.concat(sEng.get(varName).toString());
-				ret.concat(parts[1]);
-			} else {
-				ret.substring(m.start(), m.end());
+				ret = ret.replace(varInsert, sEng.get(varName).toString());
 			}
 		}
 		return ret;
+
 	}
 
 	/**

@@ -20,7 +20,7 @@ import sineSection.util.LogWriter;
 public class GameUI extends AbstractUI {
 	private static final long serialVersionUID = 8764045071574261230L;
 
-	private static final int DEFAULT_FONT_SIZE = 6;
+	public static final int DEFAULT_FONT_SIZE = 6;
 	private static final float[] FONT_SIZES = new float[] { 8f, 9f, 10f, 11f, 12f, 14f, 16f, 18f, 20f, 22f, 24f };
 
 	public static final Font GAME_SCREEN_FONT = new Font("VT323", Font.PLAIN, (int) FONT_SIZES[DEFAULT_FONT_SIZE]);
@@ -39,6 +39,9 @@ public class GameUI extends AbstractUI {
 		setLocationRelativeTo(null);
 	}
 
+	/**
+	 * 
+	 */
 	private void createLayout() {
 		gameScreen = new JTextArea();
 		gameScreen.setAlignmentX(LEFT_ALIGNMENT);

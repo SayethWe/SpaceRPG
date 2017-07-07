@@ -20,9 +20,9 @@ public class Utils {
 	 */
 	public static String[] splitString(String s, int index) {
 		if (index < 0)
-			return null;
+			return new String[] {s};
 		else if (index >= s.length())
-			return null;
+			return  new String[] {s};
 		String[] ret = new String[2];
 		ret[0] = s.substring(0, index);
 		ret[1] = s.substring(index);

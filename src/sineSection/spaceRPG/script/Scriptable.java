@@ -24,31 +24,37 @@ public interface Scriptable {
 
 	/**
 	 * @return a hashmap of {@link java.util.function.Supplier} to put into the
-	 *         script at when it runs
+	 *         script at when it runs (no arguments, returns a value)
 	 */
 	HashMap<String, Supplier<?>> getScriptSuppliers();
 
 	/**
 	 * @return a hashmap of {@link java.util.function.Consumer} to put into the
-	 *         script at when it runs
+	 *         script at when it runs (1 argument, returns nothing)
 	 */
 	HashMap<String, Consumer<?>> getScriptConsumers();
 
 	/**
 	 * @return a hashmap of {@link java.util.function.BiConsumer} to put into
-	 *         the script at when it runs
+	 *         the script at when it runs (2 arguments, returns nothing)
 	 */
 	HashMap<String, BiConsumer<?, ?>> getScriptBiConsumers();
 
 	/**
 	 * @return a hashmap of {@link java.util.function.Function} to put into the
-	 *         script at when it runs
+	 *         script at when it runs (1 argument, returns a value)
 	 */
 	HashMap<String, Function<?, ?>> getScriptFunctions();
 
 	/**
 	 * @return a hashmap of {@link java.util.function.BiFunction} to put into
-	 *         the script at when it runs
+	 *         the script at when it runs (2 arguments, returns a value)
 	 */
 	HashMap<String, BiFunction<?, ?, ?>> getScriptBiFunctions();
+	
+	/**
+	 * @return a hashmap of {@link java.util.function.Runnables} to put into
+	 *         the script at when it runs (no arguments, returns nothing)
+	 */
+	HashMap<String, Runnable> getScriptRunnables();
 }

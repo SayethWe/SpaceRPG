@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
-import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -14,6 +13,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.character.Creature;
 import sineSection.spaceRPG.script.Script;
 import sineSection.spaceRPG.script.Scriptable;
@@ -66,33 +66,12 @@ public class Item implements Scriptable {
 					return true;
 				}
 			}
-		} catch (ScriptException e) {
-			LogWriter.printErr(getName() + ": SCRIPT EXCEPTION!\n" + e.toString());
+		} catch (Exception e) {
+			if (e instanceof ScriptException)
+				LogWriter.printErr(getName() + ": SCRIPT EXCEPTION!\n" + e.toString());
+			else
+				e.printStackTrace();
 		}
-		return false;
-	}
-
-	@Deprecated
-	public boolean effect(Creature user) {
-		// try {
-		// for (ItemAttribute attrib : this.ref.getAttribs()) {
-		// if (attrib.getType() == ItemAttribType.EFFECT_FUNC) {
-		// if (user == null) {
-		// System.err.println("Item.use(): Argument \"User\" must not be
-		// null!");
-		// return false;
-		// }
-		// Script s = attrib.getScript();
-		// s.addScriptable(this);
-		// s.addScriptable(user);
-		// s.run(sEng);
-		// return true;
-		// }
-		// }
-		// } catch (ScriptException e) {
-		// System.err.println(getName() + ": SCRIPT EXCEPTION!\n" +
-		// e.toString());
-		// }
 		return false;
 	}
 
@@ -112,14 +91,17 @@ public class Item implements Scriptable {
 
 					Script s = attrib.getScript();
 					s.addScriptable(this);
-					s.addScriptable(user);
-					targets.forEach((target) -> s.addScriptable(target));
+					sEng.put("user", user);
+					sEng.put("targets", targets);
 					s.run(sEng);
 					return true;
 				}
 			}
-		} catch (ScriptException e) {
-			LogWriter.printErr(getName() + ": SCRIPT EXCEPTION!\n" + e.toString());
+		} catch (Exception e) {
+			if (e instanceof ScriptException)
+				LogWriter.printErr(getName() + ": SCRIPT EXCEPTION!\n" + e.toString());
+			else
+				e.printStackTrace();
 		}
 		return false;
 	}
@@ -181,8 +163,11 @@ public class Item implements Scriptable {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder("Item:");
-		result.append("\n").append(getName()).append("\n").append(getDescription()).append("\n").append("Passives:").append("\n");
-		auras.forEach((aura) -> result.append(aura.toString() + "\n"));
+		result.append("\n").append(getName()).append("\n").append(getDescription()).append("\n");
+		if (auras.size() > 0) {
+			result.append("Passives:").append("\n");
+			auras.forEach((aura) -> result.append(aura.toString() + "\n"));
+		}
 		return result.toString();
 	}
 
@@ -199,15 +184,24 @@ public class Item implements Scriptable {
 		ret.put("getAuras", (Supplier<List<Aura>>) this::getAuras);
 		ret.put("getName", (Supplier<String>) this::getName);
 		ret.put("getDescription", (Supplier<String>) this::getDescription);
-		ret.put("hasAuraEffect", (Supplier<?>) (BooleanSupplier) this::hasAuraEffect);
-		ret.put("canUse", (Supplier<?>) (BooleanSupplier) this::canUse);
-		ret.put("toString", (Supplier<?>) (BooleanSupplier) this::canUse);
+		ret.put("hasAuraEffect", (Supplier<Boolean>) this::hasAuraEffect);
+		ret.put("canUse", (Supplier<Boolean>) this::canUse);
+		ret.put("toString", (Supplier<Boolean>) this::canUse);
 		return ret;
 	}
 
 	public HashMap<String, Consumer<?>> getScriptConsumers() {
 		HashMap<String, Consumer<?>> ret = new HashMap<>();
+		ret.put("log", (Consumer<String>) LogWriter::print);
+		ret.put("logErr", (Consumer<String>) LogWriter::printErr);
 		ret.put("addAura", (Consumer<Aura>) this::addAura);
+		ret.put("write", (Consumer<? extends Object>) SpaceRPG.getMaster().getGui()::write);
+		return ret;
+	}
+
+	public HashMap<String, Runnable> getScriptRunnables() {
+		HashMap<String, Runnable> ret = new HashMap<>();
+		ret.put("used", this::used);
 		return ret;
 	}
 

@@ -3,7 +3,6 @@ package sineSection.spaceRPG.script;
 import java.util.ArrayList;
 
 import javax.script.ScriptEngine;
-import javax.script.ScriptException;
 
 public class Script {
 
@@ -22,9 +21,12 @@ public class Script {
 			scriptables.add(scriptable);
 	}
 
-	public void run(ScriptEngine sEng) throws ScriptException {
+	public void run(ScriptEngine sEng) throws Exception {
 		if (sEng != null) {
 			for (Scriptable s : scriptables) {
+				if (s.getScriptVars() != null)
+					s.getScriptVars().forEach((name, value) -> sEng.put(name, value));
+				
 				if (s.getScriptSuppliers() != null)
 					s.getScriptSuppliers().forEach((name, supplier) -> sEng.put(name, supplier));
 
@@ -39,9 +41,9 @@ public class Script {
 
 				if (s.getScriptBiFunctions() != null)
 					s.getScriptBiFunctions().forEach((name, biFunction) -> sEng.put(name, biFunction));
-
-				if (s.getScriptVars() != null)
-					s.getScriptVars().forEach((name, value) -> sEng.put(name, value));
+				
+				if (s.getScriptRunnables() != null)
+					s.getScriptRunnables().forEach((name, runnable) -> sEng.put(name, runnable));
 			}
 			sEng.eval(script);
 		}

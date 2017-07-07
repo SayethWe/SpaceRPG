@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 import sineSection.spaceRPG.script.Scriptable;
 import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.effect.Aura;
+import sineSection.util.LogWriter;
 
 /**
  * Abstract class for character
@@ -238,6 +239,15 @@ public abstract class Creature implements Scriptable {
 	}
 
 	public HashMap<String, Consumer<?>> getScriptConsumers() {
-		return null;
+		HashMap<String, Consumer<?>> ret = new HashMap<>();
+		ret.put("log", (Consumer<String>) LogWriter::print);
+		ret.put("logErr", (Consumer<String>) LogWriter::printErr);
+		return ret;
+	}
+	
+	public HashMap<String, Runnable> getScriptRunnables() {
+		HashMap<String, Runnable> ret = new HashMap<>();
+		ret.put("makeCharacterDie", this::makeCharacterDie);
+		return ret;
 	}
 }

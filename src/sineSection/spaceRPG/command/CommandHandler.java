@@ -1,6 +1,7 @@
 package sineSection.spaceRPG.command;
 
 import sineSection.spaceRPG.SpaceRPG;
+import sineSection.spaceRPG.UI.GameUI;
 import sineSection.spaceRPG.character.Creature;
 import sineSection.spaceRPG.world.map.Direction;
 import sineSection.spaceRPG.world.map.Ship;
@@ -69,6 +70,9 @@ public class CommandHandler {
 			break;
 		case INCREASE_FONT_SIZE:
 			doctor.getGui().increaseFontSize();
+			break;
+		case RESET_FONT_SIZE:
+			doctor.getGui().setFontSize(GameUI.DEFAULT_FONT_SIZE);;
 			break;
 		case TAKE:
 		case SAVE:

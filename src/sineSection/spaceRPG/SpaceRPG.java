@@ -69,9 +69,10 @@ public class SpaceRPG {
 	}
 
 	private static void addItemTypes() {
-		for (ItemReference ref : ItemReference.itemRefs) {
-			itemGenerator.addType(ref);
-		}
+//		for (ItemReference ref : ItemReference.itemRefs) {
+//			itemGenerator.addType(ref);
+//		}
+		itemGenerator.addType(ItemReference.getFromName("Grenade Crate"));
 	}
 
 	public static SpaceRPG getMaster() {
