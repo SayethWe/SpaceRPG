@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -16,6 +18,7 @@ import sineSection.spaceRPG.UI.panel.HudPanel;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.command.CommandHandler;
 import sineSection.util.LogWriter;
+import sineSection.util.Utils;
 
 public class GameUI extends AbstractUI {
 	private static final long serialVersionUID = 8764045071574261230L;
@@ -35,6 +38,12 @@ public class GameUI extends AbstractUI {
 		super();
 		setMinimumSize(new Dimension(600, 500));
 		setTitle("SpaceRPG");
+		int[] iconRes = new int[] {16,32,64};
+		ArrayList<BufferedImage> icons = new ArrayList<>();
+		for(int i = 0; i < iconRes.length; i++) {
+			icons.add(Utils.loadImageResource("/image/icon/icon" + iconRes[i] + ".png"));
+		}
+		setIconImages(icons);
 		createLayout();
 		setLocationRelativeTo(null);
 	}

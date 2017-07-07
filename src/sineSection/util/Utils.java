@@ -1,8 +1,12 @@
 package sineSection.util;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import javax.imageio.ImageIO;
 
 public class Utils {
 
@@ -47,6 +51,16 @@ public class Utils {
 				list.remove(str);
 		}
 		return list;
+	}
+	
+	public static BufferedImage loadImageResource(String path) {
+		try {
+			return ImageIO.read(Utils.class.getResourceAsStream(path));
+		} catch (Exception e) {
+			LogWriter.printErr("Can't load image: " + path);
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

@@ -82,7 +82,7 @@
 	</item>
 	<item scriptlang = "JavaScript">
 		<name>Rusting Blade</name>
-		<desc>An old blade, coated with blood and rust. Holding it fills you with confidence </desc>
+		<desc>An old blade, coated with blood and rust. Holding it fills you with confidence.%nDoes %dmg% damage.</desc>
 		<init>
 		addAura('Strength',5);
 		addAura('Intelligence',-3);
