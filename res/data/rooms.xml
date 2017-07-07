@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE define [
+	<!ELEMENT define (room?)>
+  	<!ELEMENT room (name,desc,onRoomEnter+,onRoomExit+)>
+  	<!ATTLIST item scriptLang CDATA "JavaScript">
+  	<!ELEMENT name (#PCDATA)>
+  	<!ELEMENT desc (#PCDATA)>
+  	<!ELEMENT onRoomEnter (#PCDATA)>
+  	<!ELEMENT onRoomExit (#PCDATA)>
+]>
+
+<define>
+</define>
