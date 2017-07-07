@@ -44,7 +44,7 @@ public class CommandList extends JFrame {
 			autoCompleteIndex = shownCommands.size() - 1;
 		}
 		this.autoCompleteIndex = autoCompleteIndex;
-		setSize(Math.max(COMMAND_BAR_MARGIN * 2 + GraphicsUtils.getLargestWidth(COMMAND_LIST_FONT, shownCommands), COMMAND_BAR_MIN_WIDTH), (shownCommands.size() * GraphicsUtils.getFontHeight(COMMAND_LIST_FONT)) + COMMAND_BAR_MARGIN * 2);
+		setSize(Math.max(COMMAND_BAR_MARGIN * 2 + GraphicsUtils.getLargestWidth(COMMAND_LIST_FONT, shownCommands), COMMAND_BAR_MIN_WIDTH), (shownCommands.size() * GraphicsUtils.getFontHeight(COMMAND_LIST_FONT)));
 		if (!shownCommands.isEmpty()) {
 			setVisible(true);
 			repaint();
@@ -60,8 +60,8 @@ public class CommandList extends JFrame {
 		
 		if(autoCompleteIndex > -1) {
 			g.setColor(COMMAND_LIST_SELCETED_BG_COLOR);
-			int y = ((autoCompleteIndex + 1) * GraphicsUtils.getFontHeight(g)) + COMMAND_BAR_MARGIN - (3 * (autoCompleteIndex + 1));
-			g.drawRect(0, y, getWidth(), GraphicsUtils.getFontHeight(g));
+			int y = (autoCompleteIndex * GraphicsUtils.getFontHeight(g)) - (3 * (autoCompleteIndex) - 1);
+			g.fillRect(0, y, getWidth(), GraphicsUtils.getFontHeight(g) - 3);
 		}
 
 		g.setColor(COMMAND_LIST_BORDER_COLOR);
@@ -71,7 +71,7 @@ public class CommandList extends JFrame {
 		for (int i = 0; i < shownCommands.size(); i++) {
 			String cmd = shownCommands.get(i);
 			int x = COMMAND_BAR_MARGIN;
-			int y = ((i + 1) * GraphicsUtils.getFontHeight(g)) + COMMAND_BAR_MARGIN - (3 * (i + 1));
+			int y = ((i + 1) * GraphicsUtils.getFontHeight(g)) - (3 * (i + 1) + 2);
 			g.drawString(cmd, x, y);
 		}
 	}

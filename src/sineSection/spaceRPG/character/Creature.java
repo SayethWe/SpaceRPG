@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -76,7 +75,7 @@ public abstract class Creature implements Scriptable {
 		amt = Math.max(amt,0); // ensure that we will only deal damage
 								// ex, if a low stat causes us to do -3 damage, do 0 instead of healing.
 		SpaceRPG.getMaster().writeToGui(name + " takes " + amt + " Damage.");
-		boolean alive = health.incrementAllowed(-amt);
+		boolean alive = health.isIncrementAllowed(-amt);
 		if (alive) {
 			health.increment(-amt);
 		} else {
@@ -107,7 +106,7 @@ public abstract class Creature implements Scriptable {
 	 */
 	public int healthAfterDamage(int amt) {
 		amt = Math.abs(amt); // ensure that we will only deal damage
-		boolean alive = health.incrementAllowed(-amt);
+		boolean alive = health.isIncrementAllowed(-amt);
 		if (alive) {
 			return health.currentVal() - amt;
 		} else {
@@ -125,13 +124,14 @@ public abstract class Creature implements Scriptable {
 	public boolean heal(int amt) {
 		if (alive) { // Even Rick Can't heal Death
 			amt = Math.max(amt,0); // ensure that we will only heal
-			boolean fullHeal = !health.incrementAllowed(amt);
-			if (fullHeal) {
+			amt = health.incrementAllowed(amt);
+			if (amt == health.maxVal()) {
 				health.topOff();
 			} else {
 				health.increment(amt);
 			}
-			return fullHeal;
+			SpaceRPG.getMaster().writeToGui(name + " restores " + amt + " Health.");
+			return amt == health.maxVal();
 		} else {
 			return false;
 		}
