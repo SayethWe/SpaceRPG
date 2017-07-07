@@ -109,7 +109,7 @@ public class SpaceRPG {
 		Item testItem = itemGenerator.generate();
 		writeToGui(testPlayer);
 		testPlayer.addItem(testItem);
-		writeToGui(testPlayer.getItemByName(testItem.getName()));
+		writeToGui(testPlayer.getItemByAlias(testItem.getAlias()));
 		testPlayer.useItem(testItem.getName(), new ArrayList<>());
 		writeToGui(testPlayer);
 		writeToGui(testItem);

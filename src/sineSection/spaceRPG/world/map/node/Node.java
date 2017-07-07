@@ -14,7 +14,7 @@ import sineSection.spaceRPG.world.map.room.Room;
 import sineSection.spaceRPG.world.map.room.RoomThreshold;
 
 public abstract class Node {
-	private static final int MAX_GEN_SIZE = 15; // maximum size this can
+	private static final int MAX_GEN_SIZE = 5; // maximum size this can
 												// randomly generate itself to
 												// be;
 //	private static final double SIZE_TUNER = 1.1; // make it so that smaller
@@ -63,7 +63,7 @@ public abstract class Node {
 		Room result;
 		int x = pos.getX();
 		int y = pos.getY();
-		if (x > size || x < 0 || y > size || y > 0) {
+		if (x > size || x < 0 || y > size || y < 0) {
 			result = new RoomThreshold();
 		} else {
 			result = map.get(pos);
@@ -85,7 +85,7 @@ public abstract class Node {
 		for (int y = 0; y < size; y++) {
 			Set<Integer> doorsHere = prevDoors;
 			prevDoors.clear();
-			doorsHere.add(Integer.valueOf(doorRandomizer.nextInt(size)));
+			int guaranteedDoor = doorRandomizer.nextInt(size);
 			boolean doorLeft = false;
 			for (int x = 0; x < size; x++) {
 				Room setting = map.get(new Pos(x,y));
@@ -94,14 +94,14 @@ public abstract class Node {
 					doorLeft = false;
 					setting.addExit(Direction.PORT);
 				}
-				if(doorsHere.contains(Integer.valueOf(x))) {
-					//generate a door to the previously generated row
+				if(((doorRandomizer.nextInt(doorChance) == 0) || x == guaranteedDoor) && y != size-1) {
+					//generate a door to the next row
+					prevDoors.add(x);
 					doorRight = doorRandomizer.nextInt(cutoffChance) == 0;
 					setting.addExit(Direction.FORE);
 				}
-				if(doorRandomizer.nextInt(doorChance) == 0 && y != size-1) {
-					//generate a door to the next row
-					prevDoors.add(Integer.valueOf(x));
+				if(doorsHere.contains(x)) {
+					//generate a door to the previously generated row
 					setting.addExit(Direction.AFT);
 				}
 				if(doorRight) {

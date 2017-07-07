@@ -75,7 +75,7 @@ public class Player extends Creature {
 	public boolean addItem(Item item) {
 		boolean result = inventory.size() < INVENTORY_SIZE;
 		if (result) {
-			inventory.put(item.getName(), item);
+			inventory.put(item.getAlias(), item);
 
 			if (item.hasAuraEffect() == true) {
 				item.getAuras().forEach((aura) -> addToStat(aura.getStat(), aura.getAmount()));
@@ -157,7 +157,7 @@ public class Player extends Creature {
 		return result;
 	}
 
-	public Item getItemByName(String name) {
+	public Item getItemByAlias(String name) {
 		return inventory.get(name);
 	}
 
@@ -175,6 +175,7 @@ public class Player extends Creature {
 		SpaceRPG.getMaster().writeToGui(getName() + " Moved " + dir.getCall());
 		location = new WorldPos(location.getNode(), dir.affectPos(location.getRoom()));
 		SpaceRPG.getMaster().getWorld().getRoomAt(location).onRoomEnter(this);
+		SpaceRPG.getMaster().writeToGui(location.getRoom());
 	}
 
 	public HashMap<String, Object> getScriptVars() {

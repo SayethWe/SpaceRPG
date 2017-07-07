@@ -74,7 +74,7 @@ public abstract class Creature implements Scriptable {
 	public boolean damage(int amt) {
 		amt = Math.max(amt,0); // ensure that we will only deal damage
 								// ex, if a low stat causes us to do -3 damage, do 0 instead of healing.
-		SpaceRPG.getMaster().writeToGui(name + " takes " + amt + " Damage.");
+		SpaceRPG.getMaster().writeToGui(name + " takes " + amt + " damage.");
 		boolean alive = health.isIncrementAllowed(-amt);
 		if (alive) {
 			health.increment(-amt);
@@ -124,6 +124,7 @@ public abstract class Creature implements Scriptable {
 	public boolean heal(int amt) {
 		if (alive) { // Even Rick Can't heal Death
 			amt = Math.max(amt,0); // ensure that we will only heal
+			SpaceRPG.getMaster().writeToGui(name + " heals " + amt + " health.");
 			amt = health.incrementAllowed(amt);
 			if (amt == health.maxVal()) {
 				health.topOff();
