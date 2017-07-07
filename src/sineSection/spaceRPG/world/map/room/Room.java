@@ -58,12 +58,12 @@ public abstract class Room {
 		return result.toString();
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder result = new StringBuilder("Room");
-		result.append(this.hashCode());
-		return result.toString();
-	}
+//	@Override
+//	public String toString() {
+//		StringBuilder result = new StringBuilder("Room");
+//		result.append(this.hashCode());
+//		return result.toString();
+//	}
 	
 	public void addExit(Direction exit) {
 		exits.add(exit);

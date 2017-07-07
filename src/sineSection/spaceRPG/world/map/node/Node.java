@@ -1,5 +1,6 @@
 package sineSection.spaceRPG.world.map.node;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
@@ -34,10 +35,11 @@ public abstract class Node {
 
 	public Node(int size) {
 		this.size = size;
+		map = new HashMap<>();
 		roomGenerator = new Generator<>();
+		addRoomTypes();
 		generate();
 		generateExits();
-		addRoomTypes();
 		doorRandomizer = new Random(SpaceRPG.getNewSeed());
 	}
 
@@ -71,7 +73,7 @@ public abstract class Node {
 	
 	/**
 	 * Generate all the doorways
-	 * uses the pentadact method, described at <br>
+	 * uses the pentadact method, described at
 	 * <a href="http://www.pentadact.com/2014-07-19-improving-heat-signatures-randomly-generated-ships-inside-and-out/">
 	 * pentadact.com </a>
 	 */
@@ -87,7 +89,6 @@ public abstract class Node {
 			boolean doorRight = false;
 			for (int x = 0; x < size; x++) {
 				Room setting = map.get(new Pos(x,y));
-				Set<Direction> exits = new HashSet<>();
 				boolean doorLeft = true;
 				if(doorRight) {
 					doorRight = false;
@@ -98,7 +99,7 @@ public abstract class Node {
 					doorLeft = doorRandomizer.nextInt(cutoffChance) == 0;
 					setting.addExit(Direction.FORE);
 				}
-				if(doorRandomizer.nextInt(doorChance) == 0) {
+				if(doorRandomizer.nextInt(doorChance) == 0 && y != size-1) {
 					//generate a door to the next row
 					prevDoors.add(x);
 					setting.addExit(Direction.AFT);

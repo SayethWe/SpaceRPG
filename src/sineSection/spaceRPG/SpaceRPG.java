@@ -113,6 +113,7 @@ public class SpaceRPG {
 		writeToGui(testItem);
 		testPlayer.useItem((String) testPlayer.getInventory().toArray()[0], testPlayer);
 		writeToGui(testPlayer);
+		gameWorld = new Ship();
 	}
 
 	/**
