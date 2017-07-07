@@ -34,6 +34,7 @@ public class Player extends Creature {
 
 	private Map<String, Item> inventory;
 	private WorldPos location;
+	private Direction lastDirectionTraveled;
 	// private Map<String, ComfortStat> comfortStats;
 	// TODO add in 'comfort' like warmth/hunger/thirst, and environment checks
 	// for damage
@@ -173,9 +174,15 @@ public class Player extends Creature {
 
 	public void move(Direction dir) {
 		SpaceRPG.getMaster().writeToGui(getName() + " Moved " + dir.getCall());
+		lastDirectionTraveled = dir;
+		SpaceRPG.getMaster().getWorld().getRoomAt(location).onRoomExit(this);
 		location = new WorldPos(location.getNode(), dir.affectPos(location.getRoom()));
 		SpaceRPG.getMaster().getWorld().getRoomAt(location).onRoomEnter(this);
 		SpaceRPG.getMaster().writeToGui(location.getRoom());
+	}
+	
+	public Direction getLastDir() {
+		return lastDirectionTraveled;
 	}
 
 	public HashMap<String, Object> getScriptVars() {

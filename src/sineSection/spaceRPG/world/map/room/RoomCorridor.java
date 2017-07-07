@@ -15,4 +15,10 @@ public class RoomCorridor extends Room {
 
 	}
 
+	@Override
+	public void onRoomExit(Player p) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

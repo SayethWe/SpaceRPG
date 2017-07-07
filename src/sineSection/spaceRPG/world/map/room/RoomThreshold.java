@@ -14,4 +14,10 @@ public final class RoomThreshold extends Room {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public void onRoomExit(Player p) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

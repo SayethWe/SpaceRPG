@@ -42,6 +42,10 @@ public abstract class Node {
 		generate();
 		generateExits();
 	}
+	
+	public void addRoomType(Class<? extends Room> type, int weight) {
+		roomGenerator.addType(type, weight);
+	}
 
 	public void addRoomType(Class<? extends Room> type) {
 		roomGenerator.addType(type);
@@ -83,29 +87,31 @@ public abstract class Node {
 		
 		Set<Integer> prevDoors = new HashSet<>();
 		for (int y = 0; y < size; y++) {
-			Set<Integer> doorsHere = prevDoors;
+			Set<Integer> doorsHere = new HashSet<>(prevDoors);
 			prevDoors.clear();
 			int guaranteedDoor = doorRandomizer.nextInt(size);
-			boolean doorLeft = false;
+			boolean[][] rightDoors = new boolean[size][size]; //create a boolean array. All should be false
 			for (int x = 0; x < size; x++) {
 				Room setting = map.get(new Pos(x,y));
-				boolean doorRight = true;
-				if(doorLeft) {
-					doorLeft = false;
-					setting.addExit(Direction.PORT);
-				}
+				boolean doorLeft = false;
 				if(((doorRandomizer.nextInt(doorChance) == 0) || x == guaranteedDoor) && y != size-1) {
 					//generate a door to the next row
 					prevDoors.add(x);
-					doorRight = doorRandomizer.nextInt(cutoffChance) == 0;
+					doorLeft = doorRandomizer.nextInt(cutoffChance) == 0;
 					setting.addExit(Direction.FORE);
 				}
 				if(doorsHere.contains(x)) {
 					//generate a door to the previously generated row
 					setting.addExit(Direction.AFT);
 				}
-				if(doorRight) {
-					doorLeft = true;
+				if(doorLeft && x != 0) {
+					setting.addExit(Direction.PORT);
+					rightDoors[x-1][y] = true;
+				}
+			}
+			for (int x = 0; x < size; x ++) { //go back through the row to add all the rightward doors
+				Room setting = map.get(new Pos(x,y));
+				if(rightDoors[x][y]) {
 					setting.addExit(Direction.STARBOARD);
 				}
 			}

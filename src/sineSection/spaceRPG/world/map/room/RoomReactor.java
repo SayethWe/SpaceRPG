@@ -14,4 +14,10 @@ public class RoomReactor extends Room implements PowerPlant {
 		// TODO nuke player
 
 	}
+
+	@Override
+	public void onRoomExit(Player p) {
+		// TODO Auto-generated method stub
+		
+	}
 }

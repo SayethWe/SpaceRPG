@@ -15,4 +15,10 @@ public class RoomTest extends Room {
 		p.heal(1);
 	}
 
+	@Override
+	public void onRoomExit(Player p) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

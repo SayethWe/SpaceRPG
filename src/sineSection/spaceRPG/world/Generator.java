@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import sineSection.spaceRPG.SpaceRPG;
-import sineSection.util.LogWriter;
 
 /**
  * A generator object to create new randomly generated instances of certain
@@ -50,6 +49,28 @@ public class Generator<T> {
 	 */
 	public void addType(Class<? extends T> type) {
 		validTypes.add(type);
+	}
+	
+	/**
+	 * Add a valid type with a weighting factor to make it more likely <br>
+	 * {@link #addType(Class)}}
+	 * 
+	 * <p>
+	 * should only be called at initialization time. failure to do so may cause
+	 * map generation issues.
+	 * 
+	 * @param type
+	 * 			the possible Class to add. Must be a subclass of the generic
+	 *          this generator was typed with
+	 * @param weighting
+	 * 				how many times to add it in.
+	 * 				Makes this #value times more likely to spawn
+	 * 				than any single unweighed type
+	 */
+	public void addType(Class<? extends T> type, int weighting) {
+		for (int i = 0; i < weighting; i ++) {
+			addType(type);
+		}
 	}
 
 	private Class<? extends T> generateType() {

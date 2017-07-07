@@ -22,4 +22,10 @@ public class RoomSpace extends Room {
 		p.makeCharacterDie();
 	}
 
+	@Override
+	public void onRoomExit(Player p) {
+		// Shouldn't be possible
+		
+	}
+
 }

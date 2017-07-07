@@ -56,6 +56,7 @@ public abstract class Room {
 	 * @param p
 	 */
 	public abstract void onRoomEnter(Player p);
+	public abstract void onRoomExit(Player p);
 
 	public String getExitString() {
 		StringBuilder result = new StringBuilder("Exits: ");

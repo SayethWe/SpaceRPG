@@ -15,4 +15,10 @@ public class RoomPowerDistributer extends Room implements PowerPlant {
 
 	}
 
+	@Override
+	public void onRoomExit(Player p) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

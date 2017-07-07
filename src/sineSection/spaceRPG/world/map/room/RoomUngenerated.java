@@ -21,4 +21,10 @@ public final class RoomUngenerated extends Room {
 		SpaceRPG.getMaster().getWorld().getNode(pos.getNode()).generateAt(pos.getRoom());
 	}
 
+	@Override
+	public void onRoomExit(Player p) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
