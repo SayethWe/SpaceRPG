@@ -1,4 +1,4 @@
-package sineSection.spaceRPG.world.item.loader;
+package sineSection.spaceRPG.world.item;
 
 import sineSection.spaceRPG.script.Script;
 

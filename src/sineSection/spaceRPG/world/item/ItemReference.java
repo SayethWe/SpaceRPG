@@ -2,8 +2,6 @@ package sineSection.spaceRPG.world.item;
 
 import java.util.ArrayList;
 
-import sineSection.spaceRPG.world.item.loader.ItemAttribute;
-
 public class ItemReference {
 
 	public static final ArrayList<ItemReference> itemRefs = new ArrayList<ItemReference>();

@@ -1,3 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE define [
+	<!ELEMENT define (item+)>
+  	<!ELEMENT item (name,desc,init+,use+)>
+  	<!ATTLIST item scriptLang CDATA "JavaScript">
+  	<!ELEMENT name (#PCDATA)>
+  	<!ELEMENT desc (#PCDATA)>
+  	<!ELEMENT init (#PCDATA)>
+  	<!ELEMENT use (#PCDATA)>
+]>
+
 <define>
 	<item scriptLang="JavaScript">
 		<name>Health Kit</name>
@@ -80,7 +91,7 @@
 		}
 		</use>
 	</item>
-	<item scriptlang = "JavaScript">
+	<item scriptlang="JavaScript">
 		<name>Rusting Blade</name>
 		<desc>An old blade, coated with blood and rust. Holding it fills you with confidence.%nDoes %dmg% damage.</desc>
 		<init>

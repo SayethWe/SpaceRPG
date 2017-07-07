@@ -14,8 +14,9 @@ import org.w3c.dom.NodeList;
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.script.Script;
 import sineSection.spaceRPG.world.item.Item;
+import sineSection.spaceRPG.world.item.ItemAttribute;
 import sineSection.spaceRPG.world.item.ItemReference;
-import sineSection.spaceRPG.world.item.loader.ItemAttribute.ItemAttribType;
+import sineSection.spaceRPG.world.item.ItemAttribute.ItemAttribType;
 import sineSection.util.LogWriter;
 
 public class ItemLoader {
@@ -39,7 +40,6 @@ public class ItemLoader {
 			for (int i = 0; i < itemList.getLength(); i++) {
 				errorFlag += loadItemFromNode(itemList.item(i));
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			errorFlag += 1;
