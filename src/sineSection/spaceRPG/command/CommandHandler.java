@@ -91,6 +91,7 @@ public class CommandHandler {
 			break;
 		case INFO:
 			doctor.writeToGui(halCortex.getExitString());
+			break;
 		case CHAT:
 			StringBuilder send = new StringBuilder(doctor.getPlayer().getName() + " says: ");
 			if (args.length > 0) {

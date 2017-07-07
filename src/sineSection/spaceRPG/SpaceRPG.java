@@ -20,6 +20,7 @@ import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.ItemReference;
 import sineSection.spaceRPG.world.item.loader.ItemLoader;
 import sineSection.spaceRPG.world.map.Ship;
+import sineSection.spaceRPG.world.map.WorldPos;
 import sineSection.util.LogWriter;
 
 public class SpaceRPG {
@@ -105,7 +106,7 @@ public class SpaceRPG {
 	}
 
 	private void testGame() {
-		testPlayer = new Player("Katyusha");
+		testPlayer = new Player("Katyusha", new WorldPos(0,0,0,0));
 		gui.setPlayerToTrack(testPlayer);
 		gui.display();
 		Item testItem = itemGenerator.generate();

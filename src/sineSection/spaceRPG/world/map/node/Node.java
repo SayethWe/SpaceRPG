@@ -37,10 +37,10 @@ public abstract class Node {
 		this.size = size;
 		map = new HashMap<>();
 		roomGenerator = new Generator<>();
+		doorRandomizer = new Random(SpaceRPG.getNewSeed());
 		addRoomTypes();
 		generate();
 		generateExits();
-		doorRandomizer = new Random(SpaceRPG.getNewSeed());
 	}
 
 	public void addRoomType(Class<? extends Room> type) {
@@ -86,17 +86,17 @@ public abstract class Node {
 			Set<Integer> doorsHere = prevDoors;
 			prevDoors.clear();
 			doorsHere.add(Integer.valueOf(doorRandomizer.nextInt(size)));
-			boolean doorRight = false;
+			boolean doorLeft = false;
 			for (int x = 0; x < size; x++) {
 				Room setting = map.get(new Pos(x,y));
-				boolean doorLeft = true;
-				if(doorRight) {
-					doorRight = false;
-					setting.addExit(Direction.STARBOARD);
+				boolean doorRight = true;
+				if(doorLeft) {
+					doorLeft = false;
+					setting.addExit(Direction.PORT);
 				}
 				if(doorsHere.contains(Integer.valueOf(x))) {
 					//generate a door to the previously generated row
-					doorLeft = doorRandomizer.nextInt(cutoffChance) == 0;
+					doorRight = doorRandomizer.nextInt(cutoffChance) == 0;
 					setting.addExit(Direction.FORE);
 				}
 				if(doorRandomizer.nextInt(doorChance) == 0 && y != size-1) {
@@ -104,9 +104,9 @@ public abstract class Node {
 					prevDoors.add(x);
 					setting.addExit(Direction.AFT);
 				}
-				if(doorLeft) {
-					doorRight = true;
-					setting.addExit(Direction.PORT);
+				if(doorRight) {
+					doorLeft = true;
+					setting.addExit(Direction.STARBOARD);
 				}
 			}
 		}

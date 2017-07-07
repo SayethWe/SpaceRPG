@@ -17,6 +17,11 @@ public class WorldPos {
 		roomPos = room;
 	}
 
+	public WorldPos(int nx, int ny, int rx, int ry) {
+		nodePos = new Pos(nx, ny);
+		roomPos = new Pos(rx, ry);
+	}
+
 	public Pos getRoom() {
 		return roomPos;
 	}

@@ -81,4 +81,27 @@
 		}
 		</use>
 	</item>
+	<item scriptlang = “JavaScript”>
+		<name>Rusting Blade</name>
+		<desc>An old blade, coated with blood and rust. Holding it fills you with confidence </desc>
+		<init>
+		addAura(“Strength”,5);
+		addAura(“Intelligence,-3);
+		setUses(15);
+		var dmg = 15;
+		</init>
+		<use>
+		if(canUse) {
+			write(“You charge forward!”);
+			if(targets.length > 0) {
+				for(var i = 0; i &lt; targets.length; i++) {
+					targets[i].damage(dmg);
+				}
+			} else {
+				write(“But had no direction, and hit a wall.”);
+				
+				used();
+			}
+		}
+	</item>
 </define>

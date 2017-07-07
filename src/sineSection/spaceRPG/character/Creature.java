@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.script.Scriptable;
 import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.effect.Aura;
@@ -72,12 +73,15 @@ public abstract class Creature implements Scriptable {
 	 *         <code>false</code> if otherwise
 	 */
 	public boolean damage(int amt) {
-		amt = Math.abs(amt); // ensure that we will only deal damage
+		amt = Math.max(amt,0); // ensure that we will only deal damage
+								// ex, if a low stat causes us to do -3 damage, do 0 instead of healing.
+		SpaceRPG.getMaster().writeToGui(name + " takes " + amt + " Damage.");
 		boolean alive = health.incrementAllowed(-amt);
 		if (alive) {
 			health.increment(-amt);
 		} else {
 			health.empty();
+			makeCharacterDie();
 		}
 		return alive;
 	}
@@ -120,7 +124,7 @@ public abstract class Creature implements Scriptable {
 	 */
 	public boolean heal(int amt) {
 		if (alive) { // Even Rick Can't heal Death
-			amt = Math.abs(amt); // ensure that we will only heal
+			amt = Math.max(amt,0); // ensure that we will only heal
 			boolean fullHeal = !health.incrementAllowed(amt);
 			if (fullHeal) {
 				health.topOff();

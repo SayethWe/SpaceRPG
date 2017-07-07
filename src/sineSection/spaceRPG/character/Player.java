@@ -44,8 +44,9 @@ public class Player extends Creature {
 	 * 
 	 * @Author William Black
 	 */
-	public Player(String name) {
+	public Player(String name, WorldPos startingPos) {
 		super(name, BASE_MAX_HEALTH);
+		location = startingPos;
 		inventory = new HashMap<>();
 		addStat(RESISTANCE, new Stat(RESISTANCE_MIN, (int) (Math.random() * RESISTANCE_MAX_POSSIBLE + 1)));
 		addStat(INTELLECT, new Stat(INTELLECT_MIN, (int) (Math.random() * INTELLECT_MAX_POSSIBLE + 1)));
