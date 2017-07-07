@@ -52,7 +52,7 @@ public class CommandHandler {
 				} else {
 					doctor.writeToGui(ILLEGAL_ARGUMENT_MESSAGE);
 				}
-				// move by arg direction, then do room.onRoomEnter();
+				// move by arg direction
 			} else {
 				doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
 			}
@@ -60,7 +60,7 @@ public class CommandHandler {
 		// case ALIAS:
 		case USE:
 			if (args.length >= 2) {
-				Creature target = doctor.getCharacter(args[1]);
+				Creature target = halCortex.getCreature(args[1]);
 				if (target != null) {
 					doctor.getPlayer().useItem(args[0], target);
 				} else {
@@ -90,7 +90,7 @@ public class CommandHandler {
 			doctor.writeToGui(NYI_MESSAGE);
 			break;
 		case INFO:
-			doctor.writeToGui(halCortex.getExitString());
+			doctor.writeToGui(halCortex.getInfoText());
 			break;
 		case CHAT:
 			StringBuilder send = new StringBuilder(doctor.getPlayer().getName() + " says: ");

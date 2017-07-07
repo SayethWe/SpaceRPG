@@ -5,13 +5,11 @@ import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 
 import sineSection.SineSection;
 import sineSection.networking.client.Client;
 import sineSection.spaceRPG.UI.GameUI;
-import sineSection.spaceRPG.character.Creature;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.save.SaveReader;
 import sineSection.spaceRPG.save.SaveState;
@@ -35,8 +33,6 @@ public class SpaceRPG {
 									// needs.
 
 	private static Player testPlayer;
-	private Map<String, Creature> creatures; // characters the player can target
-												// with items
 	private Client gameClient; // the client object this uses to talk to the
 								// server
 	private Ship gameWorld;
@@ -157,10 +153,5 @@ public class SpaceRPG {
 	public void sendChat(String chat) {
 		if (gameClient != null)
 			gameClient.sendChat(chat);
-	}
-
-	public Creature getCharacter(String name) {
-		// TODO return a game character
-		return creatures.get(name);
 	}
 }

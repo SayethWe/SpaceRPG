@@ -173,7 +173,8 @@ public class Player extends Creature {
 
 	public void move(Direction dir) {
 		SpaceRPG.getMaster().writeToGui(getName() + " Moved " + dir.getCall());
-		// TODO: Actually move
+		location = new WorldPos(location.getNode(), dir.affectPos(location.getRoom()));
+		//TODO: room.onRoomEnter()
 	}
 
 	public HashMap<String, Object> getScriptVars() {
