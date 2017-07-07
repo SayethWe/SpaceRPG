@@ -36,9 +36,9 @@ public class CommandStrings {
 		return res;
 	}
 
-	public static boolean isCommand(String commandString) {
-		return getCommandString(commandString) != CommandString.UNKNOWN;
-	}
+//	public static boolean isCommand(String commandString) {
+//		return getCommandString(commandString) != CommandString.UNKNOWN;
+//	}
 
 	public static String getCommands() {
 		StringBuilder result = new StringBuilder("Commands: ");

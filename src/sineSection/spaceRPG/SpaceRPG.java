@@ -115,6 +115,8 @@ public class SpaceRPG {
 		testPlayer.useItem(testItem.getName(), new ArrayList<>());
 		writeToGui(testPlayer);
 		writeToGui(testItem);
+		gameWorld = new Ship();
+
 	}
 
 	/**

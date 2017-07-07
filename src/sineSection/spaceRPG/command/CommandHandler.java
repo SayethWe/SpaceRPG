@@ -5,20 +5,25 @@ import sineSection.spaceRPG.UI.GameUI;
 import sineSection.spaceRPG.character.Creature;
 import sineSection.spaceRPG.world.map.Direction;
 import sineSection.spaceRPG.world.map.Ship;
+import sineSection.spaceRPG.world.map.WorldPos;
+import sineSection.spaceRPG.world.map.room.Room;
 
 public class CommandHandler {
 	private static final String FAILURE_MESSAGE = "That's not a valid command";
 	private static final String NYI_MESSAGE = "Not yet implemented!";
 	private static final String INSUFFICIENT_ARGUMENTS_MESSAGE = "You need to give me more arguments, bucko";
 	private static final String ILLEGAL_ARGUMENT_MESSAGE = "Thats... not the argument I needed.";
+	
+	private static SpaceRPG doctor = SpaceRPG.getMaster(); // Everyone knows the Doctor IS the master.
 
 	public static void sendCommand(String command) {
 		Command comm = CommandParser.parseCommand(command);
 		CommandString c = comm.getCommand();
 		String[] args = comm.getArgs();
-		SpaceRPG doctor = SpaceRPG.getMaster(); // Everyone knows the Doctor IS
-												// the master.
-		
+		Ship sulaco = doctor.getWorld();
+		WorldPos tenForward = doctor.getPlayer().getPos();
+		Room halCortex = sulaco.getNode(tenForward.getNode()).getRoom(tenForward.getRoom());
+
 		switch (c) {
 		case UNKNOWN:
 			doctor.writeToGui(FAILURE_MESSAGE);
@@ -42,7 +47,7 @@ public class CommandHandler {
 		case GO:
 			if (args.length > 0) {
 				Direction dir = Ship.getDir(args[0]);
-				if (dir != null) {
+				if (dir != null || !halCortex.getExits().contains(dir)) {
 					doctor.getPlayer().move(dir);
 				} else {
 					doctor.writeToGui(ILLEGAL_ARGUMENT_MESSAGE);
@@ -82,9 +87,10 @@ public class CommandHandler {
 		case QUIT:
 		case LISTEN:
 		case INSPECT:
-		case INFO:
 			doctor.writeToGui(NYI_MESSAGE);
 			break;
+		case INFO:
+			doctor.writeToGui(halCortex.getExitString());
 		case CHAT:
 			StringBuilder send = new StringBuilder(doctor.getPlayer().getName() + " says: ");
 			if (args.length > 0) {

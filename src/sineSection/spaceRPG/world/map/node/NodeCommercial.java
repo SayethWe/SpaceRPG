@@ -5,8 +5,8 @@ import sineSection.spaceRPG.world.map.room.RoomStore;
 
 public class NodeCommercial extends Node {
 
-	public NodeCommercial(int size) {
-		super(size);
+	public NodeCommercial() {
+		super();
 	}
 
 	@Override

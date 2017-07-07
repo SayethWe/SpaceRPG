@@ -18,7 +18,7 @@ public final class RoomUngenerated extends Room {
 	@Override
 	public void onRoomEnter(Player p) {
 		WorldPos pos = p.getPos();
-		SpaceRPG.getMaster().getWorld().get(pos.getNode()).generateAt(pos.getRoom());
+		SpaceRPG.getMaster().getWorld().getNode(pos.getNode()).generateAt(pos.getRoom());
 	}
 
 }
