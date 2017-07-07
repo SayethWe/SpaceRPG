@@ -70,7 +70,8 @@ public class SpaceRPG {
 //		for (ItemReference ref : ItemReference.itemRefs) {
 //			itemGenerator.addType(ref);
 //		}
-		itemGenerator.addType(ItemReference.getFromName("Power Armor"));
+//		itemGenerator.addType(ItemReference.getFromName("Power Armor"));
+		itemGenerator.addType(ItemReference.getFromName("Rusting Blade"));
 	}
 
 	public static SpaceRPG getMaster() {
