@@ -20,7 +20,6 @@
 		<name>Power Armor</name>
 		<desc>Powerful armor that increases your defense.</desc>
 		<init>
-		log("POWER ARMOR: Trying to add auras...");
 		addAura("Strength", 10);
 		addAura("Intelligence", 3);
 		addAura("Defense", 5);

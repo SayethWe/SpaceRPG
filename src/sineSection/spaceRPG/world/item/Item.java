@@ -3,6 +3,7 @@ package sineSection.spaceRPG.world.item;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -80,14 +81,14 @@ public class Item implements Scriptable {
 	 * @return if the item was used on the target(s) successfully
 	 */
 	public boolean use(Creature user, ArrayList<Creature> targets) {
+		if (user == null) {
+			System.err.println("Item.use(): Argument \"user\" must not be null!");
+			return false;
+		}
+		user.addAuras(auras);
 		try {
 			for (ItemAttribute attrib : this.ref.getAttribs()) {
 				if (attrib.getType() == ItemAttribType.USE_FUNC) {
-					if (user == null) {
-						System.err.println("Item.use(): Argument \"user\" must not be null!");
-						return false;
-					}
-
 					Script s = attrib.getScript();
 					s.addScriptable(this);
 					sEng.put("user", user);
@@ -115,7 +116,7 @@ public class Item implements Scriptable {
 		targets.add(target);
 		return use(user, targets);
 	}
-	
+
 	/**
 	 * use this item to get the active effect.
 	 * 
@@ -124,11 +125,11 @@ public class Item implements Scriptable {
 	public boolean use(Creature user) {
 		return use(user, new ArrayList<>());
 	}
-	
+
 	public void setUses(int uses) {
 		this.uses = uses;
 	}
-	
+
 	public void addAura(String auraName, int value) {
 		auras.add(new Aura(auraName, value));
 	}
@@ -176,7 +177,6 @@ public class Item implements Scriptable {
 		return canUse;
 	}
 
-	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder("Item:");
 		result.append("\n").append(getName()).append("\n").append(getDescription()).append("\n");
@@ -207,10 +207,10 @@ public class Item implements Scriptable {
 	public HashMap<String, Consumer<?>> getScriptConsumers() {
 		HashMap<String, Consumer<?>> ret = new HashMap<>();
 		ret.put("setUses", (Consumer<Integer>) this::setUses);
-		
 		ret.put("log", (Consumer<String>) LogWriter::print);
 		ret.put("logErr", (Consumer<String>) LogWriter::printErr);
 		ret.put("write", (Consumer<? extends Object>) SpaceRPG.getMaster().getGui()::write);
+		ret.put("addAura", (Consumer<Aura>) this::addAura);
 		return ret;
 	}
 

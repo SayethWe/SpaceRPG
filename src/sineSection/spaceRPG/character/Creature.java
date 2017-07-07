@@ -181,7 +181,7 @@ public abstract class Creature implements Scriptable {
 		// TODO make character die (riparoni)
 	}
 
-	public void addAuras(Set<Aura> auras) {
+	public void addAuras(List<Aura> auras) {
 		auras.forEach((aura) -> addToStat(aura.getStat(), aura.getAmount()));
 	}
 
