@@ -81,7 +81,7 @@
 		}
 		</use>
 	</item>
-	<item scriptlang = “JavaScript”>
+	<item scriptlang = 'JavaScript'>
 		<name>Rusting Blade</name>
 		<desc>An old blade, coated with blood and rust. Holding it fills you with confidence </desc>
 		<init>
