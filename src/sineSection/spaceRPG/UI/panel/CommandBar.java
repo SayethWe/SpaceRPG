@@ -10,7 +10,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.event.CaretEvent;
@@ -20,6 +22,7 @@ import javax.swing.event.DocumentListener;
 
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.UI.GameUI;
+import sineSection.spaceRPG.command.CommandStrings;
 import sineSection.util.GraphicsUtils;
 
 public class CommandBar extends JTextField {
@@ -43,10 +46,13 @@ public class CommandBar extends JTextField {
 	private int blinkTimer = 0;
 	private boolean drawCursor = true;
 	private LinkedList<String> commandHistory = new LinkedList<String>();
-	private int commandHistoryIndex = -1;
+	private int commandHistoryIndex = -1, autoCompleteIndex = -1;
 
 	private int caretPos = 0, markerPos = 0;
 
+	private List<String> autoCompleteCommands = new ArrayList<String>();
+	private List<String> lastAutoCompleteCommands = autoCompleteCommands;
+	
 	private CommandList commandList;
 	private GameUI ui;
 
@@ -85,6 +91,7 @@ public class CommandBar extends JTextField {
 						return;
 					ui.commandSent(getText());
 					addCommandToHistory(getText());
+					updateCommandList();
 					setText("");
 					commandHistoryIndex = -1;
 					break;
@@ -96,6 +103,7 @@ public class CommandBar extends JTextField {
 						}
 						setText(commandHistory.get(commandHistoryIndex));
 					}
+					updateCommandList();
 					break;
 				case KeyEvent.VK_DOWN:
 					if (commandHistory.size() > 0) {
@@ -106,9 +114,11 @@ public class CommandBar extends JTextField {
 								commandHistoryIndex = -1;
 							}
 						}
-						if (commandHistoryIndex > -1)
+						if (commandHistoryIndex > -1) {
 							setText(commandHistory.get(commandHistoryIndex));
+						}
 					}
+					updateCommandList();
 					break;
 				}
 			}
@@ -123,6 +133,7 @@ public class CommandBar extends JTextField {
 
 		getDocument().addDocumentListener(new DocumentListener() {
 			public void removeUpdate(DocumentEvent e) {
+				
 				updateCommandList();
 			}
 
@@ -156,7 +167,14 @@ public class CommandBar extends JTextField {
 	}
 
 	private void updateCommandList() {
-		commandList.update(getText(), selected);
+		autoCompleteCommands.clear();
+		if (!getText().isEmpty() && selected) {
+			for (String s : CommandStrings.getCommandCalls()) {
+				if (s.toLowerCase().startsWith(getText().toLowerCase()))
+					autoCompleteCommands.add(s);
+			}
+		}
+		commandList.update(autoCompleteCommands, autoCompleteIndex);
 		if (commandList.isVisible()) {
 			Point loc = getLocationOnScreen();
 			commandList.setLocation((int) loc.getX(), (int) loc.getY() - commandList.getHeight());

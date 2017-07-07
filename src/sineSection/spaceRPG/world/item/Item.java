@@ -68,9 +68,8 @@ public class Item implements Scriptable {
 			}
 		} catch (Exception e) {
 			if (e instanceof ScriptException)
-				LogWriter.printErr(getName() + ": SCRIPT EXCEPTION!\n" + e.toString());
-			else
-				e.printStackTrace();
+				LogWriter.printErr(getName() + ": SCRIPT EXCEPTION!\n");
+			e.printStackTrace();
 		}
 		return false;
 	}
@@ -128,6 +127,10 @@ public class Item implements Scriptable {
 	
 	public void setUses(int uses) {
 		this.uses = uses;
+	}
+	
+	public void addAura(String auraName, int value) {
+		auras.add(new Aura(auraName, value));
 	}
 
 	public void addAura(Aura aura) {
@@ -204,9 +207,9 @@ public class Item implements Scriptable {
 	public HashMap<String, Consumer<?>> getScriptConsumers() {
 		HashMap<String, Consumer<?>> ret = new HashMap<>();
 		ret.put("setUses", (Consumer<Integer>) this::setUses);
+		
 		ret.put("log", (Consumer<String>) LogWriter::print);
 		ret.put("logErr", (Consumer<String>) LogWriter::printErr);
-		ret.put("addAura", (Consumer<Aura>) this::addAura);
 		ret.put("write", (Consumer<? extends Object>) SpaceRPG.getMaster().getGui()::write);
 		return ret;
 	}
@@ -218,7 +221,9 @@ public class Item implements Scriptable {
 	}
 
 	public HashMap<String, BiConsumer<?, ?>> getScriptBiConsumers() {
-		return null;
+		HashMap<String, BiConsumer<?, ?>> ret = new HashMap<>();
+		ret.put("addAura", (BiConsumer<String, Integer>) this::addAura);
+		return ret;
 	}
 
 	public HashMap<String, Function<?, ?>> getScriptFunctions() {

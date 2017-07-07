@@ -70,7 +70,7 @@ public class SpaceRPG {
 //		for (ItemReference ref : ItemReference.itemRefs) {
 //			itemGenerator.addType(ref);
 //		}
-		itemGenerator.addType(ItemReference.getFromName("Grenade Crate"));
+		itemGenerator.addType(ItemReference.getFromName("Power Armor"));
 	}
 
 	public static SpaceRPG getMaster() {
