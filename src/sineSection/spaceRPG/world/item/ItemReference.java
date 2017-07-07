@@ -8,11 +8,12 @@ public class ItemReference {
 
 	public static final ArrayList<ItemReference> itemRefs = new ArrayList<ItemReference>();
 
-	private final String name, description, scriptLang;
+	private final String name, alias, description, scriptLang;
 	private final ArrayList<ItemAttribute> attribs;
 
 	public ItemReference(String name, String description, ArrayList<ItemAttribute> attribs, String scriptLang) {
 		this.name = name;
+		alias = name.split(" ")[0];
 		this.description = description;
 		this.attribs = attribs;
 		this.scriptLang = scriptLang;
@@ -20,6 +21,10 @@ public class ItemReference {
 
 	public String getName() {
 		return name;
+	}
+	
+	public String getAlias() {
+		return alias;
 	}
 
 	public String getDescription() {
