@@ -186,4 +186,8 @@ public class GameUI extends AbstractUI {
 			gameScreen.append("Can't decrease font size any more!\n");
 		}
 	}
+
+	public void clearScreen() {
+		gameScreen.setText("");
+	}
 }

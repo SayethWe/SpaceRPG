@@ -85,7 +85,7 @@ public class Item implements Scriptable {
 			for (ItemAttribute attrib : this.ref.getAttribs()) {
 				if (attrib.getType() == ItemAttribType.USE_FUNC) {
 					if (user == null) {
-						System.err.println("Item.use(): Argument \"User\" must not be null!");
+						System.err.println("Item.use(): Argument \"user\" must not be null!");
 						return false;
 					}
 
@@ -115,6 +115,19 @@ public class Item implements Scriptable {
 		ArrayList<Creature> targets = new ArrayList<>();
 		targets.add(target);
 		return use(user, targets);
+	}
+	
+	/**
+	 * use this item to get the active effect.
+	 * 
+	 * @return if the item was used successfully
+	 */
+	public boolean use(Creature user) {
+		return use(user, new ArrayList<>());
+	}
+	
+	public void setUses(int uses) {
+		this.uses = uses;
 	}
 
 	public void addAura(Aura aura) {
@@ -150,9 +163,9 @@ public class Item implements Scriptable {
 	public void used() {
 		if (uses > NO_DURABILITY) {
 			uses--;
-			canUse = false;
-		} else {
 			canUse = true;
+		} else {
+			canUse = false;
 		}
 	}
 
@@ -174,8 +187,6 @@ public class Item implements Scriptable {
 	public HashMap<String, Object> getScriptVars() {
 		HashMap<String, Object> ret = new HashMap<>();
 		ret.put("uses", uses);
-		ret.put("canUse", canUse);
-		ret.put("auras", auras);
 		return ret;
 	}
 
@@ -192,6 +203,7 @@ public class Item implements Scriptable {
 
 	public HashMap<String, Consumer<?>> getScriptConsumers() {
 		HashMap<String, Consumer<?>> ret = new HashMap<>();
+		ret.put("setUses", (Consumer<Integer>) this::setUses);
 		ret.put("log", (Consumer<String>) LogWriter::print);
 		ret.put("logErr", (Consumer<String>) LogWriter::printErr);
 		ret.put("addAura", (Consumer<Aura>) this::addAura);

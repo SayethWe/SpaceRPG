@@ -17,8 +17,8 @@ public class CommandHandler {
 		CommandString c = comm.getCommand();
 		String[] args = comm.getArgs();
 		SpaceRPG doctor = SpaceRPG.getMaster(); // Everyone knows the Doctor IS
-												// the master. no
-
+												// the master.
+		
 		switch (c) {
 		case UNKNOWN:
 			doctor.writeToGui(FAILURE_MESSAGE);
@@ -73,6 +73,9 @@ public class CommandHandler {
 			break;
 		case RESET_FONT_SIZE:
 			doctor.getGui().setFontSize(GameUI.DEFAULT_FONT_SIZE);;
+			break;
+		case CLEAR_SCREEN:
+			doctor.getGui().clearScreen();
 			break;
 		case TAKE:
 		case SAVE:

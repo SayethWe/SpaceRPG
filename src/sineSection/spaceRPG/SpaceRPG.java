@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
@@ -110,9 +111,10 @@ public class SpaceRPG {
 		Item testItem = itemGenerator.generate();
 		writeToGui(testPlayer);
 		testPlayer.addItem(testItem);
-		writeToGui(testItem);
-		testPlayer.useItem((String) testPlayer.getInventory().toArray()[0], testPlayer);
+		writeToGui(testPlayer.getItemByName(testItem.getName()));
+		testPlayer.useItem(testItem.getName(), new ArrayList<>());
 		writeToGui(testPlayer);
+		writeToGui(testItem);
 	}
 
 	/**

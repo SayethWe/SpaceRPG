@@ -35,7 +35,7 @@
 		<name>Grenade</name>
 		<desc>A simple frag grenade.%nDamage: %dmg%</desc>
 		<init>
-		var uses = 1;
+		uses = 1;
 		var dmg = 25;
 		</init>
 		<use>
@@ -45,7 +45,7 @@
 				write(targets[i].getName() + '\n');
 			}
 			for(var i = 0; i &lt; targets.length; i++) {
-				write(targets[i].getName() + ' takes ' + dmg + ' damage!');
+				write(targets[i].getName() + ' takes ' + dmg + ' damage!\n');
 				targets[i].damage(dmg);
 			}
 			used();
@@ -54,27 +54,30 @@
 	</item>
 	<item scriptLang="JavaScript">
 		<name>Grenade Crate</name>
-		<desc>A crate of frag grenade.%nDamage: %dmg%%nUses left: %uses%</desc>
+		<desc>A crate of frag grenades.%nDamage: %dmg%%nUses left: %uses%</desc>
 		<init>
-		var uses = 10
+		setUses(10);
 		var dmg = 25;
 		var unpack = function() {
 			user.addItem("Grenade", uses);
 			used();
 		}
 	 	</init>
-		<effects></effects>
 		<use>
-		if(canUse) {
+		if(canUse()) {
 			write('You throw a grenade!\nTargets:');
-			for(var i = 0; i &lt; targets.length; i++) {
-				write(targets[i].getName() + '\n');
+			if(targets.length > 0) {
+				for(var i = 0; i &lt; targets.length; i++) {
+					write(targets[i].getName() + '\n');
+				}
+				for(var i = 0; i &lt; targets.length; i++) {
+					write(targets[i].getName() + ' takes ' + dmg + ' damage!\n');
+					targets[i].damage(dmg);
+				}
+				used();
+			} else {
+				write('No targets!\n');
 			}
-			for(var i = 0; i &lt; targets.length; i++) {
-				write(targets[i].getName() + ' takes ' + dmg + ' damage!');
-				targets[i].damage(dmg);
-			}
-			used();
 		}
 		</use>
 	</item>

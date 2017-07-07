@@ -1,9 +1,24 @@
 package sineSection.spaceRPG.command;
 
 public enum CommandString {
-	INSPECT("Look", ""), LISTEN("Listen", ""), USE("Use", "Use an item in your inventory.\n Args: The name of the item to use, and the name of the character to use it on"), TAKE("Take;Grab", ""), INFO("Info;Refresh", "Refresh all information in the HUD"), HELP("Help;?", "See A list of Commands, or More Detail About a Command\nArgs: None, All, or Command(s) To Learn About"), GO("Move;Go", "Move Between Rooms\n Args: Exit You Want To Go Through"), QUIT("Quit;Exit", "Leave the Game Without Saving\nNo Args"), SAVE("Save", "Save your progress so far\nNo Args"), CHAT("Talk;Say", "Speak to the players around you\nArgs: Message"),
+	INSPECT("Look", ""),
+	LISTEN("Listen", ""),
+	USE("Use", "Use an item in your inventory.\nArgs: The name of the item to use, and the name of the character to use it on"),
+	TAKE("Take;Grab", ""),
+	INFO("Info;Refresh", "Refresh all information in the HUD"),
+	HELP("Help;?", "See A list of Commands, or More Detail About a Command\nArgs: None, All, or Command(s) To Learn About"),
+	GO("Move;Go", "Move Between Rooms\nArgs: Exit You Want To Go Through"),
+	QUIT("Quit;Exit", "Leave the Game Without Saving\nNo Args"),
+	SAVE("Save", "Save your progress so far\nNo Args"),
+	CHAT("Talk;Say", "Speak to the players around you\nArgs: Message"),
+	CLEAR_SCREEN("Clear;cls;clr", "Clear the screen.\nNo Args"),
 	// ALIAS("Alias","Rename something locally so you can refer to it easier"),
-	INCREASE_FONT_SIZE("IncrFont;ZoomIn", "Increases the size of the font.\nNo Args"), DECREASE_FONT_SIZE("DecrFont;ZoomOut", "Decreases the size of the font.\nNo Args"), RESET_FONT_SIZE("ResetFont;ResetZoom", "Resets the size of the font.\nNo Args"), DEBUG_DAMAGE("dmg", "!DEBUG!\nDamage the player by <Number>\nArgs: Number of hit points", true), DEBUG_HEAL("heal", "!DEBUG!\nHeal the player by <Number>\nArgs: Number of hit points", true), UNKNOWN("", "Not a valid Command");
+	INCREASE_FONT_SIZE("IncrFont;ZoomIn", "Increases the size of the font.\nNo Args"),
+	DECREASE_FONT_SIZE("DecrFont;ZoomOut", "Decreases the size of the font.\nNo Args"),
+	RESET_FONT_SIZE("ResetFont;ResetZoom", "Resets the size of the font.\nNo Args"),
+	DEBUG_DAMAGE("dmg", "!DEBUG!\nDamage the player by <Number>\nArgs: Number of hit points", true),
+	DEBUG_HEAL("heal", "!DEBUG!\nHeal the player by <Number>\nArgs: Number of hit points", true),
+	UNKNOWN("", "Not a valid Command");
 
 	private final String call;
 	private final String description;

@@ -156,6 +156,10 @@ public class Player extends Creature {
 		return result;
 	}
 
+	public Item getItemByName(String name) {
+		return inventory.get(name);
+	}
+
 	public Set<Item> getAllItems() {
 		Set<Item> result = new HashSet<>();
 		inventory.forEach((name, item) -> result.add(item));
