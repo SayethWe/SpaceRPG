@@ -22,7 +22,7 @@ public class CommandHandler {
 		String[] args = comm.getArgs();
 		Ship sulaco = doctor.getWorld();
 		WorldPos tenForward = doctor.getPlayer().getPos();
-		Room halCortex = sulaco.getNode(tenForward.getNode()).getRoom(tenForward.getRoom());
+		Room halCortex = sulaco.getRoomAt(tenForward);
 
 		switch (c) {
 		case UNKNOWN:
