@@ -101,7 +101,7 @@ public abstract class Node {
 				}
 				if(doorRandomizer.nextInt(doorChance) == 0 && y != size-1) {
 					//generate a door to the next row
-					prevDoors.add(x);
+					prevDoors.add(Integer.valueOf(x));
 					setting.addExit(Direction.AFT);
 				}
 				if(doorRight) {
