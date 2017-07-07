@@ -100,8 +100,8 @@
 			} else {
 				write(“But had no direction, and hit a wall.”);
 				
-				used();
 			}
+			used();
 		}
 	</item>
 </define>
