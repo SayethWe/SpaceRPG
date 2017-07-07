@@ -6,6 +6,7 @@ import java.util.Map;
 import sineSection.spaceRPG.world.Generator;
 import sineSection.spaceRPG.world.map.node.Node;
 import sineSection.spaceRPG.world.map.node.NodeTest;
+import sineSection.spaceRPG.world.map.room.Room;
 
 /**
  * The ship map, and character holder. Technically the overworld. stores a list
@@ -68,5 +69,9 @@ public class Ship {
 
 	public void addNodeType(Class<? extends Node> type) {
 		nodeGenerator.addType(type);
+	}
+
+	public Room getRoomAt(WorldPos location) {
+		return getNode(location.getNode()).getRoom(location.getRoom());
 	}
 }

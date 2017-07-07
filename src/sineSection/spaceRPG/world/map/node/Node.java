@@ -17,7 +17,7 @@ public abstract class Node {
 	private static final int MAX_GEN_SIZE = 15; // maximum size this can
 												// randomly generate itself to
 												// be;
-	private static final double SIZE_TUNER = 1.1; // make it so that smaller
+//	private static final double SIZE_TUNER = 1.1; // make it so that smaller
 													// nodes are favoured
 
 	private int size;
