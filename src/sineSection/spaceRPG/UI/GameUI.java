@@ -10,6 +10,7 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -38,6 +39,7 @@ public class GameUI extends AbstractUI {
 		super();
 		setMinimumSize(new Dimension(600, 500));
 		setTitle("SpaceRPG");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		int[] iconRes = new int[] {16,32,64};
 		ArrayList<BufferedImage> icons = new ArrayList<>();
 		for(int i = 0; i < iconRes.length; i++) {

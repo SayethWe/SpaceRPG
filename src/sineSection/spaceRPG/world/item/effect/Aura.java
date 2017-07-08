@@ -31,8 +31,6 @@ public class Aura {
 		result.append(" by ");
 		if (effectAmt > 0)
 			result.append("+");
-		else
-			result.append("-");
 		result.append(effectAmt);
 		return result.toString();
 	}

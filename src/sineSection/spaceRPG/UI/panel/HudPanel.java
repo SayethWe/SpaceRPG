@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import javax.swing.Box;
 
+import sineSection.AnimatedSineSection;
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.character.Stat;
@@ -57,6 +58,8 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	private Thread thread;
 
 	private Player player;
+	
+	private AnimatedSineSection ASS = new AnimatedSineSection(8, Color.GREEN, 1); // 8? Dayum that ass is huge! It's green though...
 
 	public HudPanel() {
 		super();
@@ -77,6 +80,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 		running = true;
 		thread = new Thread(this);
 		thread.start();
+		ASS.start();
 	}
 
 	public synchronized void unintitalize() {
@@ -124,6 +128,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 		Graphics2D g = (Graphics2D) bfr.getDrawGraphics();
 		g.clearRect(0, 0, WIDTH, HEIGHT);
 		draw(g);
+		ASS.draw(40, getHeight() - 25, g);
 		g.dispose();
 		bfr.show();
 	}
