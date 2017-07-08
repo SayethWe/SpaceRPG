@@ -23,7 +23,7 @@ public abstract class Node {
 	private int size;
 	private Map<Pos, Room> map;
 	private Generator<Room> roomGenerator;
-	private Random doorRandomizer;
+//	private Random doorRandomizer;
 	
 	public Node() {
 		// this((int) (Math.pow(SIZE_TUNER, Math.random() *
@@ -37,7 +37,7 @@ public abstract class Node {
 		this.size = size;
 		map = new HashMap<>();
 		roomGenerator = new Generator<>();
-		doorRandomizer = new Random(SpaceRPG.getNewSeed());
+//		doorRandomizer = new Random(SpaceRPG.getNewSeed());
 		addRoomTypes();
 		generate();
 		generateExits();
