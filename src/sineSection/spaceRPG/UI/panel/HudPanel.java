@@ -59,7 +59,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 
 	private Player player;
 	
-	private AnimatedSineSection ASS = new AnimatedSineSection(8, Color.GREEN, 1); // 8? Dayum that ass is huge! It's green though...
+	private AnimatedSineSection ASS = new AnimatedSineSection(8, 200, Color.GREEN, 1); // 8? Dayum that ass is huge! It's green though...
 
 	public HudPanel() {
 		super();
