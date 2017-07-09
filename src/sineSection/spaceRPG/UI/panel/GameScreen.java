@@ -14,7 +14,7 @@ public class GameScreen extends JTextArea{
 	public static final int DEFAULT_FONT_SIZE = 6;
 	private static final float[] FONT_SIZES = new float[] { 8f, 9f, 10f, 11f, 12f, 14f, 16f, 18f, 20f, 22f, 24f };
 
-	private static final int TYPE_DELAY = 500;
+	private static final int TYPE_DELAY = 50;
 	private static final TimeUnit DELAY_UNIT = TimeUnit.MILLISECONDS;
 	
 	private int fontSize = DEFAULT_FONT_SIZE;
@@ -32,23 +32,30 @@ public class GameScreen extends JTextArea{
 		setBackground(Color.BLACK);
 		setForeground(Color.GREEN);
 		getCaret().setVisible(true);
-		setCaretColor(Color.CYAN);
+		setCaretColor(Color.YELLOW);
 	}
 	
 	public void writeScroll(String text) {
 		for(String s : text.split("\n")) {
-				final ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
-				exec.scheduleAtFixedRate(new Runnable() {
-					@Override
-					public void run() {
-						if(appendNextChar(s)) {
-							exec.shutdown();
-						}
+			final ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+			exec.scheduleAtFixedRate(new Runnable() {
+				@Override
+				public void run() {
+					if(appendNextChar(s)) {
+						exec.shutdown();
 					}
-				}, TYPE_DELAY, TYPE_DELAY, DELAY_UNIT);
+				}
+			}, TYPE_DELAY, TYPE_DELAY, DELAY_UNIT);
+			while(!exec.isShutdown());
 			append("\n");
+			//line return sound
 		}
-		
+		append("\n");
+	}
+	
+	public void write(String s) {
+		append(s);
+		updateCaret();
 	}
 	
 	/**
@@ -57,12 +64,20 @@ public class GameScreen extends JTextArea{
 	 * @return
 	 */
 	private boolean appendNextChar(String s) {
-		boolean result = placeInLine == s.length()-1;
-		append(s.charAt(placeInLine));
-		placeInLine = result ? 0 : placeInLine++;
-		setCaretPosition(getDocument().getLength());
-		//play a typing sound
+		boolean result = (placeInLine == s.length());
+		if(!result) {
+			append(s.charAt(placeInLine));
+			placeInLine++;
+			updateCaret();
+			//play a typing sound
+		} else {
+			placeInLine = 0;
+		}
 		return result;
+	}
+	
+	private void updateCaret() {
+		setCaretPosition(getDocument().getLength());
 	}
 
 	/**

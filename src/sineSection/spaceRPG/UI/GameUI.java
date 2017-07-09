@@ -121,9 +121,7 @@ public class GameUI extends AbstractUI {
 	}
 
 	private void write(String in) {
-		gameScreen.append(in);
-		gameScreen.append("\n");
-		gameScreen.setCaretPosition(gameScreen.getDocument().getLength());
+		gameScreen.writeScroll(in);
 	}
 
 	public void write(Object in) {
