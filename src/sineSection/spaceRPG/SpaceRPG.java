@@ -2,10 +2,13 @@ package sineSection.spaceRPG;
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
+
+import com.apple.eawt.Application;
 
 import sineSection.SineSection;
 import sineSection.networking.client.Client;
@@ -22,9 +25,11 @@ import sineSection.spaceRPG.world.item.ItemReference;
 import sineSection.spaceRPG.world.map.Ship;
 import sineSection.spaceRPG.world.map.WorldPos;
 import sineSection.util.LogWriter;
+import sineSection.util.Utils;
 
 public class SpaceRPG {
 	public static final String TITLE = "SpaceRPG";
+	public static final boolean isOSX = System.getProperty("os.name").startsWith("mac");
 
 	public static boolean DEBUG = false;
 
@@ -48,6 +53,8 @@ public class SpaceRPG {
 				}
 			}
 		}
+
+		if (isOSX) setMacIcon();
 
 		SpaceRPG.initialize();
 		SineSection.initialize();
@@ -159,5 +166,28 @@ public class SpaceRPG {
 	public void sendChat(String chat) {
 		if (gameClient != null)
 			gameClient.sendChat(chat);
+	}
+	
+	private static void setMacIcon() {
+		Image image = Utils.loadImageResource("/image/logo.png");
+		Application.getApplication().setDockIconImage(image);
+//		try {	
+//		    // Instead of importing com.apple.eawt.Application
+//		    String className = "Five";
+//		    Class<?> claas = Class.forName(className);
+//
+//		    // Instead of calling Application.getApplication();
+//		    Object application = claas.newInstance().getClass().getMethod("getApplication")
+//		        .invoke(null);
+//
+//		    // Instead of application.setDockIconImage(image);
+//		    application.getClass().getMethod("setDockIconImage", java.awt.Image.class)
+//		        .invoke(application, image);
+//		}
+//		catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException
+//		        | InvocationTargetException | NoSuchMethodException | SecurityException
+//		        | InstantiationException e) {
+//		    e.printStackTrace();
+//		}
 	}
 }

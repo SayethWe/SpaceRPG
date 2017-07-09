@@ -2,14 +2,18 @@ package sineSection.spaceRPG.UI.panel;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JTextArea;
 
+import sound.SoundPlayer;
+
 public class GameScreen extends JTextArea{
 	private static final long serialVersionUID = -3410321645542492470L;
+	private static final String TYPE_SOUND = "TypeWriterKey";
 	
 	public static final int DEFAULT_FONT_SIZE = 6;
 	private static final float[] FONT_SIZES = new float[] { 8f, 9f, 10f, 11f, 12f, 14f, 16f, 18f, 20f, 22f, 24f };
@@ -33,6 +37,11 @@ public class GameScreen extends JTextArea{
 		setForeground(Color.GREEN);
 		getCaret().setVisible(true);
 		setCaretColor(Color.YELLOW);
+		try {
+			SoundPlayer.loadSound(TYPE_SOUND);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void writeScroll(String text) {
@@ -69,7 +78,7 @@ public class GameScreen extends JTextArea{
 			append(s.charAt(placeInLine));
 			placeInLine++;
 			updateCaret();
-			//play a typing sound
+			SoundPlayer.playSound(TYPE_SOUND);
 		} else {
 			placeInLine = 0;
 		}
