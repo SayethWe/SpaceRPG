@@ -28,7 +28,7 @@ public abstract class Creature implements Scriptable {
 	// private final ComfortStat warmth;
 	private Stat health;
 	private Map<String, Stat> stats;
-	boolean alive;
+	private boolean alive;
 
 	public Creature(String name, int hpMax) {
 		this.name = name;
@@ -180,6 +180,10 @@ public abstract class Creature implements Scriptable {
 	public void die() {
 		alive = false;
 		// TODO make character die (riparoni)
+	}
+	
+	public boolean isAlive() {
+		return alive;
 	}
 
 	public void addAuras(List<Aura> auras) {

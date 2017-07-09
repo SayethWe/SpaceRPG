@@ -9,7 +9,7 @@ public enum CommandString {
 			+ "\nArgs: The name of the item to use, and the name of the character to use it on"),
 	TAKE("Take;Grab", ""),
 	INFO("Info;Refresh;","Refresh the HUD"), //Make this draw a map of the room
-	HELP("Help;?", "See A list of Commands, or More Detail About a Command"
+	HELP("Help;?", "See A list of Commands, or More Detail About a Command, Including Args and Aliases"
 			+ "\nArgs: None, 'All', or Command(s) To Learn About"),
 	GO("Move;Go", "Move Between Rooms"
 			+ "\nArgs: Exit You Want To Go Through"),
@@ -59,12 +59,19 @@ public enum CommandString {
 		StringBuilder s = new StringBuilder();
 		String[] calls = getCall().split(";");
 		for (int i = 0; i < calls.length; i++) {
-			if (i == calls.length - 1)
+			if (i == calls.length - 1) {
 				s.append(calls[i]);
-			else
+			} else if (i == 0 && calls.length > 1) {
+				s.append(calls[i] + ". Alias");
+				if(calls.length > 2) {
+					s.append("es");
+				}
+				s.append(": ");
+			} else {
 				s.append(calls[i] + ", ");
+			}
 		}
-		s.append(":\n");
+		s.append("\nPurpose:\n");
 		s.append(getDescription());
 		s.append("\n");
 		return s.toString();

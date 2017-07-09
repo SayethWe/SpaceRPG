@@ -40,6 +40,7 @@ public class Utils {
 		return result;
 	}
 
+	@Deprecated
 	public static <T> List<T> toList(Set<T> set) {
 		List<T> ret = new ArrayList<>();
 		set.forEach((item) -> ret.add(item));

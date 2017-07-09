@@ -13,6 +13,6 @@ public class CommandParser {
 	}
 
 	public static String getCommands() {
-		return CommandStrings.getCommands();
+		return CommandStrings.getPrimaryCommands();
 	}
 }

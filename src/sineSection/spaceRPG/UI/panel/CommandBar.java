@@ -192,7 +192,7 @@ public class CommandBar extends JTextField {
 	private void updateCommandList() {
 		autoCompleteCommands.clear();
 		if (!getText().isEmpty() && selected) {
-			for (String s : CommandStrings.getCommandCalls()) {
+			for (String s : CommandStrings.getCommandNames()) {
 				if (s.toLowerCase().startsWith(getText().toLowerCase()) && !s.equalsIgnoreCase(getText()))
 					autoCompleteCommands.add(s);
 			}
