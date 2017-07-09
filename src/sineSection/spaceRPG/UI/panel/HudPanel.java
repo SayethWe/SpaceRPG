@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 
 import javax.swing.Box;
 
-import sineSection.AnimatedSineSection;
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.character.Stat;
@@ -53,13 +52,10 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	public static final Color PANEL_HEALTH_BAR_BORDER_COLOR = new Color(0, 60, 0);
 
 	private Canvas canvas;
-	private BufferStrategy bfr;
 	private boolean running;
 	private Thread thread;
 
 	private Player player;
-	
-	private AnimatedSineSection ASS = new AnimatedSineSection(8, 200, Color.GREEN, 1); // 8? Dayum that ass is huge! It's green though...
 
 	public HudPanel() {
 		super();
@@ -75,17 +71,13 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	}
 
 	public synchronized void intitalize() {
-		canvas.createBufferStrategy(2);
-		bfr = canvas.getBufferStrategy();
 		running = true;
 		thread = new Thread(this);
 		thread.start();
-		ASS.start();
 	}
 
 	public synchronized void unintitalize() {
 		running = false;
-		bfr.dispose();
 		if (thread.isAlive()) {
 			try {
 				thread.join();
@@ -125,10 +117,14 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	 * @author Richard Abbott
 	 */
 	private void render() {
+		if(canvas.getBufferStrategy() == null) {
+			canvas.createBufferStrategy(2);
+			return;
+		}
+		BufferStrategy bfr = canvas.getBufferStrategy();
 		Graphics2D g = (Graphics2D) bfr.getDrawGraphics();
 		g.clearRect(0, 0, WIDTH, HEIGHT);
 		draw(g);
-		ASS.draw(40, getHeight() - 25, g);
 		g.dispose();
 		bfr.show();
 	}

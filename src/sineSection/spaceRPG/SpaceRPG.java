@@ -10,6 +10,7 @@ import java.util.Random;
 import sineSection.SineSection;
 import sineSection.networking.client.Client;
 import sineSection.spaceRPG.UI.GameUI;
+import sineSection.spaceRPG.UI.IntroWindow;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.save.SaveReader;
 import sineSection.spaceRPG.save.SaveState;
@@ -49,6 +50,9 @@ public class SpaceRPG {
 
 		SpaceRPG.initialize();
 		SineSection.initialize();
+		if (!DEBUG)
+			new IntroWindow().start();
+
 		new SpaceRPG().testGame();
 		// new GameUI().display()
 	}
@@ -67,10 +71,10 @@ public class SpaceRPG {
 	}
 
 	private static void addItemTypes() {
-//		for (ItemReference ref : ItemReference.itemRefs) {
-//			itemGenerator.addType(ref);
-//		}
-//		itemGenerator.addType(ItemReference.getFromName("Power Armor"));
+		// for (ItemReference ref : ItemReference.itemRefs) {
+		// itemGenerator.addType(ref);
+		// }
+		// itemGenerator.addType(ItemReference.getFromName("Power Armor"));
 		itemGenerator.addType(ItemReference.getFromName("Rusting Blade"));
 	}
 
@@ -103,7 +107,7 @@ public class SpaceRPG {
 	}
 
 	private void testGame() {
-		testPlayer = new Player("Katyusha", new WorldPos(0,0,0,0));
+		testPlayer = new Player("Katyusha", new WorldPos(0, 0, 0, 0));
 		gui.setPlayerToTrack(testPlayer);
 		gui.display();
 		Item testItem = itemGenerator.generate();

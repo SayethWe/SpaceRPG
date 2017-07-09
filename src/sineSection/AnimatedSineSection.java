@@ -4,26 +4,35 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class AnimatedSineSection implements Runnable {
+	
+	private final int WIDTH = 100;
+	private final int HEIGHT = 50;
 
 	private Thread thread;
 	private boolean running = false;
 	private final int size;
 	private final int trailLength;
 	private final long delay;
+	private final double scale;
 	private final Color col;
 	private double time = 0D;
 
 	private double[] x;
 	private double[] y;
 
-	public AnimatedSineSection(int size, int trailLength, Color col, long delay) {
+	public AnimatedSineSection(int size, double scale, int trailLength, Color col, long delay) {
+		if(scale < 0) scale = 1;
+		if(size < 1) size = 1;
+		if(trailLength < 1) trailLength = 1;
+		if(delay < 1) delay = 1;
 		this.size = size;
 		this.trailLength = trailLength;
 		this.delay = delay;
 		this.col = col;
-		thread = new Thread(this);
+		this.scale = scale;
 		x = new double[trailLength];
 		y = new double[trailLength];
+		thread = new Thread(this);
 	}
 
 	public synchronized void start() {
@@ -50,8 +59,8 @@ public class AnimatedSineSection implements Runnable {
 			time += 0.001D;
 			for (int i = 0; i < trailLength; i++) {
 				double timeOffset = -(i * 0.001f);
-				x[i] = 50D * Math.sin(4D * Math.PI * ((time - timeOffset) + 1D)) + 50D;
-				y[i] = 25D * Math.sin(6D * Math.PI * ((time - timeOffset) + 1D)) - 25D;
+				x[i] = scale * (50D * Math.sin(4D * Math.PI * ((time - timeOffset) + 1D)) + 50D);
+				y[i] = -(scale * (25D * Math.sin(6D * Math.PI * ((time - timeOffset) + 1D)) - 25D));
 			}
 			try {
 				Thread.sleep(delay);
@@ -59,6 +68,13 @@ public class AnimatedSineSection implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public int getWidth() {
+		return (int) (Math.round(WIDTH * scale) + size);
+	}
+	public int getHeight() {
+		return (int) (Math.round(HEIGHT * scale) + size);
 	}
 
 	public void draw(int x, int y, Graphics g) {
