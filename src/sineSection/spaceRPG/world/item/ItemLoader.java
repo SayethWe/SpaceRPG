@@ -1,4 +1,4 @@
-package sineSection.spaceRPG.world.item.loader;
+package sineSection.spaceRPG.world.item;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -13,9 +13,6 @@ import org.w3c.dom.NodeList;
 
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.script.Script;
-import sineSection.spaceRPG.world.item.Item;
-import sineSection.spaceRPG.world.item.ItemAttribute;
-import sineSection.spaceRPG.world.item.ItemReference;
 import sineSection.spaceRPG.world.item.ItemAttribute.ItemAttribType;
 import sineSection.util.LogWriter;
 

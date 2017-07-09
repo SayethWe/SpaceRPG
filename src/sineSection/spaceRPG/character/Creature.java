@@ -12,8 +12,8 @@ import java.util.function.Supplier;
 
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.script.Scriptable;
+import sineSection.spaceRPG.world.item.Aura;
 import sineSection.spaceRPG.world.item.Item;
-import sineSection.spaceRPG.world.item.effect.Aura;
 import sineSection.util.LogWriter;
 
 /**
@@ -80,7 +80,7 @@ public abstract class Creature implements Scriptable {
 			health.increment(-amt);
 		} else {
 			health.empty();
-			makeCharacterDie();
+			die();
 		}
 		return alive;
 	}
@@ -177,7 +177,7 @@ public abstract class Creature implements Scriptable {
 	 * 
 	 * @Author William Black
 	 */
-	public void makeCharacterDie() {
+	public void die() {
 		alive = false;
 		// TODO make character die (riparoni)
 	}
@@ -252,7 +252,7 @@ public abstract class Creature implements Scriptable {
 	
 	public HashMap<String, Runnable> getScriptRunnables() {
 		HashMap<String, Runnable> ret = new HashMap<>();
-		ret.put("makeCharacterDie", this::makeCharacterDie);
+		ret.put("makeCharacterDie", this::die);
 		return ret;
 	}
 }

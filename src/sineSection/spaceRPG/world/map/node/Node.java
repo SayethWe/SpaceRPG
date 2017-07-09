@@ -79,16 +79,16 @@ public abstract class Node {
 		for(int y = 0; y < size; y++) {
 			for(int x = 0; x < size; x++) {
 				Room setting = map.get(new Pos(x,y));
-				if(x != 0) {
+				if(y != 0) {
 					setting.addExit(Direction.AFT);
 				}
-				if (x != size-1) {
+				if (y != size-1) {
 					setting.addExit(Direction.FORE);
 				}
-				if (y != 0) {
+				if (x != 0) {
 					setting.addExit(Direction.PORT);
 				}
-				if (y != size-1) {
+				if (x != size-1) {
 					setting.addExit(Direction.STARBOARD);
 				}
 			}

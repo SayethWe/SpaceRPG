@@ -8,7 +8,7 @@ public enum CommandString {
 	USE("Use", "Use an item in your inventory."
 			+ "\nArgs: The name of the item to use, and the name of the character to use it on"),
 	TAKE("Take;Grab", ""),
-	INFO("Info;Refresh;","Refresh the HUD"),
+	INFO("Info;Refresh;","Refresh the HUD"), //Make this draw a map of the room
 	HELP("Help;?", "See A list of Commands, or More Detail About a Command"
 			+ "\nArgs: None, 'All', or Command(s) To Learn About"),
 	GO("Move;Go", "Move Between Rooms"
@@ -17,11 +17,11 @@ public enum CommandString {
 	SAVE("Save", "Save your progress so far."),
 	CHAT("Talk;Say", "Speak to the players around you\nArgs: Message"),
 	// ALIAS("Alias","Rename something locally so you can refer to it easier"),
-	INCREASE_FONT_SIZE("IncrFont;ZoomIn", "Increases the size of the font."
+	INCREASE_FONT_SIZE("IncrFont;ZoomIn;>", "Increases the size of the font."
 			+ "\nNo Args"),
-	DECREASE_FONT_SIZE("DecrFont;ZoomOut", "Decreases the size of the font."
+	DECREASE_FONT_SIZE("DecrFont;ZoomOut;<", "Decreases the size of the font."
 			+ "\nNo Args"),
-	RESET_FONT_SIZE("ResetFont;ResetZoom", "Resets the size of the font."
+	RESET_FONT_SIZE("ResetFont;ResetZoom;^", "Resets the size of the font."
 			+ "\nNo Args"),
 	DEBUG_DAMAGE("dmg", "!DEBUG!\nDamage the player by <Number>"
 			+ "\nArgs: Number of hit points", true),

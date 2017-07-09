@@ -18,7 +18,6 @@ import sineSection.spaceRPG.character.Creature;
 import sineSection.spaceRPG.script.Script;
 import sineSection.spaceRPG.script.Scriptable;
 import sineSection.spaceRPG.world.item.ItemAttribute.ItemAttribType;
-import sineSection.spaceRPG.world.item.effect.Aura;
 import sineSection.util.LogWriter;
 import sineSection.util.ScriptHelper;
 

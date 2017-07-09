@@ -11,13 +11,12 @@ public final class RoomThreshold extends Room {
 
 	@Override
 	public void onRoomEnter(Player p) {
-		// TODO Auto-generated method stub
+		// TODO Mave to next Node
 	}
 
 	@Override
 	public void onRoomExit(Player p) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -1,4 +1,4 @@
-package sineSection.spaceRPG.world.item.effect;
+package sineSection.spaceRPG.world.item;
 
 /**
  * a native stat-changing effect in place as long as an item is held.

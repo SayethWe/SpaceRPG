@@ -14,10 +14,11 @@ import sineSection.spaceRPG.UI.IntroWindow;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.save.SaveReader;
 import sineSection.spaceRPG.save.SaveState;
+import sineSection.spaceRPG.world.DataLoader;
 import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.ItemGenerator;
+import sineSection.spaceRPG.world.item.ItemLoader;
 import sineSection.spaceRPG.world.item.ItemReference;
-import sineSection.spaceRPG.world.item.loader.ItemLoader;
 import sineSection.spaceRPG.world.map.Ship;
 import sineSection.spaceRPG.world.map.WorldPos;
 import sineSection.util.LogWriter;
@@ -61,6 +62,7 @@ public class SpaceRPG {
 		LogWriter.createLogger(TITLE);
 		initRandom();
 		itemGenerator = new ItemGenerator();
+		DataLoader.loadAllFiles();
 		if (!ItemLoader.loadItemsFrom("items")) {
 			LogWriter.printErr("Something went wrong when loading items!");
 			System.exit(-1);
