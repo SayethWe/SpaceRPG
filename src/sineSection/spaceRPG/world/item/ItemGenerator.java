@@ -1,12 +1,10 @@
-package sineSection.spaceRPG.world;
+package sineSection.spaceRPG.world.item;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import sineSection.spaceRPG.SpaceRPG;
-import sineSection.spaceRPG.world.item.Item;
-import sineSection.spaceRPG.world.item.ItemReference;
 import sineSection.util.LogWriter;
 
 public class ItemGenerator {
@@ -30,7 +28,7 @@ public class ItemGenerator {
 		ItemReference result;
 		int index = RNJesus.nextInt(validTypes.size());
 		result = validTypes.get(index);
-		LogWriter.print("Crafting a item: " + result);
+		LogWriter.print("Crafting an item: " + result);
 		return result;
 	}
 

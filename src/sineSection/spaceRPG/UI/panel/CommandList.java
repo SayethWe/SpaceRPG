@@ -8,13 +8,12 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import sineSection.spaceRPG.UI.GameUI;
 import sineSection.util.GraphicsUtils;
 
 public class CommandList extends JFrame {
 	private static final long serialVersionUID = -8961495941379728359L;
 
-	private static final Font COMMAND_LIST_FONT = GameUI.GAME_SCREEN_FONT.deriveFont(18f);
+	private static final Font COMMAND_LIST_FONT = GameScreen.GAME_SCREEN_FONT.deriveFont(18f);
 
 	private static final Color COMMAND_LIST_TEXT_COLOR = new Color(0, 255, 0);
 	private static final Color COMMAND_LIST_BG_COLOR = new Color(0, 0, 0);

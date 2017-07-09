@@ -32,7 +32,7 @@ public class CommandBar extends JTextField {
 
 	private boolean selected = false;
 
-	private static final Font COMMAND_BAR_FONT = GameUI.GAME_SCREEN_FONT.deriveFont(18f);
+	private static final Font COMMAND_BAR_FONT = GameScreen.GAME_SCREEN_FONT.deriveFont(18f);
 	private static final Font COMMAND_BAR_INFO_FONT = HudPanel.PANEL_PLAYER_NAME_FONT.deriveFont(10f);
 
 	private static final Color COMMAND_BAR_TEXT_COLOR = new Color(0, 255, 0);

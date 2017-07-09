@@ -1,0 +1,1 @@
+$NAME$ follows the tale of a scavenger, $PLAYER$ on their journey through a decrepit capital-scale ship.
