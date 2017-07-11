@@ -26,7 +26,15 @@ public class DataLoader {
 		for(String datumString : data) {
 			File datum = new File(datumString);
 			if(datum.isDirectory()) {
-				//run the Item, Room, Node, etc loaders.
+				String[] files = datum.list();
+				for (String file : files) {
+					File loadFrom = new File(file);
+					if(loadFrom.isFile()) {
+						//run a loader
+					} else {
+						errors++;
+					}
+				}
 			}
 		}
 		System.out.println(homeFolder);
