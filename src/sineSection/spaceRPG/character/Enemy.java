@@ -9,5 +9,10 @@ public abstract class Enemy extends Creature {
 	}
 	
 	public abstract Item getLootDrop();
+	
+	/**
+	 * enemies have an "ability" they can use. this does that.
+	 */
+	public abstract void doAbility();
 
 }
