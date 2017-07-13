@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import sineSection.spaceRPG.SpaceRPG;
 import sineSection.util.LogWriter;
 
 public class ItemReference {

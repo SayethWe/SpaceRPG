@@ -1,12 +1,8 @@
 package sineSection.spaceRPG.world.map.node;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Random;
-import java.util.Set;
 
-import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.world.Generator;
 import sineSection.spaceRPG.world.map.Direction;
 import sineSection.spaceRPG.world.map.Pos;

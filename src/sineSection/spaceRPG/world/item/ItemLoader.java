@@ -52,7 +52,7 @@ public class ItemLoader {
 
 			String name = e.getElementsByTagName("name").item(0).getTextContent();
 			String desc = e.getElementsByTagName("desc").item(0).getTextContent();
-			String refID = e.getAttribute("referenceID");
+			String refID = e.getAttribute("refID");
 			String scriptLang = e.getAttribute("scriptLang");
 			ArrayList<ItemAttribute> attribs = new ArrayList<ItemAttribute>();
 
