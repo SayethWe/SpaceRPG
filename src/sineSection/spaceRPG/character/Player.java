@@ -35,6 +35,7 @@ public class Player extends Creature {
 	private Map<String, Item> inventory;
 	private WorldPos location;
 	private Direction lastDirectionTraveled;
+	private boolean hasHud = false;
 	// private Map<String, ComfortStat> comfortStats;
 	// TODO add in 'comfort' like warmth/hunger/thirst, and environment checks
 	// for damage
@@ -77,9 +78,8 @@ public class Player extends Creature {
 		boolean result = inventory.size() < INVENTORY_SIZE;
 		if (result) {
 			inventory.put(item.getAlias(), item);
-
-			if (item.hasAuraEffect() == true) {
-				item.getAuras().forEach((aura) -> addToStat(aura.getStat(), aura.getAmount()));
+			if (item.hasAuraEffect()) {
+				item.getAuras().forEach((aura) -> aura.affect(this));
 			}
 		}
 		return result;
@@ -89,7 +89,7 @@ public class Player extends Creature {
 		Item item = inventory.get(itemName);
 		if (item != null) {
 			if (item.hasAuraEffect()) {
-				item.getAuras().forEach((aura) -> addToStat(aura.getStat(), -aura.getAmount()));
+				item.getAuras().forEach((aura) -> aura.unaffect(this));
 			}
 			inventory.remove(itemName);
 			return true;
@@ -101,7 +101,7 @@ public class Player extends Creature {
 	public boolean removeItem(Item item) {
 		if (inventory.containsValue(item)) {
 			if (item.hasAuraEffect()) {
-				item.getAuras().forEach((aura) -> addToStat(aura.getStat(), -aura.getAmount()));
+				item.getAuras().forEach((aura) -> aura.unaffect(this));
 			}
 			inventory.remove(inventory);
 			return true;
@@ -162,6 +162,16 @@ public class Player extends Creature {
 		return inventory.get(name);
 	}
 
+	public void setHasHud(boolean hasHud) {
+		if (hasHud != this.hasHud)
+			SpaceRPG.getMaster().getGui().updateHud();
+		this.hasHud = hasHud;
+	}
+
+	public boolean hasHud() {
+		return hasHud;
+	}
+
 	public Set<Item> getAllItems() {
 		Set<Item> result = new HashSet<>();
 		inventory.forEach((name, item) -> result.add(item));
@@ -180,7 +190,7 @@ public class Player extends Creature {
 		SpaceRPG.getMaster().getWorld().getRoomAt(location).onRoomEnter(this);
 		SpaceRPG.getMaster().writeToGui(location.getRoom());
 	}
-	
+
 	public Direction getLastDir() {
 		return lastDirectionTraveled;
 	}

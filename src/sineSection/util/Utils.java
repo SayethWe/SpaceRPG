@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import sineSection.spaceRPG.character.Creature;
+
 public class Utils {
 
 	/**
@@ -61,6 +63,12 @@ public class Utils {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static List<String> getListOfNamesFromCreatures(List<Creature> creatures) {
+		ArrayList<String> ret = new ArrayList<>();
+		creatures.forEach((c) -> ret.add(c.getName()));
+		return ret;
 	}
 
 }

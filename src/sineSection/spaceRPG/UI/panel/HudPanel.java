@@ -52,6 +52,8 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	public static final Color PANEL_HEALTH_BAR_BG_COLOR = new Color(0, 60, 0);
 	public static final Color PANEL_HEALTH_BAR_FILL_COLOR = new Color(0, 255, 0);
 	public static final Color PANEL_HEALTH_BAR_BORDER_COLOR = new Color(0, 60, 0);
+	
+	public static final String NO_HUD_TEXT = "NO HUD SYSTEM DETECTED";
 
 	private Canvas canvas;
 	private boolean running;
@@ -65,7 +67,8 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	private static final int HUD_LOST_ANIM = 3;
 
 	private int state = NONE_IDLE;
-	private boolean doneAnimating = true;
+	private boolean animating = false;
+	private int animTimer = 0;
 
 	public HudPanel() {
 		super();
@@ -112,6 +115,8 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	public void run() {
 		while (running) {
 			render();
+			if(animating)
+			animTimer++;
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -123,7 +128,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	public void hudAttained() {
 		if (state == NONE_IDLE) {
 			state = HUD_ATTAINED_ANIM;
-			doneAnimating = false;
+			animating = true;
 			SoundPlayer.play("hudAttained");
 		}
 	}
@@ -131,7 +136,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	public void hudLost() {
 		if (state == HUD_IDLE) {
 			state = HUD_LOST_ANIM;
-			doneAnimating = false;
+			animating = true;
 			SoundPlayer.play("hudLost");
 		}
 	}
@@ -164,6 +169,53 @@ public class HudPanel extends AbstractPanel implements Runnable {
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
+		switch(state) {
+		default:
+		case NONE_IDLE:
+			drawNoneIdle(g);
+			break;
+		case HUD_ATTAINED_ANIM:
+			drawAttainedAnim(g);
+			break;
+		case HUD_IDLE:
+			drawIdle(g);
+			break;
+		case HUD_LOST_ANIM:
+			drawLostAnim(g);
+			break;
+		}
+		
+		if (SpaceRPG.DEBUG) {
+			g.setColor(new Color(0.0f, 0.3f, 0.0f));
+			g.setFont(PANEL_DEBUG_MODE_FONT);
+			g.drawString("DEBUG MODE", (getWidth() / 2) - (GraphicsUtils.getStringWidth(g, "DEBUG MODE") / 2), getHeight() - 5);
+		}
+	}
+
+	private void drawNoneIdle(Graphics g) {
+		g.setColor(PANEL_BG);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		g.setFont(PANEL_DEBUG_MODE_FONT);
+		g.setColor(PANEL_PLAYER_NAME_BG);
+		int x = getWidth() / 2 - GraphicsUtils.getStringWidth(g, NO_HUD_TEXT) / 2;
+		int y = getHeight() / 2 - GraphicsUtils.getFontHeight(g) / 2;
+		g.drawString(NO_HUD_TEXT, x, y);
+	}
+
+	private void drawAttainedAnim(Graphics g) {
+		g.setColor(PANEL_BG);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		g.setColor(Color.GREEN);
+		int w = animTimer / 2;
+		int x = getWidth() / 2 - w / 2;
+		g.drawRect(x, 0, w, getHeight());
+		if(w >= getWidth()) {
+			animating = false;
+			state = HUD_IDLE;
+		}
+	}
+
+	private void drawIdle(Graphics g) {
 		g.setColor(PANEL_BG);
 		g.fillRect(0, 0, getWidth(), getHeight());
 
@@ -209,45 +261,19 @@ public class HudPanel extends AbstractPanel implements Runnable {
 			g.setFont(PANEL_PLAYER_NAME_FONT);
 			g.drawString("No player", 30, getHeight() / 2 - 15);
 		}
-		
-		
-		switch(state) {
-		default:
-		case NONE_IDLE:
-			drawNoneIdle(g);
-			break;
-		case HUD_ATTAINED_ANIM:
-			drawAttainedAnim(g);
-			break;
-		case HUD_IDLE:
-			drawIdle(g);
-			break;
-		case HUD_LOST_ANIM:
-			drawLostAnim(g);
-			break;
-		}
-		
-		if (SpaceRPG.DEBUG) {
-			g.setColor(new Color(0.0f, 0.3f, 0.0f));
-			g.setFont(PANEL_DEBUG_MODE_FONT);
-			g.drawString("DEBUG MODE", (getWidth() / 2) - (GraphicsUtils.getStringWidth(g, "DEBUG MODE") / 2), getHeight() - 5);
-		}
-	}
-
-	private void drawNoneIdle(Graphics g) {
-
-	}
-
-	private void drawAttainedAnim(Graphics g) {
-
-	}
-
-	private void drawIdle(Graphics g) {
-
 	}
 
 	private void drawLostAnim(Graphics g) {
-
+		g.setColor(PANEL_BG);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		g.setColor(Color.GREEN);
+		int w = getWidth() - (animTimer / 2);
+		int x = getWidth() / 2 - w / 2;
+		g.drawRect(x, 0, w, getHeight());
+		if(w <= 0) {
+			animating = false;
+			state = HUD_IDLE;
+		}
 	}
 
 	/**
@@ -265,6 +291,15 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	 */
 	public String getStatNameAbrv(String statName) {
 		return statName.substring(0, 3);
+	}
+
+	public void updateHud() {
+		if(player == null) return;
+		if(player.hasHud()) {
+			hudAttained();
+		} else {
+			hudLost();
+		}
 	}
 
 }

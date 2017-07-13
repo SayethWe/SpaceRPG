@@ -35,12 +35,18 @@ public class Script {
 
 				if (s.getScriptBiConsumers() != null)
 					s.getScriptBiConsumers().forEach((name, biConsumer) -> sEng.put(name, biConsumer));
+				
+				if (s.getScriptTriConsumers() != null)
+					s.getScriptTriConsumers().forEach((name, triConsumer) -> sEng.put(name, triConsumer));
 
 				if (s.getScriptFunctions() != null)
 					s.getScriptFunctions().forEach((name, function) -> sEng.put(name, function));
 
 				if (s.getScriptBiFunctions() != null)
 					s.getScriptBiFunctions().forEach((name, biFunction) -> sEng.put(name, biFunction));
+				
+				if (s.getScriptTriFunctions() != null)
+					s.getScriptTriFunctions().forEach((name, triFunction) -> sEng.put(name, triFunction));
 				
 				if (s.getScriptRunnables() != null)
 					s.getScriptRunnables().forEach((name, runnable) -> sEng.put(name, runnable));

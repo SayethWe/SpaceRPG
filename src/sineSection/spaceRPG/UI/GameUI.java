@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -19,10 +20,12 @@ import sineSection.util.LogWriter;
 public class GameUI extends AbstractUI {
 	private static final long serialVersionUID = 8764045071574261230L;
 
-
 	GameScreen gameScreen;
 	CommandBar commandArea;
 	HudPanel hud;
+	private boolean showingDialogue;
+	private String dialogueInputText;
+	private int dialogueSelection = -1;
 
 	public GameUI() {
 		super();
@@ -84,10 +87,18 @@ public class GameUI extends AbstractUI {
 	}
 
 	public void commandSent(String text) {
-		LogWriter.print("Command Sent: " + text);
+		LogWriter.print("Command sent: " + text);
 		gameScreen.append(text);
 		gameScreen.append("\n");
 		CommandHandler.sendCommand(text);
+	}
+
+	public void textSent(String text) {
+		LogWriter.print("Text sent: " + text);
+		if (showingDialogue) {
+			gameScreen.append(text);
+			gameScreen.append("\n");
+		}
 	}
 
 	private WindowAdapter CreateWindowAdapter() {
@@ -96,6 +107,56 @@ public class GameUI extends AbstractUI {
 				hud.unintitalize();
 			}
 		};
+	}
+
+	/**
+	 * Shows a dialogue to the player with <code>options</code> and
+	 * <code>title</code>
+	 * 
+	 * @param title
+	 *            the title to show
+	 * @param options
+	 *            the player's options
+	 * @param untilAnswered
+	 *            should this dialogue keep trying to get a answer?
+	 * @return the player's selection, returns -1 if the player does not choose and if <code>untilAnswered</code> is false.
+	 */
+	public int showSelectionDialogue(String title, List<String> options, boolean untilAnswered) {
+		showingDialogue = true;
+		dialogueInputText = "";
+		dialogueSelection = -1;
+		Thread dialougeThread = new Thread(new Runnable() {
+			public void run() {
+				if (untilAnswered) {
+					while (dialogueSelection < 0 && dialogueSelection < options.size()) {
+						if (!dialogueInputText.isEmpty()) {
+							try {
+								dialogueSelection = Integer.parseInt(dialogueInputText);
+								showingDialogue = false;
+							} catch (NumberFormatException e) {
+								dialogueInputText = "";
+								write("Please enter a positive integer.");
+							}
+						}
+					}
+				} else {
+					while (dialogueSelection < 0 && dialogueSelection < options.size()) {
+						if (!dialogueInputText.isEmpty()) {
+							try {
+								dialogueSelection = Integer.parseInt(dialogueInputText);
+								showingDialogue = false;
+							} catch (NumberFormatException e) {
+								dialogueSelection = -1;
+								showingDialogue = false;
+							}
+						}
+					}
+				}
+			}
+		});
+		dialougeThread.start();
+		while (showingDialogue);
+		return dialogueSelection;
 	}
 
 	/**
@@ -137,5 +198,9 @@ public class GameUI extends AbstractUI {
 
 	public void setFontSize(int fontSizeIndex) {
 		gameScreen.setFontSize(fontSizeIndex);
+	}
+
+	public void updateHud() {
+		hud.updateHud();
 	}
 }

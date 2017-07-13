@@ -15,11 +15,11 @@
 		<name>Health Kit</name>
 		<desc>A small first-aid kit to heal superficial wounds.%nHeals %healAmt% health.</desc>
 		<init>
-		var uses = 1;
+		setUses(1);
 		var healAmt = 10;
 		</init>
 		<use>	
-		if(canUse) {
+		if(canUse()) {
 			print(&quot;You throw a grenade!&quot;);
 			for(let i = 0; i &lt; targets.length; i++) {
 				targets[i].damage(dmg);
@@ -32,12 +32,12 @@
 		<name>Power Armor</name>
 		<desc>Powerful armor that increases your defense.</desc>
 		<init>
-		addAura("Strength", 10);
-		addAura("Intelligence", 3);
-		addAura("Defense", 5);
+		addStatAura('Strength', 10);
+		addStatAura('Intelligence', 3);
+		addStatAura('Defense', 5);
 		</init>
 		<use>
-		if(canUse) {
+		if(canUse()) {
 			print(&quot;!!WARNING!!: Suit does not contain Bubblegum&quot;);
 		}
 		</use>
@@ -46,7 +46,7 @@
 		<name>Grenade</name>
 		<desc>A simple frag grenade.%nDamage: %dmg%</desc>
 		<init>
-		uses = 1;
+		setUses(1);
 		var dmg = 25;
 		</init>
 		<use>
@@ -96,8 +96,8 @@
 		<name>Rusting Blade</name>
 		<desc>An old blade, coated with blood and rust. Holding it fills you with confidence.%nDoes %dmg% damage.</desc>
 		<init>
-		addAura('Strength',5);
-		addAura('Intelligence',-3);
+		addStatAura('Strength',5);
+		addStatAura('Intelligence',-3);
 		setUses(15);
 		var dmg = 15;
 		var userDmg = 2;
@@ -119,15 +119,28 @@
 	</item>
 	<item refID="05-HSYS" scriptLang="JavaScript">
 		<name>HUD System</name>
-		<desc>A small round object that reads in big green letters:%n%t"SHIFTCO. HUD SYSTEM&#8492;"%nAllows user to view their stats.</desc>
+		<desc>A small round object that reads in big green letters:%n%t&quot;ARCTAN HUD SYSTEM(tm)&quot;</desc>
 		<init>
-		var uses = 0;
-		</init>
-		<use>	
-		if(canUse()) {
-			if() {
-				
+		setUses(0);
+		var affect = function(creature) {
+			if(creature instanceof Packages.sineSection.spaceRPG.character.Player) {
+				Java.to(creature, Packages.sineSection.spaceRPG.character.Player);
+				creature.setHasHud(true);
 			}
+		};
+		var unaffect = function(creature) {
+			if(creature instanceof Packages.sineSection.spaceRPG.character.Player) {
+				Java.to(creature, Packages.sineSection.spaceRPG.character.Player);
+				creature.setHasHud(false);
+			}
+		};
+		addAbilityAura('Allows user to viev their stats.', affect, unaffect);
+		addAura(hudAura);
+		</init>
+		<use>
+		if(user instanceof Packages.sineSection.spaceRPG.character.Player) {
+			Java.to(user, Packages.sineSection.spaceRPG.character.Player);
+			user.setHasHud(!user.hasHud());
 		}
 		</use>
 	</item>

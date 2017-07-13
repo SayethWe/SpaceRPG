@@ -90,7 +90,7 @@ public class SpaceRPG {
 		// itemGenerator.addType(ref);
 		// }
 		// itemGenerator.addType(ItemReference.getFromName("Power Armor"));
-		itemGenerator.addType(ItemReference.getFromName("Rusting Blade"));
+		itemGenerator.addType(ItemReference.getFromItemReferenceID("05-HSYS"));
 	}
 
 	public static SpaceRPG getMaster() {
@@ -125,11 +125,11 @@ public class SpaceRPG {
 		testPlayer = new Player("Katyusha", new WorldPos(0, 0, 0, 0));
 		gui.setPlayerToTrack(testPlayer);
 		gui.display();
-		try {
-			IntroReader.read("Story.txt");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			IntroReader.read("Story.txt");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		Item testItem = itemGenerator.generate();
 		writeToGui(testPlayer);
 		testPlayer.addItem(testItem);

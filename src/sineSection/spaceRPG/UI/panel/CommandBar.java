@@ -58,6 +58,8 @@ public class CommandBar extends JTextField {
 	private CommandList commandList;
 	private GameUI ui;
 
+	private boolean useCommands = true;
+
 	public CommandBar(GameUI ui) {
 		this("", ui);
 	}
@@ -93,18 +95,22 @@ public class CommandBar extends JTextField {
 				case KeyEvent.VK_ENTER:
 					if (getText().isEmpty() && autoCompleteIndex < 0)
 						return;
-					if (autoCompleteIndex > -1) {
-						setText(autoCompleteCommands.get(autoCompleteIndex) + " ");
+					if (useCommands) {
+						if (autoCompleteIndex > -1) {
+							setText(autoCompleteCommands.get(autoCompleteIndex) + " ");
+							commandHistoryIndex = -1;
+							autoCompleteIndex = -1;
+							break;
+						}
+						ui.commandSent(getText());
+						addCommandToHistory(getText());
+						updateCommandList();
+						setText("");
 						commandHistoryIndex = -1;
 						autoCompleteIndex = -1;
-						break;
+					} else {
+						ui.textSent(getText());
 					}
-					ui.commandSent(getText());
-					addCommandToHistory(getText());
-					updateCommandList();
-					setText("");
-					commandHistoryIndex = -1;
-					autoCompleteIndex = -1;
 					SoundPlayer.play("return");
 					break;
 				case KeyEvent.VK_UP:
@@ -161,7 +167,7 @@ public class CommandBar extends JTextField {
 				updateCommandList();
 				SoundPlayer.play("lightKey");
 			}
-			
+
 			public void insertUpdate(DocumentEvent e) {
 				updateCommandList();
 				SoundPlayer.play("lightKey");
@@ -173,7 +179,7 @@ public class CommandBar extends JTextField {
 
 		this.ui.addComponentListener(new ComponentListener() {
 			public void componentShown(ComponentEvent e) {
-				if(autoCompleteCommands.size() > 0) {
+				if (autoCompleteCommands.size() > 0) {
 					commandList.setVisible(true);
 				}
 			}

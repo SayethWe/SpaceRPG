@@ -39,6 +39,12 @@ public interface Scriptable {
 	 *         the script at when it runs (2 arguments, returns nothing)
 	 */
 	HashMap<String, BiConsumer<?, ?>> getScriptBiConsumers();
+	
+	/**
+	 * @return a hashmap of {@link sineSection.spaceRPG.script.TriConsumer} to put into
+	 *         the script at when it runs (3 arguments, returns nothing)
+	 */
+	HashMap<String, TriConsumer<?, ?, ?>> getScriptTriConsumers();
 
 	/**
 	 * @return a hashmap of {@link java.util.function.Function} to put into the
@@ -53,8 +59,15 @@ public interface Scriptable {
 	HashMap<String, BiFunction<?, ?, ?>> getScriptBiFunctions();
 	
 	/**
+	 * @return a hashmap of {@link sineSection.spaceRPG.script.TriFunction} to put into
+	 *         the script at when it runs (3 arguments, returns a value)
+	 */
+	HashMap<String, TriFunction<?, ?, ?, ?>> getScriptTriFunctions();
+	
+	/**
 	 * @return a hashmap of {@link java.util.function.Runnables} to put into
 	 *         the script at when it runs (no arguments, returns nothing)
 	 */
 	HashMap<String, Runnable> getScriptRunnables();
+
 }

@@ -12,8 +12,10 @@ import java.util.function.Supplier;
 
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.script.Scriptable;
-import sineSection.spaceRPG.world.item.Aura;
+import sineSection.spaceRPG.script.TriConsumer;
+import sineSection.spaceRPG.script.TriFunction;
 import sineSection.spaceRPG.world.item.Item;
+import sineSection.spaceRPG.world.item.aura.Aura;
 import sineSection.spaceRPG.world.map.WorldPos;
 import sineSection.util.LogWriter;
 
@@ -73,8 +75,9 @@ public abstract class Creature implements Scriptable {
 	 *         <code>false</code> if otherwise
 	 */
 	public boolean damage(int amt) {
-		amt = Math.max(amt,0); // ensure that we will only deal damage
-								// ex, if a low stat causes us to do -3 damage, do 0 instead of healing.
+		amt = Math.max(amt, 0); // ensure that we will only deal damage
+								// ex, if a low stat causes us to do -3 damage,
+								// do 0 instead of healing.
 		SpaceRPG.getMaster().writeToGui(name + " takes " + amt + " damage.");
 		boolean alive = health.isIncrementAllowed(-amt);
 		if (alive) {
@@ -124,7 +127,7 @@ public abstract class Creature implements Scriptable {
 	 */
 	public boolean heal(int amt) {
 		if (alive) { // Even Rick Can't heal Death
-			amt = Math.max(amt,0); // ensure that we will only heal
+			amt = Math.max(amt, 0); // ensure that we will only heal
 			SpaceRPG.getMaster().writeToGui(name + " heals " + amt + " health.");
 			amt = health.incrementAllowed(amt);
 			if (amt == health.maxVal()) {
@@ -182,13 +185,13 @@ public abstract class Creature implements Scriptable {
 		alive = false;
 		// TODO make character die (riparoni)
 	}
-	
+
 	public boolean isAlive() {
 		return alive;
 	}
 
 	public void addAuras(List<Aura> auras) {
-		auras.forEach((aura) -> addToStat(aura.getStat(), aura.getAmount()));
+		auras.forEach((aura) -> aura.affect(this));
 	}
 
 	public abstract boolean hasItem(Item item); // Returns true if item is in
@@ -222,6 +225,24 @@ public abstract class Creature implements Scriptable {
 		return ret;
 	}
 
+	public HashMap<String, Consumer<?>> getScriptConsumers() {
+		HashMap<String, Consumer<?>> ret = new HashMap<>();
+		ret.put("log", (Consumer<String>) LogWriter::print);
+		ret.put("logErr", (Consumer<String>) LogWriter::printErr);
+		return ret;
+	}
+
+	public HashMap<String, BiConsumer<?, ?>> getScriptBiConsumers() {
+		HashMap<String, BiConsumer<?, ?>> ret = new HashMap<>();
+		ret.put("addStat", (BiConsumer<String, Stat>) this::addStat);
+		ret.put("addToBase", (BiConsumer<String, Integer>) this::addToBase);
+		return ret;
+	}
+
+	public HashMap<String, TriConsumer<?, ?, ?>> getScriptTriConsumers() {
+		return null;
+	}
+
 	public HashMap<String, Function<?, ?>> getScriptFunctions() {
 		HashMap<String, Function<?, ?>> ret = new HashMap<>();
 		ret.put("getStatVal", (Function<String, Integer>) this::getStatVal);
@@ -241,25 +262,15 @@ public abstract class Creature implements Scriptable {
 		return ret;
 	}
 
-	public HashMap<String, BiConsumer<?, ?>> getScriptBiConsumers() {
-		HashMap<String, BiConsumer<?, ?>> ret = new HashMap<>();
-		ret.put("addStat", (BiConsumer<String, Stat>) this::addStat);
-		ret.put("addToBase", (BiConsumer<String, Integer>) this::addToBase);
-		return ret;
+	public HashMap<String, TriFunction<?, ?, ?, ?>> getScriptTriFunctions() {
+		return null;
 	}
 
-	public HashMap<String, Consumer<?>> getScriptConsumers() {
-		HashMap<String, Consumer<?>> ret = new HashMap<>();
-		ret.put("log", (Consumer<String>) LogWriter::print);
-		ret.put("logErr", (Consumer<String>) LogWriter::printErr);
-		return ret;
-	}
-	
 	public HashMap<String, Runnable> getScriptRunnables() {
 		HashMap<String, Runnable> ret = new HashMap<>();
-		ret.put("makeCharacterDie", this::die);
+		ret.put("die", this::die);
 		return ret;
 	}
 
-	public abstract WorldPos getPos(); //TODO Placeholder Method
+	public abstract WorldPos getPos(); // TODO Placeholder Method
 }

@@ -17,9 +17,15 @@ import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.character.Creature;
 import sineSection.spaceRPG.script.Script;
 import sineSection.spaceRPG.script.Scriptable;
+import sineSection.spaceRPG.script.TriConsumer;
+import sineSection.spaceRPG.script.TriFunction;
 import sineSection.spaceRPG.world.item.ItemAttribute.ItemAttribType;
+import sineSection.spaceRPG.world.item.aura.AbilityAura;
+import sineSection.spaceRPG.world.item.aura.Aura;
+import sineSection.spaceRPG.world.item.aura.StatAura;
 import sineSection.util.LogWriter;
 import sineSection.util.ScriptHelper;
+import sineSection.util.Utils;
 
 /**
  * Class for Item
@@ -141,8 +147,20 @@ public class Item implements Scriptable {
 		this.uses = uses;
 	}
 
-	public void addAura(String auraName, int value) {
-		auras.add(new Aura(auraName, value));
+	public void addStatAura(String statName, int value) {
+		auras.add(new StatAura(statName, value));
+	}
+	
+	public void addAbilityAura(String auraDesc, Consumer<Creature> affect, Consumer<Creature> unaffect) {
+		auras.add(new AbilityAura(auraDesc) {
+			public void unaffect(Creature creature) {
+				affect.accept(creature);
+			}
+			
+			public void affect(Creature creature) {
+				unaffect.accept(creature);
+			}
+		});
 	}
 
 	public void addAura(Aura aura) {
@@ -241,15 +259,30 @@ public class Item implements Scriptable {
 
 	public HashMap<String, BiConsumer<?, ?>> getScriptBiConsumers() {
 		HashMap<String, BiConsumer<?, ?>> ret = new HashMap<>();
-		ret.put("addAura", (BiConsumer<String, Integer>) this::addAura);
+		ret.put("addStatAura", (BiConsumer<String, Integer>) this::addStatAura);
+		return ret;
+	}
+	
+	public HashMap<String, TriConsumer<?, ?, ?>> getScriptTriConsumers() {
+		HashMap<String, TriConsumer<?, ?, ?>> ret = new HashMap<>();
+		ret.put("addAbilityAura", (TriConsumer<String, Consumer<Creature>, Consumer<Creature>>) this::addAbilityAura);
 		return ret;
 	}
 
 	public HashMap<String, Function<?, ?>> getScriptFunctions() {
-		return null;
+		HashMap<String, Function<?, ?>> ret = new HashMap<>();
+		ret.put("getListOfNamesFromCreatures", (Function<List<Creature>, List<String>>) Utils::getListOfNamesFromCreatures);
+		return ret;
 	}
 
 	public HashMap<String, BiFunction<?, ?, ?>> getScriptBiFunctions() {
 		return null;
+	}
+	
+	// JEsus chrisT the ARGS and genERICS
+	public HashMap<String, TriFunction<?, ?, ?, ?>> getScriptTriFunctions() {
+		HashMap<String, TriFunction<?, ?, ?, ?>> ret = new HashMap<>();
+		ret.put("showSelectionDialouge", (TriFunction<Integer, String, List<String>, Boolean>) SpaceRPG.getMaster().getGui()::showSelectionDialogue);
+		return ret;
 	}
 }

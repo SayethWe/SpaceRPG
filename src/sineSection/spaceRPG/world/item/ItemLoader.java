@@ -61,7 +61,7 @@ public class ItemLoader {
 				if (typeList.getLength() > 0)
 					attribs.addAll(loadItemAttrib(type, typeList));
 			}
-			LogWriter.print("Loading Item: " + name);
+			LogWriter.print("Loading Item: " + refID + " (" + name + ")");
 			ItemReference.registerItemRef(new ItemReference(refID.toUpperCase(), name, desc, attribs, scriptLang));
 		} else {
 			LogWriter.printErr("loadItemFromNode(Node n): Node is not correct type! Expected: " + Node.ELEMENT_NODE + ", Received: " + n.getNodeType());
