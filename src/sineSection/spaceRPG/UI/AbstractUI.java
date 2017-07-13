@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import sineSection.spaceRPG.SpaceRPG;
 import sineSection.util.Utils;
 
 public class AbstractUI extends JFrame {
@@ -17,6 +18,7 @@ public class AbstractUI extends JFrame {
 
 	protected AbstractUI() {
 		updateLookAndFeel();
+		setTitle(SpaceRPG.TITLE);
 		setLayout(new GridBagLayout());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		constraints = new GridBagConstraints();

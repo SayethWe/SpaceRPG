@@ -14,6 +14,7 @@ import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.script.Scriptable;
 import sineSection.spaceRPG.world.item.Aura;
 import sineSection.spaceRPG.world.item.Item;
+import sineSection.spaceRPG.world.map.WorldPos;
 import sineSection.util.LogWriter;
 
 /**
@@ -259,4 +260,6 @@ public abstract class Creature implements Scriptable {
 		ret.put("makeCharacterDie", this::die);
 		return ret;
 	}
+
+	public abstract WorldPos getPos(); //TODO Placeholder Method
 }

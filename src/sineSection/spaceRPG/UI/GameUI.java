@@ -27,7 +27,6 @@ public class GameUI extends AbstractUI {
 	public GameUI() {
 		super();
 		setMinimumSize(new Dimension(600, 500));
-		setTitle("SpaceRPG");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		createLayout();
 		setLocationRelativeTo(null);

@@ -140,5 +140,4 @@ public class GameScreen extends JTextArea{
 	public void append(char c) {
 		append(String.valueOf(c));
 	}
-
 }

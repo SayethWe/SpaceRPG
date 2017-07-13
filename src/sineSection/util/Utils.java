@@ -1,11 +1,8 @@
 package sineSection.util;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.function.Function;
 
 import javax.imageio.ImageIO;
 
@@ -40,10 +37,11 @@ public class Utils {
 		return result;
 	}
 
-	@Deprecated
-	public static <T> List<T> toList(Set<T> set) {
+	public static <T> List<T> toList(T[] set) {
 		List<T> ret = new ArrayList<>();
-		set.forEach((item) -> ret.add(item));
+		for(T element : set) {
+			ret.add(element);
+		}
 		return ret;
 	}
 

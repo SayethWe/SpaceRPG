@@ -77,7 +77,7 @@ public class Item implements Scriptable {
 	 * 
 	 * @return if the item was used on the target(s) successfully
 	 */
-	public boolean use(Creature user, ArrayList<Creature> targets) {
+	public boolean use(Creature user, List<Creature> targets) {
 		if (user == null) {
 			System.err.println("Item.use(): Argument \"user\" must not be null!");
 			return false;
@@ -101,6 +101,20 @@ public class Item implements Scriptable {
 				e.printStackTrace();
 		}
 		return false;
+	}
+	
+	/**
+	 * ease of use function to turn args into creatures
+	 * @param user
+	 * @param args
+	 * @return
+	 */
+	public boolean use(Creature user, String[] args) {
+		List<Creature> targets = new ArrayList<>();
+		for(String arg : args) {
+			targets.add(SpaceRPG.getMaster().getWorld().getRoomAt(user.getPos()).getCreature(arg));
+		}
+		return(use(user, targets));
 	}
 
 	/**
@@ -233,5 +247,10 @@ public class Item implements Scriptable {
 
 	public HashMap<String, BiFunction<?, ?, ?>> getScriptBiFunctions() {
 		return null;
+	}
+
+	public int getMinTargets() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
