@@ -38,6 +38,7 @@ public class SpaceRPG {
 	private static Random seedGenerator;
 	private static SpaceRPG master; // The SPACERPG object to call for all your
 									// needs.
+	private static boolean doIntro = true;
 
 	private static Player testPlayer;
 	private Client gameClient; // the client object this uses to talk to the
@@ -53,6 +54,8 @@ public class SpaceRPG {
 					DEBUG = true;
 				} else if (args[i].equalsIgnoreCase("nointro")) {
 					showWindow = false;
+				} else if (args[i].equalsIgnoreCase("skipExpo")) {
+					doIntro = false;
 				}
 			}
 		}
@@ -125,11 +128,13 @@ public class SpaceRPG {
 		testPlayer = new Player("Katyusha", new WorldPos(0, 0, 0, 0));
 		gui.setPlayerToTrack(testPlayer);
 		gui.display();
-//		try {
-//			IntroReader.read("Story.txt");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		if (doIntro) {
+			try {
+				IntroReader.read("Intro.txt");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		Item testItem = itemGenerator.generate();
 		writeToGui(testPlayer);
 		testPlayer.addItem(testItem);
@@ -181,7 +186,7 @@ public class SpaceRPG {
 
 	private static void setMacIcon() {
 		Image image = Utils.loadImageResource("/image/logo.png");
-		//Application.getApplication().setDockIconImage(image);
+		// Application.getApplication().setDockIconImage(image);
 		try {
 			String className = "com.apple.eawt.Application";
 			Class<?> claas = Class.forName(className);

@@ -155,6 +155,11 @@ public class CommandHandler {
 					doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
 				}
 				break;
+			case TOGGLESCROLL:
+				doctor.writeToGui("Text scrolling is now " + (doctor.getGui().toggleTextScroll() ? "on" : "off"));
+				break;
+			default:
+				break;
 
 			}
 			doctor.writeToGui("");

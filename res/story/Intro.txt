@@ -1,0 +1,41 @@
+Top Secret. Organic Occular EMF Observation Only.
+Document Title: SS Greenshift.
+~BEGIN DATA STREAM~
+
+Cover Letter: Official Press Release upon ship Completion.
+	The SS Greenshift is the prototype lead ship of the Greenshift class Stellar Transporters.
+	Built mainly as a test bed for a new Coherent Radiation Shift engine, the Greenshift class is to have two sister classes.
+	First, The Maneuverable Warships of the Gammashift class, with members Uniform-Victor, X-Ray, and Golf-Romeo,
+	and
+	Second, The High-Capacity Haulers of the Radioshift class, with members  India-Romeo, Mike-Whiskey, and Romeo-Whiskey.
+	Greenshift has been chosen as the first to be built, due to being the most 'Renaissance' ship, enabling trials of both capacity and speed.
+	
+	Construction is now complete, and Greenshift is ready to journey into the Vast expanse above our worlds.
+	
+Section One. Construction and Engineering Specifications.
+	1.1: Coherent Radiation Shift Documentation.
+	Terms:
+	Doppler Shift: The change in frequency or wavelength of a wave (or other periodic event) for an observer moving relative to its source.
+	Coherent Radiation: Radiation in which the period and phase difference of all compromising waves is within close tolerance, and does not alter. Commonly Seen in Lasers.
+	
+	Abstract:
+	The effect of Doppler Shift upon light waves and other massless particles is well known. Less explored, However, is that effect upon mass.
+	One major problem that mass presents, however, is a lack of phase coherence. This tends to cause dissociation upon mass shift, most notably on the creation of the Alcubierre 'warp' Bubble.
+	However, If the mass body is polarized before shift activation, and each specific material excited to produce cross-material coherent radiation, a safe shift can be performed.
+	Excitation is currently created through gentle heating of the materials until their respective EM output matches a chosen wavelength.
+	This has led to the nick-naming of this engine as "The Glowbug Drive", specifically because test spectrums ere selected within visible range to confirm operation.
+	
+	Body Text:
+	[REDACTED]
+	
+	1.2: Greenshift Design Notes.
+		Lower Wavelengths, with their higher amplitude at lesser power, are ideal for carrying capacity, whereas
+		Higher Wavelengths, able to penetrate most blocking material and a higher total energy transference, are ideal for maneuverable strike craft.
+		Therefore, for testing purposes, A middle ground has been selected. A test ship, of some 5 GigaTonnes, with a phase Frequency of 564 THz.
+		She shall have a cargo carrying capacity of 500 KiloTonnes, and a minimum complement of Two Crewmembers, provided off-vehicle control is available and the Ship AI is providing System oversight and maintenance.
+		The vessel's Travel Range shall be 500 Parsecs without Resupplying either Food, Water, Fuel or Electricity Reserves.
+		The Bid has been Given to ArcTan Heavy Shipyards for construction, and will undergo testing as soon as she is Completed.
+		
+Section Two. Greenshift Test Report.
+		
+~END OF DOCUMENT. TERMINATING READOUT~	

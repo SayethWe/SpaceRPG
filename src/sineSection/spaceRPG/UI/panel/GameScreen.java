@@ -24,6 +24,8 @@ public class GameScreen extends JTextArea {
 	public static final Font GAME_SCREEN_FONT = new Font("VT323", Font.PLAIN, (int) FONT_SIZES[DEFAULT_FONT_SIZE]);
 
 	private int placeInLine = 0;
+	
+	private boolean scroll = true;
 
 	public GameScreen() {
 		setAlignmentX(LEFT_ALIGNMENT);
@@ -36,6 +38,22 @@ public class GameScreen extends JTextArea {
 		getCaret().setVisible(true);
 		getCaret().setSelectionVisible(false);
 		setCaretColor(Color.GREEN);
+	}
+	
+	/**
+	 * 
+	 * @return the updated state of scroll
+	 */
+	public boolean toggleScroll() {
+		return scroll = !scroll;
+	}
+	
+	public void Write(String s) {
+		if(scroll) {
+			writeScroll(s);
+		} else {
+			writeNoScroll(s);
+		}
 	}
 
 	public void writeScroll(String text) {
@@ -55,8 +73,10 @@ public class GameScreen extends JTextArea {
 		append("\n");
 	}
 
-	public void write(String s) {
+	public void writeNoScroll(String s) {
 		append(s);
+		SoundPlayer.play("return");
+		append("\n");
 		updateCaret();
 	}
 
