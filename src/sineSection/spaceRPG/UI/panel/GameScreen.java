@@ -7,9 +7,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JTextArea;
 
-import sound.SoundPlayer;
+import sineSection.sound.SoundPlayer;
 
 public class GameScreen extends JTextArea{
 	private static final long serialVersionUID = -3410321645542492470L;
@@ -39,7 +41,7 @@ public class GameScreen extends JTextArea{
 		setCaretColor(Color.YELLOW);
 		try {
 			SoundPlayer.loadSound(TYPE_SOUND);
-		} catch (IOException e) {
+		} catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		}
 	}
@@ -78,11 +80,19 @@ public class GameScreen extends JTextArea{
 			append(s.charAt(placeInLine));
 			placeInLine++;
 			updateCaret();
-			SoundPlayer.playSound(TYPE_SOUND);
+			playSound(TYPE_SOUND);
 		} else {
 			placeInLine = 0;
 		}
 		return result;
+	}
+	
+	private void playSound(String title) {
+		try {
+			SoundPlayer.playSound(title);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void updateCaret() {
