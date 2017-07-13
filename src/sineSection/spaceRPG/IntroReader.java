@@ -7,7 +7,7 @@ public class IntroReader {
 	
 	public static void read(String title) throws IOException {
 		
-		BufferedReader in = new BufferedReader(new InputStreamReader(SpaceRPG.class.getResourceAsStream("/" + title)));
+		BufferedReader in = new BufferedReader(new InputStreamReader(SpaceRPG.class.getResourceAsStream("/story/" + title)));
 		String line;
 		StringBuilder fileText = new StringBuilder("");
 		

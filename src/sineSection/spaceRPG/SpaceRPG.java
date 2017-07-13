@@ -126,7 +126,7 @@ public class SpaceRPG {
 		gui.setPlayerToTrack(testPlayer);
 		gui.display();
 		try {
-			IntroReader.read("Story.txt");
+			IntroReader.read("Intro.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
