@@ -38,6 +38,7 @@ public class SpaceRPG {
 	private static Random seedGenerator;
 	private static SpaceRPG master; // The SPACERPG object to call for all your
 									// needs.
+	private static boolean doIntro = true;
 
 	private static Player testPlayer;
 	private Client gameClient; // the client object this uses to talk to the
@@ -53,6 +54,8 @@ public class SpaceRPG {
 					DEBUG = true;
 				} else if (args[i].equalsIgnoreCase("nointro")) {
 					showWindow = false;
+				} else if (args[i].equalsIgnoreCase("skipExpo")) {
+					doIntro = false;
 				}
 			}
 		}
@@ -125,10 +128,12 @@ public class SpaceRPG {
 		testPlayer = new Player("Katyusha", new WorldPos(0, 0, 0, 0));
 		gui.setPlayerToTrack(testPlayer);
 		gui.display();
+		if (doIntro) {
 		try {
 			IntroReader.read("Intro.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
 		}
 		Item testItem = itemGenerator.generate();
 		writeToGui(testPlayer);

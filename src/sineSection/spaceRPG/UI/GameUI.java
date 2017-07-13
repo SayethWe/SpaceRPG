@@ -134,6 +134,10 @@ public class GameUI extends AbstractUI {
 	public void increaseFontSize() {
 		gameScreen.increaseFontSize();
 	}
+	
+	public boolean toggleTextScroll() {
+		return gameScreen.toggleScroll();
+	}
 
 	public void setFontSize(int fontSizeIndex) {
 		gameScreen.setFontSize(fontSizeIndex);
