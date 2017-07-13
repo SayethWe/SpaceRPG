@@ -105,6 +105,7 @@ public class CommandBar extends JTextField {
 					setText("");
 					commandHistoryIndex = -1;
 					autoCompleteIndex = -1;
+					SoundPlayer.play("return");
 					break;
 				case KeyEvent.VK_UP:
 					if (commandHistory.size() > 0) {
@@ -116,6 +117,7 @@ public class CommandBar extends JTextField {
 						setText(commandHistory.get(commandHistoryIndex));
 					}
 					updateCommandList();
+					SoundPlayer.play("lightKey");
 					break;
 				case KeyEvent.VK_DOWN:
 					if (commandHistory.size() > 0) {
@@ -132,6 +134,7 @@ public class CommandBar extends JTextField {
 						}
 					}
 					updateCommandList();
+					SoundPlayer.play("lightKey");
 					break;
 				case KeyEvent.VK_TAB:
 					commandHistoryIndex = -1;
@@ -140,6 +143,7 @@ public class CommandBar extends JTextField {
 						autoCompleteIndex = -1;
 					}
 					updateCommandList();
+					SoundPlayer.play("lightKey");
 					break;
 				}
 			}
@@ -155,12 +159,12 @@ public class CommandBar extends JTextField {
 		getDocument().addDocumentListener(new DocumentListener() {
 			public void removeUpdate(DocumentEvent e) {
 				updateCommandList();
-				SoundPlayer.play("keyStroke");
+				SoundPlayer.play("lightKey");
 			}
 			
 			public void insertUpdate(DocumentEvent e) {
 				updateCommandList();
-				SoundPlayer.play("keyStroke");
+				SoundPlayer.play("lightKey");
 			}
 
 			public void changedUpdate(DocumentEvent e) {

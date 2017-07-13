@@ -52,6 +52,7 @@ public class ItemLoader {
 
 			String name = e.getElementsByTagName("name").item(0).getTextContent();
 			String desc = e.getElementsByTagName("desc").item(0).getTextContent();
+			String refID = e.getAttribute("referenceID");
 			String scriptLang = e.getAttribute("scriptLang");
 			ArrayList<ItemAttribute> attribs = new ArrayList<ItemAttribute>();
 
@@ -61,7 +62,7 @@ public class ItemLoader {
 					attribs.addAll(loadItemAttrib(type, typeList));
 			}
 			LogWriter.print("Loading Item: " + name);
-			ItemReference.registerItemRef(new ItemReference(name, desc, attribs, scriptLang));
+			ItemReference.registerItemRef(new ItemReference(refID.toUpperCase(), name, desc, attribs, scriptLang));
 		} else {
 			LogWriter.printErr("loadItemFromNode(Node n): Node is not correct type! Expected: " + Node.ELEMENT_NODE + ", Received: " + n.getNodeType());
 			errorFlag += 1;

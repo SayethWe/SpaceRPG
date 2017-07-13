@@ -158,7 +158,7 @@ public class Item implements Scriptable {
 	}
 
 	public String getName() {
-		String s = ScriptHelper.replaceAllNewLinesInString(ref.getName());
+		String s = ScriptHelper.replaceAllFormattersInString(ref.getName());
 		if (ScriptHelper.hasVarsInString(sEng, s)) {
 			return ScriptHelper.putVarsInString(sEng, s);
 		} else {
@@ -171,7 +171,7 @@ public class Item implements Scriptable {
 	}
 
 	public String getDescription() {
-		String s = ScriptHelper.replaceAllNewLinesInString(ref.getDescription());
+		String s = ScriptHelper.replaceAllFormattersInString(ref.getDescription());
 		if (ScriptHelper.hasVarsInString(sEng, s)) {
 			return ScriptHelper.putVarsInString(sEng, s);
 		} else {
@@ -190,6 +190,10 @@ public class Item implements Scriptable {
 
 	public boolean canUse() {
 		return canUse;
+	}
+
+	public int getMinTargets() {
+		return 0;
 	}
 
 	public String toString() {
@@ -247,10 +251,5 @@ public class Item implements Scriptable {
 
 	public HashMap<String, BiFunction<?, ?, ?>> getScriptBiFunctions() {
 		return null;
-	}
-
-	public int getMinTargets() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }

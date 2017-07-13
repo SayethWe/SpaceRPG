@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.util.Map.Entry;
@@ -13,6 +14,7 @@ import javax.swing.Box;
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.character.Stat;
+import sineSection.spaceRPG.sound.SoundPlayer;
 import sineSection.util.GraphicsUtils;
 
 /**
@@ -56,6 +58,14 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	private Thread thread;
 
 	private Player player;
+
+	private static final int NONE_IDLE = 0;
+	private static final int HUD_ATTAINED_ANIM = 1;
+	private static final int HUD_IDLE = 2;
+	private static final int HUD_LOST_ANIM = 3;
+
+	private int state = NONE_IDLE;
+	private boolean doneAnimating = true;
 
 	public HudPanel() {
 		super();
@@ -110,6 +120,22 @@ public class HudPanel extends AbstractPanel implements Runnable {
 		}
 	}
 
+	public void hudAttained() {
+		if (state == NONE_IDLE) {
+			state = HUD_ATTAINED_ANIM;
+			doneAnimating = false;
+			SoundPlayer.play("hudAttained");
+		}
+	}
+
+	public void hudLost() {
+		if (state == HUD_IDLE) {
+			state = HUD_LOST_ANIM;
+			doneAnimating = false;
+			SoundPlayer.play("hudLost");
+		}
+	}
+
 	/**
 	 * Uses {@link #bfr} to get a <code>Graphics2D</code> object, then calls
 	 * {@link #draw(Graphics2D)}.
@@ -117,7 +143,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	 * @author Richard Abbott
 	 */
 	private void render() {
-		if(canvas.getBufferStrategy() == null) {
+		if (canvas.getBufferStrategy() == null) {
 			canvas.createBufferStrategy(2);
 			return;
 		}
@@ -183,11 +209,45 @@ public class HudPanel extends AbstractPanel implements Runnable {
 			g.setFont(PANEL_PLAYER_NAME_FONT);
 			g.drawString("No player", 30, getHeight() / 2 - 15);
 		}
+		
+		
+		switch(state) {
+		default:
+		case NONE_IDLE:
+			drawNoneIdle(g);
+			break;
+		case HUD_ATTAINED_ANIM:
+			drawAttainedAnim(g);
+			break;
+		case HUD_IDLE:
+			drawIdle(g);
+			break;
+		case HUD_LOST_ANIM:
+			drawLostAnim(g);
+			break;
+		}
+		
 		if (SpaceRPG.DEBUG) {
 			g.setColor(new Color(0.0f, 0.3f, 0.0f));
 			g.setFont(PANEL_DEBUG_MODE_FONT);
 			g.drawString("DEBUG MODE", (getWidth() / 2) - (GraphicsUtils.getStringWidth(g, "DEBUG MODE") / 2), getHeight() - 5);
 		}
+	}
+
+	private void drawNoneIdle(Graphics g) {
+
+	}
+
+	private void drawAttainedAnim(Graphics g) {
+
+	}
+
+	private void drawIdle(Graphics g) {
+
+	}
+
+	private void drawLostAnim(Graphics g) {
+
 	}
 
 	/**

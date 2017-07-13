@@ -1,2 +1,6 @@
-/sound/HardKeyStroke.wav:hardKey
-/sound/TypeWriterKey.wav:lightKey
+/sound/return.wav:return
+/sound/beep1.wav:beep1
+/sound/beep2.wav:beep2
+/sound/hudAttained.wav:hudAttained
+/sound/hudLost.wav:hudLost
+/sound/lightKey.wav:lightKey

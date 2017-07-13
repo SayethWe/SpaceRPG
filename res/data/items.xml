@@ -2,6 +2,7 @@
 <!DOCTYPE define [
 	<!ELEMENT define (item+)>
   	<!ELEMENT item (name,desc,init+,use+)>
+  	<!ATTLIST item refID CDATA #REQUIRED>
   	<!ATTLIST item scriptLang CDATA "JavaScript">
   	<!ELEMENT name (#PCDATA)>
   	<!ELEMENT desc (#PCDATA)>
@@ -10,7 +11,7 @@
 ]>
 
 <define>
-	<item scriptLang="JavaScript">
+	<item refID="00-HLTH" scriptLang="JavaScript">
 		<name>Health Kit</name>
 		<desc>A small first-aid kit to heal superficial wounds.%nHeals %healAmt% health.</desc>
 		<init>
@@ -27,7 +28,7 @@
 		}
 		</use>
 	</item>
-	<item scriptLang="JavaScript">
+	<item refID="01-PARM" scriptLang="JavaScript">
 		<name>Power Armor</name>
 		<desc>Powerful armor that increases your defense.</desc>
 		<init>
@@ -41,7 +42,7 @@
 		}
 		</use>
 	</item>
-	<item scriptLang="JavaScript">
+	<item refID="02-GREN" scriptLang="JavaScript">
 		<name>Grenade</name>
 		<desc>A simple frag grenade.%nDamage: %dmg%</desc>
 		<init>
@@ -62,7 +63,7 @@
 		}
 		</use>
 	</item>
-	<item scriptLang="JavaScript">
+	<item refID="03-GRCT" scriptLang="JavaScript">
 		<name>Grenade Crate</name>
 		<desc>A crate of frag grenades.%nDamage: %dmg%%nUses left: %uses%</desc>
 		<init>
@@ -91,7 +92,7 @@
 		}
 		</use>
 	</item>
-	<item scriptlang="JavaScript">
+	<item refID="04-RBLD" scriptLang="JavaScript">
 		<name>Rusting Blade</name>
 		<desc>An old blade, coated with blood and rust. Holding it fills you with confidence.%nDoes %dmg% damage.</desc>
 		<init>
@@ -102,7 +103,7 @@
 		var userDmg = 2;
 		</init>
 		<use>
-		if(canUse) {
+		if(canUse()) {
 			write('You charge forward!');
 			if(targets.length > 0) {
 				for(var i = 0; i &lt; targets.length; i++) {
@@ -113,6 +114,20 @@
 				user.damage(userDmg);
 			}
 			used();
+		}
+		</use>
+	</item>
+	<item refID="05-HSYS" scriptLang="JavaScript">
+		<name>HUD System</name>
+		<desc>A small round object that reads in big green letters:%n%t"SHIFTCO. HUD SYSTEM&#8492;"%nAllows user to view their stats.</desc>
+		<init>
+		var uses = 0;
+		</init>
+		<use>	
+		if(canUse()) {
+			if() {
+				
+			}
 		}
 		</use>
 	</item>

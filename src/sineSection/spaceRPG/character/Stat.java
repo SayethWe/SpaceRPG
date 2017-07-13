@@ -40,9 +40,9 @@ public class Stat {
 	}
 	
 	public int incrementAllowed(int amt) {
-		if(value > 0) {
+		if(amt > 0) {
 			return Math.max(value + amt, maxValue);
-		} else if(value < 0) {
+		} else if(amt < 0) {
 			return Math.min(value + amt, maxValue);
 		} else {
 			return 0;

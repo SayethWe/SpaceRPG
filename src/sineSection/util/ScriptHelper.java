@@ -15,6 +15,7 @@ public class ScriptHelper {
 	public static final String VAR_STRING_INSERTION_REGEX = "(%\\w+%)";
 	private static final Pattern VAR_STRING_INSERTION_PATTERN = Pattern.compile(VAR_STRING_INSERTION_REGEX);
 	public static final String STRING_NEW_LINE_REGEX = "(%n(?!\\w*%))";
+	public static final String STRING_TAB_REGEX = "(%t(?!\\w*%))";
 
 	/**
 	 * Takes the input <code>string</code> and replaces all
@@ -142,8 +143,10 @@ public class ScriptHelper {
 	 * @return the replaced string
 	 * @author Richard Abbott
 	 */
-	public static String replaceAllNewLinesInString(String s) {
-		return s.replaceAll(STRING_NEW_LINE_REGEX, "\n");
+	public static String replaceAllFormattersInString(String s) {
+		s = s.replaceAll(STRING_NEW_LINE_REGEX, "\n");
+		s = s.replaceAll(STRING_TAB_REGEX, "\t");
+		return s;
 	}
 
 }
