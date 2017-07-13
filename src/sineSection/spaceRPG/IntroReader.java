@@ -12,11 +12,13 @@ public class IntroReader {
 		
 		while ((line = in.readLine()) != null) {
 			StringBuilder paragraph = new StringBuilder("");
-			while(line != "") {
+			if(line != "") {
 				paragraph.append(line + "\n");
+			} else {
+				SpaceRPG.getMaster().writeToGui(paragraph.toString());
 			}
-			SpaceRPG.getMaster().writeToGui(paragraph.toString());
 		}
+		
 	}
 
 }
