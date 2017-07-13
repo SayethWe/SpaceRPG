@@ -1,11 +1,17 @@
 package sineSection.util;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import javax.imageio.ImageIO;
 
@@ -25,9 +31,9 @@ public class Utils {
 	 */
 	public static String[] splitString(String s, int index) {
 		if (index < 0)
-			return new String[] {s};
+			return new String[] { s };
 		else if (index >= s.length())
-			return  new String[] {s};
+			return new String[] { s };
 		String[] ret = new String[2];
 		ret[0] = s.substring(0, index);
 		ret[1] = s.substring(index);
@@ -48,13 +54,13 @@ public class Utils {
 	}
 
 	public static List<String> removeStringFromListIgnoreCase(List<String> list, String s) {
-		for (String str : list) {
+		list.forEach((str) -> {
 			if (str.equalsIgnoreCase(s))
-				list.remove(str);
-		}
+				list.remove(s);
+		});
 		return list;
 	}
-	
+
 	public static BufferedImage loadImageResource(String path) {
 		try {
 			return ImageIO.read(Utils.class.getResourceAsStream(path));

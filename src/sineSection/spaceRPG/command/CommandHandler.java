@@ -20,6 +20,7 @@ public class CommandHandler {
 		Command comm = CommandParser.parseCommand(command);
 		CommandString c = comm.getCommand();
 		String[] args = comm.getArgs();
+		
 		Ship sulaco = doctor.getWorld();
 		WorldPos tenForward = doctor.getPlayer().getPos();
 		Room halCortex = sulaco.getRoomAt(tenForward);

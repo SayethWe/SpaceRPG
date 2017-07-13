@@ -8,8 +8,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.apple.eawt.Application;
-
 import sineSection.SineSection;
 import sineSection.networking.client.Client;
 import sineSection.spaceRPG.UI.GameUI;
@@ -17,6 +15,7 @@ import sineSection.spaceRPG.UI.IntroWindow;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.save.SaveReader;
 import sineSection.spaceRPG.save.SaveState;
+import sineSection.spaceRPG.sound.SoundPlayer;
 import sineSection.spaceRPG.world.DataLoader;
 import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.ItemGenerator;
@@ -45,20 +44,24 @@ public class SpaceRPG {
 	private Ship gameWorld;
 
 	public static void main(String[] args) {
+		boolean showWindow = true;
 		if (args.length > 0) {
 			for (int i = 0; i < args.length; i++) {
 				if (args[i].equalsIgnoreCase("debug")) {
 					System.out.println("!DEBUG MODE ENABLED!");
 					DEBUG = true;
+				} else if (args[i].equalsIgnoreCase("nointro")) {
+					showWindow = false;
 				}
 			}
 		}
 
-		if (isOSX) setMacIcon();
+		if (isOSX)
+			setMacIcon();
 
 		SpaceRPG.initialize();
 		SineSection.initialize();
-		if (!DEBUG)
+		if (!DEBUG && showWindow)
 			new IntroWindow().start();
 
 		new SpaceRPG().testGame();
@@ -77,6 +80,8 @@ public class SpaceRPG {
 		addItemTypes();
 		loadFontFromFile("Mars_Needs_Cunnilingus");
 		loadFontFromFile("VT323");
+		SoundPlayer.init();
+		SoundPlayer.loadSoundsFromSoundList("/sound/loadSound.txt");
 	}
 
 	private static void addItemTypes() {
@@ -167,27 +172,17 @@ public class SpaceRPG {
 		if (gameClient != null)
 			gameClient.sendChat(chat);
 	}
-	
+
 	private static void setMacIcon() {
 		Image image = Utils.loadImageResource("/image/logo.png");
-		Application.getApplication().setDockIconImage(image);
-//		try {	
-//		    // Instead of importing com.apple.eawt.Application
-//		    String className = "Five";
-//		    Class<?> claas = Class.forName(className);
-//
-//		    // Instead of calling Application.getApplication();
-//		    Object application = claas.newInstance().getClass().getMethod("getApplication")
-//		        .invoke(null);
-//
-//		    // Instead of application.setDockIconImage(image);
-//		    application.getClass().getMethod("setDockIconImage", java.awt.Image.class)
-//		        .invoke(application, image);
-//		}
-//		catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException
-//		        | InvocationTargetException | NoSuchMethodException | SecurityException
-//		        | InstantiationException e) {
-//		    e.printStackTrace();
-//		}
+		//Application.getApplication().setDockIconImage(image);
+		try {
+			String className = "com.apple.eawt.Application";
+			Class<?> claas = Class.forName(className);
+			Object application = claas.getMethod("getApplication").invoke(null);
+			application.getClass().getMethod("setDockIconImage", java.awt.Image.class).invoke(application, image);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

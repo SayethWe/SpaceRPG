@@ -25,6 +25,7 @@ import javax.swing.event.DocumentListener;
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.UI.GameUI;
 import sineSection.spaceRPG.command.CommandStrings;
+import sineSection.spaceRPG.sound.SoundPlayer;
 import sineSection.util.GraphicsUtils;
 
 public class CommandBar extends JTextField {
@@ -154,10 +155,12 @@ public class CommandBar extends JTextField {
 		getDocument().addDocumentListener(new DocumentListener() {
 			public void removeUpdate(DocumentEvent e) {
 				updateCommandList();
+				SoundPlayer.play("keyStroke");
 			}
-
+			
 			public void insertUpdate(DocumentEvent e) {
 				updateCommandList();
+				SoundPlayer.play("keyStroke");
 			}
 
 			public void changedUpdate(DocumentEvent e) {

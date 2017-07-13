@@ -1,0 +1,2 @@
+/sound/HardKeyStroke.wav:hardKey
+/sound/TypeWriterKey.wav:lightKey
