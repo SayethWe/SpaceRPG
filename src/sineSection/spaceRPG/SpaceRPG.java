@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
@@ -27,7 +28,7 @@ import sineSection.util.LogWriter;
 import sineSection.util.Utils;
 
 public class SpaceRPG {
-	public static final String TITLE = "SpaceRPG";
+	public static final String TITLE = "Greenshift";
 	public static final boolean isOSX = System.getProperty("os.name").startsWith("mac");
 
 	public static boolean DEBUG = false;
@@ -124,6 +125,11 @@ public class SpaceRPG {
 		testPlayer = new Player("Katyusha", new WorldPos(0, 0, 0, 0));
 		gui.setPlayerToTrack(testPlayer);
 		gui.display();
+		try {
+			IntroReader.read("Story.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		Item testItem = itemGenerator.generate();
 		writeToGui(testPlayer);
 		testPlayer.addItem(testItem);

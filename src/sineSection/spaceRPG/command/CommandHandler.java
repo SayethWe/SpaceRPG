@@ -1,8 +1,11 @@
 package sineSection.spaceRPG.command;
 
+import java.util.Arrays;
+
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.UI.panel.GameScreen;
-import sineSection.spaceRPG.character.Creature;
+import sineSection.spaceRPG.character.Player;
+import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.map.Direction;
 import sineSection.spaceRPG.world.map.Ship;
 import sineSection.spaceRPG.world.map.WorldPos;
@@ -22,7 +25,8 @@ public class CommandHandler {
 		String[] args = comm.getArgs();
 		
 		Ship sulaco = doctor.getWorld();
-		WorldPos tenForward = doctor.getPlayer().getPos();
+		Player janeway = doctor.getPlayer();
+		WorldPos tenForward = janeway.getPos();
 		Room halCortex = sulaco.getRoomAt(tenForward);
 
 		if (doctor.getPlayer().isAlive()) {
@@ -56,22 +60,31 @@ public class CommandHandler {
 					}
 					// move by arg direction
 				} else {
-					doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
+					doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE + "Which direction did you want to go?");
 				}
 				break;
 				// case ALIAS:
 			case USE:
-				if (args.length >= 2) {
-					Creature target = halCortex.getCreature(args[1]);
-					if (target != null) {
-						doctor.getPlayer().useItem(args[0], target);
+				if (args.length > 0) {
+					Item use = janeway.getItemByAlias(args[0]);
+					if(use != null) {
+						if(args.length > use.getMinTargets()) { //TODO also check that they,re all valid targets
+							use.use(janeway, Arrays.copyOfRange(args, 1, args.length));
+							//hand the Item the args[1-end] to act upon
+						} else {
+							doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
+						}
 					} else {
-						doctor.writeToGui(ILLEGAL_ARGUMENT_MESSAGE + " You had an invalid target name.");
+						doctor.writeToGui(ILLEGAL_ARGUMENT_MESSAGE + " You had an invalid item name.");
 					}
-				} else if (args.length == 1) {
-
+//					Creature target = halCortex.getCreature(args[1]);
+//					if (target != null) {
+//						doctor.getPlayer().useItem(args[0], target);
+//					} else {
+//						doctor.writeToGui(ILLEGAL_ARGUMENT_MESSAGE + " You had an invalid item name.");
+//					}
 				} else {
-					doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
+					doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE + "I have no idea what item you wanted to use");
 				}
 				break;
 			case DECREASE_FONT_SIZE:
