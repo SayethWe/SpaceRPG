@@ -9,13 +9,14 @@ public class IntroReader {
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(SpaceRPG.class.getResourceAsStream("/story/" + title)));
 		String line;
-		StringBuilder fileText = new StringBuilder("");
 		
 		while ((line = in.readLine()) != null) {
-			fileText.append(line + "\n");
+			StringBuilder paragraph = new StringBuilder("");
+			while(line != "") {
+				paragraph.append(line + "\n");
+			}
+			SpaceRPG.getMaster().writeToGui(paragraph.toString());
 		}
-		
-		SpaceRPG.getMaster().writeToGui(fileText.toString());
 	}
 
 }
