@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
 
 import sineSection.spaceRPG.SpaceRPG;
@@ -19,14 +17,7 @@ public class DataLoader {
 	 */
 	public static boolean loadAllFiles() {
 		int errors = 0;
-		final URL resources = SpaceRPG.class.getResource(SpaceRPG.resDirectory + "/data"); //TODO fix NRE when in jar
-		File homeFolder;
-		try {
-			homeFolder = new File(resources.toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-			return false;
-		}
+		File homeFolder = new File(SpaceRPG.resDirectory + "/data");
 		String[] data = homeFolder.list();
 		for(String datumString : data) {
 			File datum = new File(datumString);
