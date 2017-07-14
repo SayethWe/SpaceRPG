@@ -28,7 +28,8 @@ import sineSection.util.Utils;
 
 public class SpaceRPG {
 	public static final String TITLE = "Greenshift";
-	public static final boolean isOSX = System.getProperty("os.name").startsWith("mac");
+	public static final boolean isOSX = System.getProperty("os.name").toLowerCase().startsWith("mac");
+	public static final File resDirectory = new File(System.getProperty("user.home") + (isOSX ? "/Library/Application Support/" : "") + TITLE);
 
 	public static boolean DEBUG = false;
 
@@ -45,6 +46,8 @@ public class SpaceRPG {
 	private Ship gameWorld;
 
 	public static void main(String[] args) {
+		System.out.println(isOSX + "" + resDirectory);
+		resDirectory.mkdirs();
 		boolean showWindow = true;
 		if (args.length > 0) {
 			for (int i = 0; i < args.length; i++) {
