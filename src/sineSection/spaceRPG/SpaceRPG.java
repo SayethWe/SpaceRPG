@@ -179,7 +179,7 @@ public class SpaceRPG {
 			InputStream f = SpaceRPG.class.getResourceAsStream("/font/" + fontName + ".ttf");
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, f));
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogWriter.printErr(e.toString());
 			LogWriter.print("Can't load font: " + fontName);
 		}
 	}
@@ -198,7 +198,7 @@ public class SpaceRPG {
 			Object application = claas.getMethod("getApplication").invoke(null);
 			application.getClass().getMethod("setDockIconImage", java.awt.Image.class).invoke(application, image);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogWriter.printErr(e.toString()); 
 		}
 	}
 }
