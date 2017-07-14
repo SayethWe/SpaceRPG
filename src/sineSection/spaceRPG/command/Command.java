@@ -18,7 +18,7 @@ public class Command {
 	}
 
 	public boolean isValid() {
-		return command == CommandString.UNKNOWN;
+		return command != CommandString.UNKNOWN;
 	}
 
 	public boolean hasArgs() {

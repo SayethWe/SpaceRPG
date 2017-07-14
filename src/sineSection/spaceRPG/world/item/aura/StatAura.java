@@ -22,7 +22,7 @@ public class StatAura extends Aura {
 
 	@Override
 	public String toString() {
-		StringBuilder result = new StringBuilder("Aura: ");
+		StringBuilder result = new StringBuilder();
 		result.append("Affects ");
 		result.append(stat);
 		result.append(" by ");
@@ -33,11 +33,11 @@ public class StatAura extends Aura {
 	}
 
 	public void affect(Creature creature) {
-		
+		creature.addToStat(stat, effectAmt);
 	}
 
 	public void unaffect(Creature creature) {
-		
+		creature.addToStat(stat, -effectAmt);
 	}
 
 }

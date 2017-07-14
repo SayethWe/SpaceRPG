@@ -2,7 +2,7 @@ package sineSection.spaceRPG.character;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
@@ -68,6 +68,21 @@ public class Player extends Creature {
 	public boolean hasItem(Item item) {
 		return inventory.containsValue(item);
 	}
+	
+	/**
+	 * @Author Richard Abbott
+	 * @Return True if Item is in the players inventory, false if it is not
+	 *         found
+	 */
+	public boolean hasItem(String itemRefID) {
+		for(String i : inventory.keySet()) {
+			Item item = inventory.get(i);
+			if(item.getRefID().substring(0, item.getRefID().lastIndexOf('-') - 1).equalsIgnoreCase(itemRefID)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * @Author William Black
@@ -77,7 +92,8 @@ public class Player extends Creature {
 	public boolean addItem(Item item) {
 		boolean result = inventory.size() < INVENTORY_SIZE;
 		if (result) {
-			inventory.put(item.getAlias(), item);
+			List<Item> dupeItems = getItemsByRefID(item.getRefID());
+			inventory.put(item.getAlias() + ((dupeItems.size() > 0) ? 0 : dupeItems.size() - 1), item);
 			if (item.hasAuraEffect()) {
 				item.getAuras().forEach((aura) -> aura.affect(this));
 			}
@@ -85,13 +101,13 @@ public class Player extends Creature {
 		return result;
 	}
 
-	public boolean removeItem(String itemName) {
-		Item item = inventory.get(itemName);
+	public boolean removeItem(String itemRefID) {
+		Item item = inventory.get(itemRefID);
 		if (item != null) {
 			if (item.hasAuraEffect()) {
 				item.getAuras().forEach((aura) -> aura.unaffect(this));
 			}
-			inventory.remove(itemName);
+			inventory.remove(itemRefID);
 			return true;
 		} else {
 			return false;
@@ -127,12 +143,12 @@ public class Player extends Creature {
 	 * @param target
 	 * @return <true> if the Item was used successfully
 	 */
-	public boolean useItem(String itemName, ArrayList<Creature> target) {
-		Item item = inventory.get(itemName);
+	public boolean useItem(String itemRefID, ArrayList<Creature> target) {
+		Item item = inventory.get(itemRefID);
 		boolean result = item != null;
 		if (result) {
 			if (item.use(this, target)) {
-				removeItem(itemName);
+				removeItem(itemRefID);
 			}
 		}
 		return result;
@@ -147,33 +163,49 @@ public class Player extends Creature {
 	 * @param target
 	 * @return <true> if the Item was used successfully
 	 */
-	public boolean useItem(String itemName, Creature target) {
-		Item item = inventory.get(itemName);
+	public boolean useItem(String itemRefID, Creature target) {
+		Item item = inventory.get(itemRefID);
 		boolean result = item != null;
 		if (result) {
 			if (item.use(this, target)) {
-				removeItem(itemName);
+				removeItem(itemRefID);
+			}
+		}
+		return result;
+	}
+	
+	public Item getItemByAlias(String itemAlias) {
+		for(String i : inventory.keySet()) {
+			if(i.equalsIgnoreCase(itemAlias)) {
+				return inventory.get(i);
+			}
+		}
+		return null;
+	}
+
+	public List<Item> getItemsByRefID(String itemRefID) {
+		List<Item> result = new ArrayList<>();
+		for(String i : inventory.keySet()) {
+			if(i.substring(0, i.lastIndexOf('-') - 1).equalsIgnoreCase(itemRefID)) {
+				result.add(inventory.get(i));
 			}
 		}
 		return result;
 	}
 
-	public Item getItemByAlias(String name) {
-		return inventory.get(name);
-	}
-
 	public void setHasHud(boolean hasHud) {
-		if (hasHud != this.hasHud)
+		if (hasHud != this.hasHud) {
+			this.hasHud = hasHud;
 			SpaceRPG.getMaster().getGui().updateHud();
-		this.hasHud = hasHud;
+		}
 	}
 
 	public boolean hasHud() {
 		return hasHud;
 	}
 
-	public Set<Item> getAllItems() {
-		Set<Item> result = new HashSet<>();
+	public List<Item> getAllItems() {
+		List<Item> result = new ArrayList<>();
 		inventory.forEach((name, item) -> result.add(item));
 		return result;
 	}

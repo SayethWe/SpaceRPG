@@ -158,7 +158,7 @@ public abstract class Creature implements Scriptable {
 	public String toString() {
 		StringBuilder string = new StringBuilder("Creature:");
 		string.append("\n").append(name).append("\n").append("Health: ").append(health).append("\n").append("Stats: ").append("\n");
-		stats.forEach((title, value) -> string.append(title + ": " + value + "\n"));
+		stats.forEach((title, value) -> string.append("\t" + title + ": " + value + "\n"));
 		return string.toString();
 	}
 

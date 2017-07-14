@@ -6,7 +6,6 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Random;
 
 import sineSection.SineSection;
@@ -54,18 +53,21 @@ public class SpaceRPG {
 					DEBUG = true;
 				} else if (args[i].equalsIgnoreCase("nointro")) {
 					showWindow = false;
-				} else if (args[i].equalsIgnoreCase("skipExpo")) {
+				} else if (args[i].equalsIgnoreCase("skipexpo")) {
 					doIntro = false;
 				}
 			}
 		}
+
+		if (DEBUG)
+			showWindow = false;
 
 		if (isOSX)
 			setMacIcon();
 
 		SpaceRPG.initialize();
 		SineSection.initialize();
-		if (!DEBUG && showWindow)
+		if (showWindow)
 			new IntroWindow().start();
 
 		new SpaceRPG().testGame();
@@ -136,12 +138,12 @@ public class SpaceRPG {
 			}
 		}
 		Item testItem = itemGenerator.generate();
-		writeToGui(testPlayer);
 		testPlayer.addItem(testItem);
-		writeToGui(testPlayer.getItemByAlias(testItem.getAlias()));
-		testPlayer.useItem(testItem.getName(), new ArrayList<>());
 		writeToGui(testPlayer);
-		writeToGui(testItem);
+		writeToGui(testPlayer.getAllItems().get(0));
+		//testPlayer.useItem(testItem.getName(), new ArrayList<>());
+		//writeToGui(testPlayer);
+		//writeToGui(testItem);
 		gameWorld = new Ship();
 	}
 

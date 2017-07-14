@@ -72,5 +72,9 @@ public class ItemReference {
 	public static ItemReference getFromItemReferenceID(String refID) {
 		return itemRefs.get(refID.toUpperCase());
 	}
+
+	public String getID() {
+		return referenceID;
+	}
 	
 }

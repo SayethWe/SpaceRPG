@@ -51,12 +51,11 @@ public class Stat {
 
 	@Override
 	public String toString() {
-		StringBuilder result = new StringBuilder("");
-		result.append("current: ");
+		StringBuilder result = new StringBuilder();
 		result.append(value);
-		result.append(" max: ");
+		result.append(" / ");
 		result.append(maxValue);
-		result.append(" min: ");
+		result.append(":");
 		result.append(minValue);
 		return result.toString();
 	}

@@ -57,19 +57,34 @@ public class GameScreen extends JTextArea {
 	}
 
 	public void writeScroll(String text) {
-		for (String s : text.split("\n")) {
-			final ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+		if(text.contains("\n")) {
+			for (String s : text.split("\n")) {
+				ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+				exec.scheduleAtFixedRate(new Runnable() {
+					public void run() {
+						if (appendNextChar(s)) {
+							exec.shutdown();
+						}
+					}
+				}, TYPE_DELAY, TYPE_DELAY, DELAY_UNIT);
+				while (!exec.isShutdown())
+					;
+				SoundPlayer.play("return");
+				append("\n");
+			}
+		} else {
+			ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
 			exec.scheduleAtFixedRate(new Runnable() {
 				public void run() {
-					if (appendNextChar(s)) {
+					if (appendNextChar(text)) {
 						exec.shutdown();
 					}
 				}
 			}, TYPE_DELAY, TYPE_DELAY, DELAY_UNIT);
-			while (!exec.isShutdown());
-			append("\n");
-			SoundPlayer.play("return");
+			while (!exec.isShutdown())
+				;
 		}
+		SoundPlayer.play("return");
 		append("\n");
 	}
 

@@ -72,6 +72,7 @@ public class GameUI extends AbstractUI {
 			}
 
 			public void windowDeactivated(WindowEvent e) {
+				
 			}
 
 			public void windowClosing(WindowEvent e) {
@@ -96,6 +97,9 @@ public class GameUI extends AbstractUI {
 	public void textSent(String text) {
 		LogWriter.print("Text sent: " + text);
 		if (showingDialogue) {
+			dialogueInputText = text;
+
+		} else {
 			gameScreen.append(text);
 			gameScreen.append("\n");
 		}
@@ -119,7 +123,8 @@ public class GameUI extends AbstractUI {
 	 *            the player's options
 	 * @param untilAnswered
 	 *            should this dialogue keep trying to get a answer?
-	 * @return the player's selection, returns -1 if the player does not choose and if <code>untilAnswered</code> is false.
+	 * @return the player's selection, returns -1 if the player does not choose
+	 *         and if <code>untilAnswered</code> is false.
 	 */
 	public int showSelectionDialogue(String title, List<String> options, boolean untilAnswered) {
 		showingDialogue = true;
@@ -155,7 +160,8 @@ public class GameUI extends AbstractUI {
 			}
 		});
 		dialougeThread.start();
-		while (showingDialogue);
+		while (showingDialogue)
+			;
 		return dialogueSelection;
 	}
 
@@ -195,7 +201,7 @@ public class GameUI extends AbstractUI {
 	public void increaseFontSize() {
 		gameScreen.increaseFontSize();
 	}
-	
+
 	public boolean toggleTextScroll() {
 		return gameScreen.toggleScroll();
 	}

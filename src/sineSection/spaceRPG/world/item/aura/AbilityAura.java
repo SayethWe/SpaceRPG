@@ -9,7 +9,7 @@ public abstract class AbilityAura extends Aura {
 	}
 
 	public String toString() {
-		StringBuilder result = new StringBuilder("Aura: ");
+		StringBuilder result = new StringBuilder();
 		result.append(effectDesc);
 		return result.toString();
 	}

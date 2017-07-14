@@ -6,6 +6,7 @@ public class CommandParser {
 
 	public static Command parseCommand(String parse) {
 		String[] split = parse.split(" ");
+		if(split.length < 1) return new Command(CommandString.UNKNOWN, null);
 		String word1 = split[0];
 		String[] args = Arrays.copyOfRange(split, 1, split.length);
 

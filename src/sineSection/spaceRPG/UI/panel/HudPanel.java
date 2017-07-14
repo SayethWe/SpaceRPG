@@ -54,6 +54,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	public static final Color PANEL_HEALTH_BAR_BORDER_COLOR = new Color(0, 60, 0);
 	
 	public static final String NO_HUD_TEXT = "NO HUD SYSTEM DETECTED";
+	public static final String HUD_OFF_TEXT = "HUD SYSTEM DISABLED";
 
 	private Canvas canvas;
 	private boolean running;
@@ -128,6 +129,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	public void hudAttained() {
 		if (state == NONE_IDLE) {
 			state = HUD_ATTAINED_ANIM;
+			animTimer = 0;
 			animating = true;
 			SoundPlayer.play("hudAttained");
 		}
@@ -136,6 +138,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	public void hudLost() {
 		if (state == HUD_IDLE) {
 			state = HUD_LOST_ANIM;
+			animTimer = 0;
 			animating = true;
 			SoundPlayer.play("hudLost");
 		}
@@ -197,18 +200,25 @@ public class HudPanel extends AbstractPanel implements Runnable {
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setFont(PANEL_DEBUG_MODE_FONT);
 		g.setColor(PANEL_PLAYER_NAME_BG);
-		int x = getWidth() / 2 - GraphicsUtils.getStringWidth(g, NO_HUD_TEXT) / 2;
+		
 		int y = getHeight() / 2 - GraphicsUtils.getFontHeight(g) / 2;
-		g.drawString(NO_HUD_TEXT, x, y);
+		if(player.hasItem("05-HSYS")) {
+			int x = getWidth() / 2 - GraphicsUtils.getStringWidth(g, NO_HUD_TEXT) / 2;
+			g.drawString(HUD_OFF_TEXT, x, y);
+		} else {
+			int x = getWidth() / 2 - GraphicsUtils.getStringWidth(g, NO_HUD_TEXT) / 2;
+			g.drawString(NO_HUD_TEXT, x, y);
+		}
 	}
 
 	private void drawAttainedAnim(Graphics g) {
 		g.setColor(PANEL_BG);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Color.GREEN);
-		int w = animTimer / 2;
+		int w = (int) Math.round(animTimer * 2.2d);
 		int x = getWidth() / 2 - w / 2;
-		g.drawRect(x, 0, w, getHeight());
+		if(animTimer % 50 > 25) g.setColor(PANEL_PLAYER_NAME_BG);
+		g.fillRect(x, 0, w, getHeight());
 		if(w >= getWidth()) {
 			animating = false;
 			state = HUD_IDLE;
@@ -266,13 +276,13 @@ public class HudPanel extends AbstractPanel implements Runnable {
 	private void drawLostAnim(Graphics g) {
 		g.setColor(PANEL_BG);
 		g.fillRect(0, 0, getWidth(), getHeight());
-		g.setColor(Color.GREEN);
-		int w = getWidth() - (animTimer / 2);
-		int x = getWidth() / 2 - w / 2;
-		g.drawRect(x, 0, w, getHeight());
-		if(w <= 0) {
+		g.setColor(PANEL_PLAYER_NAME_BG);
+		int h = getHeight() - (int) Math.round(animTimer * 10d);
+		int y = getHeight() / 2 - h / 2;
+		g.fillRect(0, y, getWidth(), h);
+		if(h <= 0) {
 			animating = false;
-			state = HUD_IDLE;
+			state = NONE_IDLE;
 		}
 	}
 

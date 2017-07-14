@@ -119,28 +119,33 @@
 	</item>
 	<item refID="05-HSYS" scriptLang="JavaScript">
 		<name>HUD System</name>
-		<desc>A small round object that reads in big green letters:%n%t&quot;ARCTAN HUD SYSTEM(tm)&quot;</desc>
+		<desc>A small round object that reads in big green letters:%n%t&quot;ARCTAN HUD SYSTEM(tm)&quot;%nIt is %state%.</desc>
 		<init>
+		var state = 'ON';
 		setUses(0);
-		var affect = function(creature) {
-			if(creature instanceof Packages.sineSection.spaceRPG.character.Player) {
-				Java.to(creature, Packages.sineSection.spaceRPG.character.Player);
-				creature.setHasHud(true);
-			}
-		};
-		var unaffect = function(creature) {
-			if(creature instanceof Packages.sineSection.spaceRPG.character.Player) {
-				Java.to(creature, Packages.sineSection.spaceRPG.character.Player);
-				creature.setHasHud(false);
-			}
-		};
-		addAbilityAura('Allows user to viev their stats.', affect, unaffect);
-		addAura(hudAura);
+<!-- 		var affect = function(creature) { -->
+<!-- 			if(creature instanceof Packages.sineSection.spaceRPG.character.Player) { -->
+<!-- 				Java.to(creature, Packages.sineSection.spaceRPG.character.Player); -->
+<!-- 				creature.setHasHud(true); -->
+<!-- 			} -->
+<!-- 		}; -->
+<!-- 		var unaffect = function(creature) { -->
+<!-- 			if(creature instanceof Packages.sineSection.spaceRPG.character.Player) { -->
+<!-- 				Java.to(creature, Packages.sineSection.spaceRPG.character.Player); -->
+<!-- 				creature.setHasHud(false); -->
+<!-- 			} -->
+<!-- 		}; -->
+<!-- 		addAbilityAura('Allows user to view their stats.', affect, unaffect); -->
+		var HudAura = Java.type('sineSection.spaceRPG.world.item.aura.HudAura');
+		addAura(new HudAura());
 		</init>
 		<use>
-		if(user instanceof Packages.sineSection.spaceRPG.character.Player) {
-			Java.to(user, Packages.sineSection.spaceRPG.character.Player);
+		if(user instanceof Java.type('sineSection.spaceRPG.character.Player')) {
 			user.setHasHud(!user.hasHud());
+			if(user.hasHud())
+				state = 'ON';
+			else
+			 	state = 'OFF';
 		}
 		</use>
 	</item>

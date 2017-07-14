@@ -3,6 +3,7 @@ package sineSection.spaceRPG.world.item;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -43,6 +44,8 @@ public class Item implements Scriptable {
 	private ScriptEngine sEng;
 
 	private List<Aura> auras;
+	
+	private final int instanceID;
 
 	/**
 	 * create an item instance of <code>itemRef</code>
@@ -52,6 +55,7 @@ public class Item implements Scriptable {
 	public Item(ItemReference itemRef) {
 		this.ref = itemRef;
 		this.auras = new ArrayList<Aura>();
+		this.instanceID = new Random().nextInt(100);
 		ScriptEngineManager enMgr = new ScriptEngineManager();
 		this.sEng = enMgr.getEngineByName(ref.getScriptLanguage());
 		if (this.sEng == null) {
@@ -214,11 +218,15 @@ public class Item implements Scriptable {
 		return 0;
 	}
 
+	public String getRefID() {
+		return ref.getID() + "-" + instanceID;
+	}
+
 	public String toString() {
 		StringBuilder result = new StringBuilder("Item:");
 		result.append("\n").append(getName()).append("\n").append("Alias: ").append(getAlias()).append("\n").append(getDescription()).append("\n");
 		if (auras.size() > 0) {
-			result.append("Passives:").append("\n");
+			result.append("Effects:").append("\n");
 			auras.forEach((aura) -> result.append(aura.toString() + "\n"));
 		}
 		return result.toString();
