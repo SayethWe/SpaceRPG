@@ -3,6 +3,7 @@ package sineSection.util;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
@@ -68,6 +69,12 @@ public class Utils {
 	public static List<String> getListOfNamesFromCreatures(List<Creature> creatures) {
 		ArrayList<String> ret = new ArrayList<>();
 		creatures.forEach((c) -> ret.add(c.getName()));
+		return ret;
+	}
+
+	public static <T> List<T> toList(Stream<T> in) {
+		List<T> ret = new ArrayList<>();
+		in.forEach((element) -> ret.add(element));
 		return ret;
 	}
 

@@ -78,7 +78,7 @@ public class SpaceRPG {
 		LogWriter.createLogger(TITLE);
 		initRandom();
 		itemGenerator = new ItemGenerator();
-		DataLoader.loadAllFiles();
+		DataLoader.loadAllFiles(0);
 		if (!ItemLoader.loadItemsFrom("items")) {
 			LogWriter.printErr("Something went wrong when loading items!");
 			System.exit(-1);
