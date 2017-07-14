@@ -19,7 +19,7 @@ public class DataLoader {
 	 */
 	public static boolean loadAllFiles() {
 		int errors = 0;
-		final URL resources = SpaceRPG.class.getResource("/data"); //TODO fix NRE when in jar
+		final URL resources = SpaceRPG.class.getResource(SpaceRPG.resDirectory + "/data"); //TODO fix NRE when in jar
 		File homeFolder;
 		try {
 			homeFolder = new File(resources.toURI());
