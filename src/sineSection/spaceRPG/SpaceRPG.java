@@ -177,6 +177,7 @@ public class SpaceRPG {
 		gui.write(in);
 	}
 
+
 	public void sendChat(String chat) {
 		if (gameClient != null)
 			gameClient.sendChat(chat);

@@ -33,14 +33,13 @@ public class DataLoader {
 		return errors == 0;
 	}
 	
-	public static boolean loadAllResourceFiles() {
-		int errors = 0;
-		//InputStream resources = SpaceRPG.class.getResourceAsStream("/data");
-		//BufferedReader reader = new BufferedReader(new InputStreamReader(resources));
-		//List<String> folders  = Utils.toList(bReader.lines());
-		return errors == 0;
-	}
-	
-	//private static void loadFilesFromFolder(File folder) {}
-
+//	public static boolean loadAllResourceFiles() {
+//		int errors = 0;
+//		InputStream resources = SpaceRPG.class.getResourceAsStream("/data");
+//		BufferedReader reader = new BufferedReader(new InputStreamReader(resources));
+//		List<String> folders  = Utils.toList(bReader.lines());
+//		return errors == 0;
+//	}
+//	
+//	private static void loadFilesFromFolder(File folder) {}
 }
