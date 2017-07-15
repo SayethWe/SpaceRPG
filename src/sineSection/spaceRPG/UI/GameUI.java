@@ -1,6 +1,9 @@
 package sineSection.spaceRPG.UI;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FocusTraversalPolicy;
 import java.awt.GridBagConstraints;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -10,6 +13,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.UI.panel.CommandBar;
 import sineSection.spaceRPG.UI.panel.GameScreen;
 import sineSection.spaceRPG.UI.panel.HudPanel;
@@ -80,9 +84,32 @@ public class GameUI extends AbstractUI {
 
 			public void windowClosed(WindowEvent e) {
 				commandArea.disposeCommandList();
+				SpaceRPG.getMaster().getSettings().write();
 			}
 
 			public void windowActivated(WindowEvent e) {
+			}
+		});
+		requestFocus();
+		commandArea.requestFocusInWindow();
+		setFocusTraversalPolicy(new FocusTraversalPolicy() {
+			public Component getLastComponent(Container aContainer) {
+				return null;
+			}
+			public Component getFirstComponent(Container aContainer) {
+				aContainer = commandArea;
+				return commandArea;
+			}
+			public Component getDefaultComponent(Container aContainer) {
+				aContainer = commandArea;
+				return commandArea;
+			}
+			public Component getComponentBefore(Container aContainer, Component aComponent) {
+				return null;
+			}
+			public Component getComponentAfter(Container aContainer, Component aComponent) {
+				// TODO Auto-generated method stub
+				return null;
 			}
 		});
 	}

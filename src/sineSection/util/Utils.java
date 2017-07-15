@@ -1,12 +1,17 @@
 package sineSection.util;
 
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
+import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.character.Creature;
 
 public class Utils {
@@ -76,6 +81,29 @@ public class Utils {
 		List<T> ret = new ArrayList<>();
 		in.forEach((element) -> ret.add(element));
 		return ret;
+	}
+	
+	public static void setMacIcon() {
+		Image image = Utils.loadImageResource("/image/logo.png");
+		try {
+			String className = "com.apple.eawt.Application";
+			Class<?> claas = Class.forName(className);
+			Object application = claas.getMethod("getApplication").invoke(null);
+			application.getClass().getMethod("setDockIconImage", java.awt.Image.class).invoke(application, image);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void loadFontFromFile(String fontName) {
+		try {
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			InputStream f = SpaceRPG.class.getResourceAsStream("/font/" + fontName + ".ttf");
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, f));
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogWriter.print("Can't load font: " + fontName);
+		}
 	}
 
 }

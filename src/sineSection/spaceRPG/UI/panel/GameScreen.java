@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.JTextArea;
 
+import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.sound.SoundPlayer;
 
 public class GameScreen extends JTextArea {
@@ -18,8 +19,6 @@ public class GameScreen extends JTextArea {
 
 	private static final int TYPE_DELAY = 40;
 	private static final TimeUnit DELAY_UNIT = TimeUnit.MILLISECONDS;
-
-	private int fontSize = DEFAULT_FONT_SIZE;
 
 	public static final Font GAME_SCREEN_FONT = new Font("VT323", Font.PLAIN, (int) FONT_SIZES[DEFAULT_FONT_SIZE]);
 
@@ -120,46 +119,46 @@ public class GameScreen extends JTextArea {
 	/**
 	 * Sets the <b>INDEX</b> of the {@link #FONT_SIZES} to use.
 	 * 
-	 * @param fontSizeIndex
+	 * @param SpaceRPG.getMaster().getSettings().fontSizeIndexIndex
 	 */
 	public void setFontSize(int fontSizeIndex) {
 		if (fontSizeIndex > FONT_SIZES.length)
 			fontSizeIndex = FONT_SIZES.length;
 		if (fontSizeIndex < 0)
 			fontSizeIndex = 0;
-		fontSize = fontSizeIndex;
-		if (fontSize == DEFAULT_FONT_SIZE) {
+		SpaceRPG.getMaster().getSettings().fontSizeIndex = fontSizeIndex;
+		if (SpaceRPG.getMaster().getSettings().fontSizeIndex == DEFAULT_FONT_SIZE) {
 			setFont(GAME_SCREEN_FONT);
 		} else {
-			setFont(GAME_SCREEN_FONT.deriveFont(FONT_SIZES[fontSize]));
+			setFont(GAME_SCREEN_FONT.deriveFont(FONT_SIZES[SpaceRPG.getMaster().getSettings().fontSizeIndex]));
 		}
-		append("Font size set to " + FONT_SIZES[fontSize] + "!\n(" + (fontSize + 1) + "/" + FONT_SIZES.length + ")\n");
+		append("Font size set to " + FONT_SIZES[SpaceRPG.getMaster().getSettings().fontSizeIndex] + "!\n(" + (SpaceRPG.getMaster().getSettings().fontSizeIndex + 1) + "/" + FONT_SIZES.length + ")\n");
 	}
 
 	public void increaseFontSize() {
-		if (fontSize < FONT_SIZES.length - 1) {
-			fontSize++;
-			if (fontSize == DEFAULT_FONT_SIZE) {
+		if (SpaceRPG.getMaster().getSettings().fontSizeIndex < FONT_SIZES.length - 1) {
+			SpaceRPG.getMaster().getSettings().fontSizeIndex++;
+			if (SpaceRPG.getMaster().getSettings().fontSizeIndex == DEFAULT_FONT_SIZE) {
 				setFont(GAME_SCREEN_FONT);
 			} else {
-				setFont(GAME_SCREEN_FONT.deriveFont(FONT_SIZES[fontSize]));
+				setFont(GAME_SCREEN_FONT.deriveFont(FONT_SIZES[SpaceRPG.getMaster().getSettings().fontSizeIndex]));
 			}
 			repaint();
-			append("Font size increased!\n(" + (fontSize + 1) + "/" + FONT_SIZES.length + ")\n");
+			append("Font size increased!\n(" + (SpaceRPG.getMaster().getSettings().fontSizeIndex + 1) + "/" + FONT_SIZES.length + ")\n");
 		} else {
 			append("Can't increase font size any more!\n");
 		}
 	}
 
 	public void decreaseFontSize() {
-		if (fontSize > 0) {
-			fontSize--;
-			if (fontSize == DEFAULT_FONT_SIZE) {
+		if (SpaceRPG.getMaster().getSettings().fontSizeIndex > 0) {
+			SpaceRPG.getMaster().getSettings().fontSizeIndex--;
+			if (SpaceRPG.getMaster().getSettings().fontSizeIndex == DEFAULT_FONT_SIZE) {
 				setFont(GAME_SCREEN_FONT);
 			} else {
-				setFont(GAME_SCREEN_FONT.deriveFont(FONT_SIZES[fontSize]));
+				setFont(GAME_SCREEN_FONT.deriveFont(FONT_SIZES[SpaceRPG.getMaster().getSettings().fontSizeIndex]));
 			}
-			append("Font size decreased!\n(" + (fontSize + 1) + "/" + FONT_SIZES.length + ")\n");
+			append("Font size decreased!\n(" + (SpaceRPG.getMaster().getSettings().fontSizeIndex + 1) + "/" + FONT_SIZES.length + ")\n");
 		} else {
 			append("Can't decrease font size any more!\n");
 		}

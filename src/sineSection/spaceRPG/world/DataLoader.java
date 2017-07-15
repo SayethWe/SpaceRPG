@@ -1,13 +1,8 @@
 package sineSection.spaceRPG.world;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.List;
 
-import sineSection.spaceRPG.SpaceRPG;
-import sineSection.util.Utils;
+import sineSection.spaceRPG.GameInfo;
 
 public class DataLoader {
 
@@ -17,7 +12,8 @@ public class DataLoader {
 	 */
 	public static boolean loadAllFiles() {
 		int errors = 0;
-		File homeFolder = new File(SpaceRPG.resDirectory + "/data");
+		File homeFolder = new File(GameInfo.APPDATA_FOLDER_NAME + "/data");
+		homeFolder.mkdirs();
 		String[] data = homeFolder.list();
 		for(String datumString : data) {
 			File datum = new File(datumString);
@@ -37,15 +33,14 @@ public class DataLoader {
 		return errors == 0;
 	}
 	
-	public static boolean loadAllFiles(int thisSupressesCompilerComplaints) {
+	public static boolean loadAllResourceFiles() {
 		int errors = 0;
-		final InputStream resources = SpaceRPG.class.getResourceAsStream("/data");
-		InputStreamReader reader = new InputStreamReader(resources);
-		BufferedReader bReader = new BufferedReader(reader);
-		List<String> folders  = Utils.toList(bReader.lines());
+		//InputStream resources = SpaceRPG.class.getResourceAsStream("/data");
+		//BufferedReader reader = new BufferedReader(new InputStreamReader(resources));
+		//List<String> folders  = Utils.toList(bReader.lines());
 		return errors == 0;
 	}
 	
-	private static void loadFilesFromFolder(File folder) {}
+	//private static void loadFilesFromFolder(File folder) {}
 
 }

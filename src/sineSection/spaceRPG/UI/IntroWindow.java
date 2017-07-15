@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 import javax.swing.JWindow;
 
 import sineSection.AnimatedSineSection;
-import sineSection.spaceRPG.SpaceRPG;
+import sineSection.spaceRPG.GameInfo;
 import sineSection.spaceRPG.UI.panel.CommandBar;
 import sineSection.util.GraphicsUtils;
 
@@ -79,7 +79,7 @@ public class IntroWindow extends JWindow {
 
 			g.setColor(INTO_WINDOW_TEXT_COLOR);
 			g.setFont(INTO_WINDOW_TITLE_FONT);
-			g.drawString(SpaceRPG.TITLE, getWidth() / 2 - GraphicsUtils.getStringWidth(g, SpaceRPG.TITLE) / 2, 30);
+			g.drawString(GameInfo.TITLE, getWidth() / 2 - GraphicsUtils.getStringWidth(g, GameInfo.TITLE) / 2, 30);
 			g.setFont(INTO_WINDOW_SINESECTION_FONT);
 			g.drawString(SINESECTION, getWidth() / 2 - GraphicsUtils.getStringWidth(g, SINESECTION) / 2, getHeight() - 10);
 			logo.draw(getWidth() / 2 - logo.getWidth() / 2, getHeight() / 2 - logo.getHeight() / 2 + 10, g);

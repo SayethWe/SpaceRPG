@@ -1,11 +1,7 @@
 package sineSection.spaceRPG;
 
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Random;
 
 import sineSection.SineSection;
@@ -13,6 +9,7 @@ import sineSection.networking.client.Client;
 import sineSection.spaceRPG.UI.GameUI;
 import sineSection.spaceRPG.UI.IntroWindow;
 import sineSection.spaceRPG.character.Player;
+import sineSection.spaceRPG.save.GameSettings;
 import sineSection.spaceRPG.save.SaveReader;
 import sineSection.spaceRPG.save.SaveState;
 import sineSection.spaceRPG.sound.SoundPlayer;
@@ -27,10 +24,6 @@ import sineSection.util.LogWriter;
 import sineSection.util.Utils;
 
 public class SpaceRPG {
-	public static final String TITLE = "Greenshift";
-	public static final boolean isOSX = System.getProperty("os.name").toLowerCase().startsWith("mac");
-	public static final File resDirectory = new File(System.getProperty("user.home") + (isOSX ? "/Library/Application Support/" : "") + TITLE);
-
 	public static boolean DEBUG = false;
 
 	private static GameUI gui;
@@ -44,16 +37,17 @@ public class SpaceRPG {
 	private Client gameClient; // the client object this uses to talk to the
 								// server
 	private Ship gameWorld;
+	
+	private GameSettings settings;
 
 	public static void main(String[] args) {
-		System.out.println(isOSX + "" + resDirectory);
-		resDirectory.mkdirs();
+		SpaceRPG game = new SpaceRPG();
 		boolean showWindow = true;
 		if (args.length > 0) {
 			for (int i = 0; i < args.length; i++) {
 				if (args[i].equalsIgnoreCase("debug")) {
 					System.out.println("!DEBUG MODE ENABLED!");
-					DEBUG = true;
+					game.getSettings().debugMode = true;
 				} else if (args[i].equalsIgnoreCase("nointro")) {
 					showWindow = false;
 				} else if (args[i].equalsIgnoreCase("skipexpo")) {
@@ -65,20 +59,21 @@ public class SpaceRPG {
 		if (DEBUG)
 			showWindow = false;
 
-		if (isOSX)
-			setMacIcon();
+		if (GameInfo.IS_OSX)
+			Utils.setMacIcon();
 
 		SpaceRPG.initialize();
 		SineSection.initialize();
 		if (showWindow)
 			new IntroWindow().start();
 
-		new SpaceRPG().testGame();
+		game.testGame();
 		// new GameUI().display()
 	}
 
 	private static void initialize() {
-		LogWriter.createLogger(TITLE);
+		LogWriter.createLogger(GameInfo.TITLE);
+		
 		initRandom();
 		itemGenerator = new ItemGenerator();
 		DataLoader.loadAllFiles();
@@ -87,8 +82,10 @@ public class SpaceRPG {
 			System.exit(-1);
 		}
 		addItemTypes();
-		loadFontFromFile("Mars_Needs_Cunnilingus");
-		loadFontFromFile("VT323");
+		
+		Utils.loadFontFromFile("Mars_Needs_Cunnilingus");
+		Utils.loadFontFromFile("VT323");
+		
 		SoundPlayer.init();
 		SoundPlayer.loadSoundsFromSoundList("/sound/loadSound.txt");
 	}
@@ -104,11 +101,18 @@ public class SpaceRPG {
 	public static SpaceRPG getMaster() {
 		return master;
 	}
+	
+	public GameSettings getSettings() {
+		return settings;
+	}
 
 	/**
 	 * start a new game
 	 */
 	public SpaceRPG() {
+		settings = new GameSettings();
+		settings.updateFromFile();
+		
 		seedGenerator = new Random();
 		master = this;
 		gui = new GameUI();
@@ -173,32 +177,8 @@ public class SpaceRPG {
 		gui.write(in);
 	}
 
-	public static void loadFontFromFile(String fontName) {
-		try {
-			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			InputStream f = SpaceRPG.class.getResourceAsStream("/font/" + fontName + ".ttf");
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, f));
-		} catch (Exception e) {
-			e.printStackTrace();
-			LogWriter.print("Can't load font: " + fontName);
-		}
-	}
-
 	public void sendChat(String chat) {
 		if (gameClient != null)
 			gameClient.sendChat(chat);
-	}
-
-	private static void setMacIcon() {
-		Image image = Utils.loadImageResource("/image/logo.png");
-		// Application.getApplication().setDockIconImage(image);
-		try {
-			String className = "com.apple.eawt.Application";
-			Class<?> claas = Class.forName(className);
-			Object application = claas.getMethod("getApplication").invoke(null);
-			application.getClass().getMethod("setDockIconImage", java.awt.Image.class).invoke(application, image);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }
