@@ -77,6 +77,7 @@ public class Player extends Creature {
 	public boolean hasItem(String itemRefID) {
 		for(String i : inventory.keySet()) {
 			Item item = inventory.get(i);
+			System.out.println(itemRefID + ", " + item.getRefID().substring(0, item.getRefID().lastIndexOf('-') - 1));
 			if(item.getRefID().substring(0, item.getRefID().lastIndexOf('-') - 1).equalsIgnoreCase(itemRefID)) {
 				return true;
 			}

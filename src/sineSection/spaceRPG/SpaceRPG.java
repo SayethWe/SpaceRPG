@@ -64,9 +64,17 @@ public class SpaceRPG {
 
 		SpaceRPG.initialize();
 		SineSection.initialize();
-		if (showWindow)
-			new IntroWindow().start();
-
+		IntroWindow iWin = new IntroWindow();
+		if (showWindow) {
+			iWin.start();
+			while(!iWin.ended())
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+		}
+		
 		game.testGame();
 		// new GameUI().display()
 	}

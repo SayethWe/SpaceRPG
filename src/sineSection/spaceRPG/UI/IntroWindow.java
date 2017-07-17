@@ -51,7 +51,6 @@ public class IntroWindow extends JWindow {
 		setVisible(true);
 		panel.start();
 		logo.start();
-//		startTime = System.currentTimeMillis();
 		new Timer().schedule(new TimerTask() {
 			@Override
 			public void run() {
@@ -62,15 +61,6 @@ public class IntroWindow extends JWindow {
 				dispose();
 			}
 		}, SHOW_LENGTH);
-//		while (showing) {
-//			try {
-//				Thread.sleep(1);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//			if (System.currentTimeMillis() - startTime >= SHOW_LENGTH)
-//				showing = false;
-//		}
 	}
 	
 	public boolean ended() {
