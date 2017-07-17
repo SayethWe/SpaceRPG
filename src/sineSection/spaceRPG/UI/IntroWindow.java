@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JWindow;
 
@@ -27,9 +29,9 @@ public class IntroWindow extends JWindow {
 	private static final Color INTO_WINDOW_FG_COLOR = new Color(0, 255, 0);
 
 	private static final int WIDTH = 220, HEIGHT = 150;
-	private static final long SHOW_LENGTH = 2 * 1000;
+	private static final long SHOW_LENGTH = 6 * 1000;
 	private boolean showing = false;
-	private long startTime = 0;
+//	private long startTime = 0;
 	private AnimatedSineSection logo = new AnimatedSineSection(10, 1D, 150, INTO_WINDOW_LOGO_COLOR, 4);
 	private IntroWindowPanel panel;
 
@@ -49,20 +51,30 @@ public class IntroWindow extends JWindow {
 		setVisible(true);
 		panel.start();
 		logo.start();
-		startTime = System.currentTimeMillis();
-		while (showing) {
-			try {
-				Thread.sleep(1);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			if (System.currentTimeMillis() - startTime >= SHOW_LENGTH)
+//		startTime = System.currentTimeMillis();
+		new Timer().schedule(new TimerTask() {
+			@Override
+			public void run() {
 				showing = false;
-		}
-		logo.stop();
-		panel.stop();
-		setVisible(false);
-		dispose();
+				logo.stop();
+				panel.stop();
+				setVisible(false);
+				dispose();
+			}
+		}, SHOW_LENGTH);
+//		while (showing) {
+//			try {
+//				Thread.sleep(1);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//			if (System.currentTimeMillis() - startTime >= SHOW_LENGTH)
+//				showing = false;
+//		}
+	}
+	
+	public boolean ended() {
+		return !showing;
 	}
 
 	private class IntroWindowPanel extends Canvas implements Runnable {
