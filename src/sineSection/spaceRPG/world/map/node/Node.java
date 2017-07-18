@@ -10,7 +10,6 @@ import sineSection.spaceRPG.world.map.Direction;
 import sineSection.spaceRPG.world.map.Doorway;
 import sineSection.spaceRPG.world.map.Pos;
 import sineSection.spaceRPG.world.map.room.Room;
-import sineSection.spaceRPG.world.map.room.RoomThreshold;
 
 public abstract class Node {
 	private static final int MAX_GEN_SIZE = 5; // maximum size this can
@@ -78,7 +77,8 @@ public abstract class Node {
 		int x = pos.getX();
 		int y = pos.getY();
 		if (x > size || x < 0 || y > size || y < 0) {
-			result = new RoomThreshold();
+			//This should not happen. The Ship should catch before this.\
+			throw new IllegalArgumentException();
 		} else {
 			result = map.get(pos);
 		}
@@ -149,6 +149,14 @@ public abstract class Node {
 			generator.addType(type);
 		}
 
+	}
+
+	public int getWidth() {
+		return size;
+	}
+	
+	public int getHeight() {
+		return size;
 	}
 
 }

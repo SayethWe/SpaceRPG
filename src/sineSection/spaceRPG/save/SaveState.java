@@ -12,9 +12,7 @@ public class SaveState implements Serializable {
 	// private MapState world;
 	// private PlayerState player;
 
-	public SaveState() {
-		// TODO Auto-generated constructor stub
-	}
+	public SaveState() {}
 
 	public int getSeed() {
 		return randomSeed;
