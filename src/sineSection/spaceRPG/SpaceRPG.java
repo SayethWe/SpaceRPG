@@ -43,6 +43,7 @@ public class SpaceRPG {
 	public static void main(String[] args) {
 		SpaceRPG game = new SpaceRPG();
 		boolean showWindow = true;
+		boolean scroll = true;
 		if (args.length > 0) {
 			for (int i = 0; i < args.length; i++) {
 				if (args[i].equalsIgnoreCase("debug")) {
@@ -52,6 +53,8 @@ public class SpaceRPG {
 					showWindow = false;
 				} else if (args[i].equalsIgnoreCase("skipexpo")) {
 					doIntro = false;
+				} else if (args[i].equalsIgnoreCase("noScroll")) {
+					scroll = false;
 				}
 			}
 		}

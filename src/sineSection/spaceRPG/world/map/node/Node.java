@@ -2,9 +2,12 @@ package sineSection.spaceRPG.world.map.node;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
+import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.world.Generator;
 import sineSection.spaceRPG.world.map.Direction;
+import sineSection.spaceRPG.world.map.Doorway;
 import sineSection.spaceRPG.world.map.Pos;
 import sineSection.spaceRPG.world.map.room.Room;
 import sineSection.spaceRPG.world.map.room.RoomThreshold;
@@ -19,6 +22,7 @@ public abstract class Node {
 	private int size;
 	private Map<Pos, Room> map;
 	private Generator<Room> roomGenerator;
+	private DoorPlacer doorGenerator;
 //	private Random doorRandomizer;
 	
 	public Node() {
@@ -33,10 +37,12 @@ public abstract class Node {
 		this.size = size;
 		map = new HashMap<>();
 		roomGenerator = new Generator<>();
+		doorGenerator = new DoorPlacer();
 //		doorRandomizer = new Random(SpaceRPG.getNewSeed());
 		addRoomTypes();
+		addDoorTypes();
 		generate();
-		generateExits();
+		doorGenerator.generateExits();
 	}
 	
 	public void addRoomType(Class<? extends Room> type, int weight) {
@@ -45,6 +51,14 @@ public abstract class Node {
 
 	public void addRoomType(Class<? extends Room> type) {
 		roomGenerator.addType(type);
+	}
+	
+	public void addDoorType(Class<? extends Doorway> type, int weight) {
+		doorGenerator.addType(type, weight);
+	}
+
+	public void addDoorType(Class<? extends Doorway> type) {
+		doorGenerator.addType(type);
 	}
 
 	private void generate() {
@@ -70,71 +84,71 @@ public abstract class Node {
 		}
 		return result;
 	}
+
+	protected abstract void addRoomTypes();
 	
-	public void generateExits() {
-		for(int y = 0; y < size; y++) {
-			for(int x = 0; x < size; x++) {
-				Room setting = map.get(new Pos(x,y));
-				if(y != 0) {
-					setting.addExit(Direction.AFT);
-				}
-				if (y != size-1) {
-					setting.addExit(Direction.FORE);
-				}
-				if (x != 0) {
-					setting.addExit(Direction.PORT);
-				}
-				if (x != size-1) {
-					setting.addExit(Direction.STARBOARD);
+	protected abstract void addDoorTypes();
+	
+	private class DoorPlacer {
+		/**a <code>val</code>/<code>DOOR_BACK_TOTAL</code>  to create a door back after we've created the first door for a row*/
+		private static final int DOOR_BACK_CHANCE = 1;
+		private static final int DOOR_BACK_TOTAL = 3;
+		
+		private static final int SIDE_CUTOFF_CHANCE = 1;
+		private static final int SIDE_CUTOFF_TOTAL = 4;
+		
+		private Generator<Doorway> generator;
+		private Random doorRandom;
+
+		public DoorPlacer() {
+			generator = new Generator<>();
+			doorRandom = new Random(SpaceRPG.getNewSeed());
+		}
+
+		public void generateExits() {
+			Map<Integer, Doorway> doorsFore = new HashMap<>();
+			for (int y = 0; y < size; y++) {
+				Map<Integer, Doorway> doorsAft = new HashMap<>(doorsFore);
+				System.out.println("Row " + y + " : " + doorsAft);
+				doorsFore.clear();
+				int forcedDoorFore = doorRandom.nextInt(size);
+				Doorway doorPort = null;
+				
+				for (int x = 0; x < size; x++) {
+					Room doorify = getRoom(new Pos(x,y));
+					Doorway doorStarboard;
+					boolean doorFore = (y == size-1)||x>forcedDoorFore ? false : doorRandom.nextInt(DOOR_BACK_TOTAL) < DOOR_BACK_CHANCE;
+					boolean doDoorStarboard = doorFore ? doorRandom.nextInt(SIDE_CUTOFF_TOTAL) < SIDE_CUTOFF_CHANCE : true;
+					if (x == size-1) doDoorStarboard = false; //ensure we don't go of the edge of the world
+
+					if ((x == forcedDoorFore || doorFore)) {
+						//generate door fore
+						doorsFore.put(x, doorify.addDoor(Direction.FORE, generator.generate()));
+					}
+					if (doDoorStarboard) {
+						doorStarboard = doorify.addDoor(Direction.STARBOARD, generator.generate());
+					} else {
+						doorStarboard = null;
+					}
+					if (doorPort != null) { //unfortunately, must currently be before
+						doorify.addDoor(Direction.PORT, doorPort);
+					}
+					if(doorsAft.keySet().contains(x)) {
+						doorify.addDoor(Direction.AFT, doorsAft.get(x));
+					}
+					doorPort = doorStarboard;
 				}
 			}
 		}
-	}
-	
-//	/**
-//	 * Generate all the doorways
-//	 * uses the pentadact method, described at
-//	 * <a href="http://www.pentadact.com/2014-07-19-improving-heat-signatures-randomly-generated-ships-inside-and-out/">
-//	 * pentadact.com </a>
-//	 */
-//	public void generateExits() {
-//		final int doorChance = 6; //about one in every #VALUE, generate a door to the next row
-//		final int cutoffChance = 3; //if we have a way back, about one in every VALUE, don't go to the previous cell. 
-//		
-//		Set<Integer> prevDoors = new HashSet<>();
-//		for (int y = 0; y < size; y++) {
-//			Set<Integer> doorsHere = new HashSet<>(prevDoors);
-//			prevDoors.clear();
-//			int guaranteedDoor = doorRandomizer.nextInt(size);
-//			boolean[][] rightDoors = new boolean[size][size]; //create a boolean array. All should be false
-//			for (int x = 0; x < size; x++) {
-//				Room setting = map.get(new Pos(x,y));
-//				boolean doorLeft = false;
-//				if(((doorRandomizer.nextInt(doorChance) == 0) || x == guaranteedDoor) && y != size-1) {
-//					//generate a door to the next row
-//					prevDoors.add(x);
-//					doorLeft = !(doorRandomizer.nextInt(cutoffChance) != 0 && prevDoors.size() > 0);
-//					setting.addExit(Direction.FORE);
-//				}
-//				if(doorsHere.contains(x)) {
-//					//generate a door to the previously generated row
-//					setting.addExit(Direction.AFT);
-//				}
-//				if(doorLeft && x != 0) {
-//					setting.addExit(Direction.PORT);
-//					rightDoors[x-1][y] = true;
-//				}
-//			}
-//			for (int x = 0; x < size; x ++) { //go back through the row to add all the rightward doors
-//				Room setting = map.get(new Pos(x,y));
-//				if(rightDoors[x][y]) {
-//					setting.addExit(Direction.STARBOARD);
-//				}
-//			}
-//		}
-//		
-//	}
 
-	protected abstract void addRoomTypes();
+		public void addType(Class<? extends Doorway> type, int weight) {
+			generator.addType(type, weight);
+		}
+		
+		public void addType(Class<? extends Doorway> type) {
+			generator.addType(type);
+		}
+
+	}
 
 }

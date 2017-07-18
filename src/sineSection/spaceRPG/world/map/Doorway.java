@@ -44,6 +44,6 @@ public abstract class Doorway {
 		return blocked;
 	}
 	
-	public abstract void punishFail(Player punishee);
+	protected abstract void punishFail(Player punishee);
 
 }

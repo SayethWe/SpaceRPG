@@ -1,7 +1,8 @@
-package sineSection.spaceRPG.world.map.room;
+package sineSection.spaceRPG.world.testClasses;
 
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.character.Player;
+import sineSection.spaceRPG.world.map.room.Room;
 
 /**
  * a dangerous room. fills with smoke after you leave and damages you if you enter again

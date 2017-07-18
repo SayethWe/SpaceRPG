@@ -205,7 +205,7 @@ public class GameUI extends AbstractUI {
 	}
 
 	private void write(String in) {
-		gameScreen.writeScroll(in);
+		gameScreen.write(in);
 	}
 
 	public void write(Object in) {

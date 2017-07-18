@@ -1,6 +1,7 @@
-package sineSection.spaceRPG.world.map.room;
+package sineSection.spaceRPG.world.testClasses;
 
 import sineSection.spaceRPG.character.Player;
+import sineSection.spaceRPG.world.map.room.Room;
 
 public class RoomTest extends Room {
 

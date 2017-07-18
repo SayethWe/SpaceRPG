@@ -158,9 +158,9 @@ public class CommandHandler {
 			case TOGGLESCROLL:
 				doctor.writeToGui("Text scrolling is now " + (doctor.getGui().toggleTextScroll() ? "on" : "off"));
 				break;
-			default:
+			case GET_POS:
+				doctor.writeToGui(janeway.getPos());
 				break;
-
 			}
 			doctor.writeToGui("");
 		} else {

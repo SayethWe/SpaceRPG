@@ -31,7 +31,6 @@ public class DataLoader {
 				}
 			}
 		}
-		System.out.println(homeFolder);
 		return errors == 0;
 	}
 	

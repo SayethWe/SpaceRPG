@@ -1,7 +1,6 @@
 package sineSection.spaceRPG.world.map.room;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,20 +9,21 @@ import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.world.Generator;
 import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.map.Direction;
+import sineSection.spaceRPG.world.map.Doorway;
 
 public abstract class Room {
-	private Set<Direction> exits;
 	private Map<String,Creature> creatures;
 	private final String description;
 	private boolean hasPower;
 	private Generator<Item> itemGenerator;
 	private boolean isPressurized;
+	private Map<Direction, Doorway> doors;
 
 	protected Room(String description) {
 		this.description = description;
 		itemGenerator = new Generator<>();
-		exits = new HashSet<>();
 		creatures = new HashMap<>();
+		doors = new HashMap<>();
 	}
 
 	public void addItemType(Class<? extends Item> type) {
@@ -60,7 +60,7 @@ public abstract class Room {
 
 	public String getExitString() {
 		StringBuilder result = new StringBuilder("Exits: ");
-		exits.forEach((str) -> result.append(str + "; "));
+		doors.keySet().forEach((str) -> result.append(str + "; "));
 		return result.toString();
 	}
 
@@ -73,12 +73,17 @@ public abstract class Room {
 		return result.toString();
 	}
 	
-	public void addExit(Direction exit) {
-		exits.add(exit);
+	public Doorway addDoor(Direction exit, Doorway door) {
+		doors.put(exit,door);
+		return door;
 	}
 
 	public Set<Direction> getExits() {
-		return exits;
+		return doors.keySet();
+	}
+	
+	public Doorway getDoor(Direction key) {
+		return doors.get(key);
 	}
 	
 	public Creature getCreature(String name) {
