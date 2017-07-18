@@ -10,8 +10,8 @@ import sineSection.spaceRPG.world.map.WorldPos;
  */
 public abstract class EnnPeeSee extends Creature{
 
-	public EnnPeeSee(String name, int hpMax, WorldPos pos) {
-		super(name, hpMax, pos);
+	public EnnPeeSee(String name, int hpMax, boolean friendly, WorldPos pos) {
+		super(name, hpMax, friendly, pos);
 	}
 
 	public abstract void interact();

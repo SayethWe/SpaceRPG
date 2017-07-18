@@ -34,13 +34,16 @@ public abstract class Creature implements Scriptable {
 	private boolean alive;
 	private WorldPos pos;
 
-	public Creature(String name, int hpMax, WorldPos pos) {
+	private final boolean friendly;
+
+	public Creature(String name, int hpMax, boolean friend, WorldPos pos) {
 		this.name = name;
 		this.pos = pos;
 		stats = new HashMap<>();
 		health = new Stat(HEALTH_MIN, hpMax);
 		health.topOff();
 		alive = true;
+		friendly = friend;
 	}
 
 	public void addStat(String name, Stat stat) {
@@ -280,5 +283,9 @@ public abstract class Creature implements Scriptable {
 	
 	protected void setPos(WorldPos moveTo) {
 		pos = moveTo;
+	}
+
+	public boolean isFriend() {
+		return friendly;
 	}
 }

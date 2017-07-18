@@ -11,6 +11,7 @@ import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.map.Direction;
 import sineSection.spaceRPG.world.map.WorldPos;
+import sineSection.spaceRPG.world.map.room.Room;
 
 /**
  * @Author William Black A class that stores the stats and inventory of a player
@@ -46,7 +47,7 @@ public class Player extends Creature {
 	 * @Author William Black
 	 */
 	public Player(String name, WorldPos startingPos) {
-		super(name, BASE_MAX_HEALTH, startingPos);
+		super(name, BASE_MAX_HEALTH, true, startingPos);
 		inventory = new HashMap<>();
 		addStat(RESISTANCE, new Stat(RESISTANCE_MIN, (int) (Math.random() * RESISTANCE_MAX_POSSIBLE + 1)));
 		addStat(INTELLECT, new Stat(INTELLECT_MIN, (int) (Math.random() * INTELLECT_MAX_POSSIBLE + 1)));
@@ -212,9 +213,16 @@ public class Player extends Creature {
 	public void move(Direction dir) {
 		SpaceRPG.getMaster().writeToGui(getName() + " Moved " + dir.getCall());
 		lastDirectionTraveled = dir;
-		SpaceRPG.getMaster().getWorld().getRoomAt(getPos()).onRoomExit(this);
+		Room from = SpaceRPG.getMaster().getWorld().getRoomAt(getPos());
+		from.onRoomExit(this);
+		from.removeCreature(this);
+		
 		setPos(new WorldPos(getPos().getNode(), dir.affectPos(getPos().getRoom())));
-		SpaceRPG.getMaster().getWorld().getRoomAt(getPos()).onRoomEnter(this);
+		
+		Room to = SpaceRPG.getMaster().getWorld().getRoomAt(getPos());
+		to.onRoomEnter(this);
+		to.addCreature(this);
+		
 		SpaceRPG.getMaster().writeToGui(getPos().getRoom());
 	}
 

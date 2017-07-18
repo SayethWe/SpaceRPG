@@ -1,6 +1,7 @@
 package sineSection.spaceRPG.world.map.room;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,11 +19,13 @@ public abstract class Room {
 	private Generator<Item> itemGenerator;
 	private boolean isPressurized;
 	private Map<Direction, Doorway> doors;
+	private Map<String, Item> items;
 
 	protected Room(String description) {
 		this.description = description;
 		itemGenerator = new Generator<>();
 		creatures = new HashMap<>();
+		items = new HashMap<>();
 		doors = new HashMap<>();
 	}
 
@@ -94,6 +97,12 @@ public abstract class Room {
 		return creatures.keySet();
 	}
 	
+	public Set<Creature> getRawCreatures() {
+		Set<Creature> result;
+		result = new HashSet<>(creatures.values());
+		return result;
+	}
+	
 	public String getCreatureString() {
 		StringBuilder result = new StringBuilder ("Creatures: ");
 		getCreatures().forEach((str) -> result.append(str + "; "));
@@ -102,5 +111,15 @@ public abstract class Room {
 	
 	public void addCreature(Creature c) {
 		creatures.put(c.getName(), c);
+	}
+	
+	public void removeCreature(Creature c) {
+		creatures.remove(c.getName());
+	}
+
+	public Set<Item> getRawItems() {
+		Set<Item> result;
+		result = new HashSet<>(items.values());
+		return result;
 	}
 }
