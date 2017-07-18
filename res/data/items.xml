@@ -149,4 +149,12 @@
 		}
 		</use>
 	</item>
+<!--<item refID="06-MAPS" scriptLang="JavaScript">
+		<name>Cartography System</name>
+		<desc>An SD-size card that looks like it fits into something. It has a graphic of a map and the words ARCTAN HUD CARTOGRAPHY UPGRADE on it in very small white text</desc>
+		<init>
+		var state = 'ON';
+		setUses(0);
+		</init>
+	</item> -->
 </define>
