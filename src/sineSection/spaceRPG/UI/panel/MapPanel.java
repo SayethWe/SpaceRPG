@@ -1,7 +1,11 @@
 package sineSection.spaceRPG.UI.panel;
 
+import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics2D;
+
+import javax.swing.Box;
 
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.world.map.Pos;
@@ -22,10 +26,23 @@ public class MapPanel extends AbstractPanel {
 	private static final Color ENEMY_COLOR = Color.RED;
 	private static final Color ITEM_COLOR = Color.ORANGE;
 	
+	private static final int ROOM_SIZE = 15; //TODO make this zoomable
+	
+	private static final int PANEL_WIDTH = 150;
+	
+	private Canvas canvas;
 	private Player player;
 
 	public MapPanel() {
-		// TODO Auto-generated constructor stub
+		Component horizontalStrut = Box.createHorizontalStrut(PANEL_WIDTH);
+		constraints.weighty = 0;
+		constraints.gridy = 0;
+		add(horizontalStrut, constraints);
+		canvas = new Canvas();
+		canvas.setIgnoreRepaint(true);
+		constraints.weighty = 1;
+		constraints.gridy = 1;
+		add(canvas, constraints);
 	}
 	
 	public void setPlayerToTrack(Player p) {

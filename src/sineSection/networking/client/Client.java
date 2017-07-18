@@ -11,7 +11,6 @@ import sineSection.spaceRPG.SpaceRPG;
 public class Client {
 
 	public Client() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public void sendChat(String chat) {

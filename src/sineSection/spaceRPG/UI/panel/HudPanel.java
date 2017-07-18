@@ -75,7 +75,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 		super();
 		Component horizontalStrut = Box.createHorizontalStrut(PANEL_WIDTH);
 		constraints.weighty = 0;
-		constraints.gridy = -1;
+		constraints.gridy = 0;
 		add(horizontalStrut, constraints);
 		canvas = new Canvas();
 		canvas.setIgnoreRepaint(true);
