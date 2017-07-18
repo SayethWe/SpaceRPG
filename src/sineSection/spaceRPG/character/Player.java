@@ -33,7 +33,6 @@ public class Player extends Creature {
 	private static final int POWER_MIN = 1;
 
 	private Map<String, Item> inventory;
-	private WorldPos location;
 	private Direction lastDirectionTraveled;
 	private boolean hasHud = false;
 	// private Map<String, ComfortStat> comfortStats;
@@ -47,8 +46,7 @@ public class Player extends Creature {
 	 * @Author William Black
 	 */
 	public Player(String name, WorldPos startingPos) {
-		super(name, BASE_MAX_HEALTH);
-		location = startingPos;
+		super(name, BASE_MAX_HEALTH, startingPos);
 		inventory = new HashMap<>();
 		addStat(RESISTANCE, new Stat(RESISTANCE_MIN, (int) (Math.random() * RESISTANCE_MAX_POSSIBLE + 1)));
 		addStat(INTELLECT, new Stat(INTELLECT_MIN, (int) (Math.random() * INTELLECT_MAX_POSSIBLE + 1)));
@@ -211,17 +209,13 @@ public class Player extends Creature {
 		return result;
 	}
 
-	public WorldPos getPos() {
-		return location;
-	}
-
 	public void move(Direction dir) {
 		SpaceRPG.getMaster().writeToGui(getName() + " Moved " + dir.getCall());
 		lastDirectionTraveled = dir;
-		SpaceRPG.getMaster().getWorld().getRoomAt(location).onRoomExit(this);
-		location = new WorldPos(location.getNode(), dir.affectPos(location.getRoom()));
-		SpaceRPG.getMaster().getWorld().getRoomAt(location).onRoomEnter(this);
-		SpaceRPG.getMaster().writeToGui(location.getRoom());
+		SpaceRPG.getMaster().getWorld().getRoomAt(getPos()).onRoomExit(this);
+		setPos(new WorldPos(getPos().getNode(), dir.affectPos(getPos().getRoom())));
+		SpaceRPG.getMaster().getWorld().getRoomAt(getPos()).onRoomEnter(this);
+		SpaceRPG.getMaster().writeToGui(getPos().getRoom());
 	}
 
 	public Direction getLastDir() {
@@ -230,7 +224,7 @@ public class Player extends Creature {
 
 	public HashMap<String, Object> getScriptVars() {
 		HashMap<String, Object> ret = super.getScriptVars();
-		ret.put("location", location);
+		ret.put("getPos()", getPos());
 		return ret;
 	}
 

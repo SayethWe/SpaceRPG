@@ -28,7 +28,7 @@ public enum CommandString {
 			+ "\nArgs: Number of hit points", true),
 	DEBUG_HEAL("heal", "!DEBUG!\nHeal the player by <Number>"
 			+ "\nArgs: Number of hit points", true),
-	GET_POS("Pos", "get yur pos"),
+	GET_POS("Pos", "get yur pos", true),
 	UNKNOWN("", "Not a valid Command");
 
 	private final String call;

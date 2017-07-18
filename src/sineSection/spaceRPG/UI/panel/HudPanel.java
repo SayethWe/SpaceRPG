@@ -113,11 +113,11 @@ public class HudPanel extends AbstractPanel implements Runnable {
 		player = p;
 	}
 
+	@Override
 	public void run() {
 		while (running) {
 			render();
-			if(animating)
-			animTimer++;
+			if(animating) animTimer++;
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {

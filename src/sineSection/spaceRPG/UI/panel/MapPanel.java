@@ -3,6 +3,8 @@ package sineSection.spaceRPG.UI.panel;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import sineSection.spaceRPG.character.Player;
+import sineSection.spaceRPG.world.map.Pos;
 import sineSection.spaceRPG.world.map.room.Room;
 
 /**
@@ -13,16 +15,24 @@ import sineSection.spaceRPG.world.map.room.Room;
 public class MapPanel extends AbstractPanel {
 	private static final long serialVersionUID = 1876374043517764378L;
 	
-	private static final Color VISITED_ROOM_COLOR = Color.GREEN;
-	private static final Color UNVISITED_ROOM_COLOR = Color.RED;
-	private static final Color TEXT_COLOR = Color.YELLOW;
+	private static final Color VISITED_ROOM_COLOR = Color.WHITE;
+	private static final Color UNVISITED_ROOM_COLOR = Color.GRAY;
+	private static final Color TEXT_COLOR = Color.GREEN;
 	private static final Color UNMAPPED_COLOR = Color.BLACK;
+	private static final Color ENEMY_COLOR = Color.RED;
+	private static final Color ITEM_COLOR = Color.ORANGE;
+	
+	private Player player;
 
 	public MapPanel() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void addRoom(Room r) {
+	public void setPlayerToTrack(Player p) {
+		player = p;
+	}
+	
+	public void addRoom(Pos p, Room r) {
 		
 	}
 	

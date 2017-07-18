@@ -32,6 +32,7 @@ public class SpaceRPG {
 	private static SpaceRPG master; // The SPACERPG object to call for all your
 									// needs.
 	private static boolean doIntro = true;
+	private static boolean scrollText = true;
 
 	private static Player testPlayer;
 	private Client gameClient; // the client object this uses to talk to the
@@ -43,7 +44,6 @@ public class SpaceRPG {
 	public static void main(String[] args) {
 		SpaceRPG game = new SpaceRPG();
 		boolean showWindow = true;
-		boolean scroll = true;
 		if (args.length > 0) {
 			for (int i = 0; i < args.length; i++) {
 				if (args[i].equalsIgnoreCase("debug")) {
@@ -54,7 +54,7 @@ public class SpaceRPG {
 				} else if (args[i].equalsIgnoreCase("skipexpo")) {
 					doIntro = false;
 				} else if (args[i].equalsIgnoreCase("noScroll")) {
-					scroll = false;
+					scrollText = false;
 				}
 			}
 		}
@@ -67,8 +67,8 @@ public class SpaceRPG {
 
 		SpaceRPG.initialize();
 		SineSection.initialize();
-		IntroWindow iWin = new IntroWindow();
 		if (showWindow) {
+			IntroWindow iWin = new IntroWindow();
 			iWin.start();
 			while(!iWin.ended())
 				try {
@@ -147,6 +147,7 @@ public class SpaceRPG {
 	private void testGame() {
 		testPlayer = new Player("Katyusha", new WorldPos(0, 0, 0, 0));
 		gui.setPlayerToTrack(testPlayer);
+		if(!scrollText) gui.toggleTextScroll();
 		gui.display();
 		if (doIntro) {
 			try {

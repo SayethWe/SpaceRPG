@@ -32,9 +32,11 @@ public abstract class Creature implements Scriptable {
 	private Stat health;
 	private Map<String, Stat> stats;
 	private boolean alive;
+	private WorldPos pos;
 
-	public Creature(String name, int hpMax) {
+	public Creature(String name, int hpMax, WorldPos pos) {
 		this.name = name;
+		this.pos = pos;
 		stats = new HashMap<>();
 		health = new Stat(HEALTH_MIN, hpMax);
 		health.topOff();
@@ -272,5 +274,11 @@ public abstract class Creature implements Scriptable {
 		return ret;
 	}
 
-	public abstract WorldPos getPos(); // TODO Placeholder Method
+	public WorldPos getPos() {
+		return pos;
+	}
+	
+	protected void setPos(WorldPos moveTo) {
+		pos = moveTo;
+	}
 }
