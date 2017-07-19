@@ -145,7 +145,10 @@ public class SpaceRPG {
 	}
 
 	private void testGame() {
+		gameWorld = new Ship();
 		testPlayer = new Player("Katyusha", new WorldPos(0, 0, 0, 0));
+		
+		//above order is required. TODO: change that.
 		gui.setPlayerToTrack(testPlayer);
 		if(!scrollText) gui.toggleTextScroll();
 		gui.display();
@@ -163,7 +166,7 @@ public class SpaceRPG {
 		//testPlayer.useItem(testItem.getName(), new ArrayList<>());
 		//writeToGui(testPlayer);
 		//writeToGui(testItem);
-		gameWorld = new Ship();
+
 		gameWorld.getRoomAt(testPlayer.getPos()).onRoomEnter(testPlayer);
 	}
 
