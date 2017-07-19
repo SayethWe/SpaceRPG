@@ -36,9 +36,17 @@ public abstract class Creature implements Scriptable {
 
 	private final boolean friendly;
 
+	/**
+	 * Construct a new creature with a name, maximum health, and say if it's friendly, as well as giving it a position in the world.
+	 * @param name
+	 * @param hpMax
+	 * @param friend
+	 * @param pos
+	 */
 	public Creature(String name, int hpMax, boolean friend, WorldPos pos) {
 		this.name = name;
 		this.pos = pos;
+		SpaceRPG.getMaster().getWorld().getRoomAt(pos).addCreature(this);
 		stats = new HashMap<>();
 		health = new Stat(HEALTH_MIN, hpMax);
 		health.topOff();
@@ -46,14 +54,20 @@ public abstract class Creature implements Scriptable {
 		friendly = friend;
 	}
 
+	/**
+	 *  Add a stat to this creature with a stat Name.
+	 * @param name
+	 * @param stat
+	 */
 	public void addStat(String name, Stat stat) {
-		if (stats.containsKey(name)) {
-			stats.replace(name, stat);
-		} else {
 			stats.put(name, stat);
-		}
 	}
 
+	/**
+	 * get the current value of a stat on this creature by its name
+	 * @param stat
+	 * @return
+	 */
 	public int getStatVal(String stat) {
 		return stats.get(stat).currentVal();
 	}
@@ -131,6 +145,7 @@ public abstract class Creature implements Scriptable {
 	 * @return true if the character is now fully healthy
 	 */
 	public boolean heal(int amt) {
+		boolean res;
 		if (alive) { // Even Rick Can't heal Death
 			amt = Math.max(amt, 0); // ensure that we will only heal
 			SpaceRPG.getMaster().writeToGui(name + " heals " + amt + " health.");
@@ -141,20 +156,30 @@ public abstract class Creature implements Scriptable {
 				health.increment(amt);
 			}
 			SpaceRPG.getMaster().writeToGui(name + " restores " + amt + " Health.");
-			return amt == health.maxVal();
+			res = amt == health.maxVal();
 		} else {
-			return false;
+			res = false;
 		}
+		return res;
 	}
 
+	/**
+	 * get the amount of health this creature currently has
+	 * @return
+	 */
 	public int getHealth() {
 		return health.currentVal();
 	}
 
+	/**
+	 * get the amount of health this creature CAN have
+	 * @return
+	 */
 	public int getMaxHealth() {
 		return health.maxVal();
 	}
 
+	@Deprecated
 	public void addToBase(String stat, int incrementNum) {
 		stats.get(stat).addToMax(incrementNum);
 	}
@@ -167,14 +192,16 @@ public abstract class Creature implements Scriptable {
 		return string.toString();
 	}
 
+	/**
+	 * get the name of this creature
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
 
 	public List<Stat> getAllStats() {
-		List<Stat> result = new ArrayList<>();
-		stats.forEach((name, stat) -> result.add(stat));
-		return result;
+		return new ArrayList<Stat>(stats.values());
 	}
 
 	public Map<String, Stat> getStatsAsMap() {
@@ -191,6 +218,10 @@ public abstract class Creature implements Scriptable {
 		// TODO make character die (riparoni)
 	}
 
+	/**
+	 * find out if this creature is alive
+	 * @return
+	 */
 	public boolean isAlive() {
 		return alive;
 	}
@@ -202,12 +233,13 @@ public abstract class Creature implements Scriptable {
 	public abstract boolean hasItem(Item item); // Returns true if item is in
 												// the inventory
 
-	public abstract boolean addItem(Item item); // Returns true if item was
-												// successfully added to
-												// inventory, returns false if
-												// the item is unable to be
-												// added
-
+	/**
+	 * 
+	 * @param item
+	 * @return true if item was successfully added to inventory,
+	 * 		false if the item is unable to be added
+	 */
+	public abstract boolean addItem(Item item); // Returns 
 	public abstract boolean removeItem(String itemName);
 
 	public HashMap<String, Object> getScriptVars() {
