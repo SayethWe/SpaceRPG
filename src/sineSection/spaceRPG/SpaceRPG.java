@@ -6,7 +6,7 @@ import java.util.Random;
 
 import sineSection.SineSection;
 import sineSection.networking.client.Client;
-import sineSection.spaceRPG.UI.GameUI;
+import sineSection.spaceRPG.UI.GameWindow;
 import sineSection.spaceRPG.UI.IntroWindow;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.save.GameSettings;
@@ -26,7 +26,7 @@ import sineSection.util.Utils;
 public class SpaceRPG {
 	public static boolean DEBUG = false;
 
-	private static GameUI gui;
+	private static GameWindow gui;
 	private static ItemGenerator itemGenerator;
 	private static Random seedGenerator;
 	private static SpaceRPG master; // The SPACERPG object to call for all your
@@ -126,7 +126,7 @@ public class SpaceRPG {
 		
 		seedGenerator = new Random();
 		master = this;
-		gui = new GameUI();
+		gui = new GameWindow();
 		gameClient = new Client();
 	}
 
@@ -181,7 +181,7 @@ public class SpaceRPG {
 		return testPlayer;
 	}
 
-	public GameUI getGui() {
+	public GameWindow getGui() {
 		return gui;
 	}
 

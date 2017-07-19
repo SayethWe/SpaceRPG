@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
+import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +22,11 @@ import sineSection.spaceRPG.world.map.room.Room;
  * @author geekman9097
  * TODO have this be added to the hud by a cartography upgrade to the arctan hud system.
  */
-public class MapPanel extends AbstractPanel {
+public class MapPanel extends AbstractPanel{
 	private static final long serialVersionUID = 1876374043517764378L;
 
 
-	private static final Color TEXT_COLOR = Color.GREEN;
+//	private static final Color TEXT_COLOR = Color.GREEN;
 
 	private static final Color VISITED_ROOM_COLOR = Color.WHITE;
 	private static final Color UNVISITED_ROOM_COLOR = Color.GRAY;
@@ -45,10 +46,13 @@ public class MapPanel extends AbstractPanel {
 	private static final int MARK_SIZE = 3;
 
 	private Canvas canvas;
+	
 	private Player player;
 	private Room[][] map;
 
-	public MapPanel(Node n) {
+	public MapPanel() {
+		super();
+		map = new Room[Node.getWidth()][Node.getHeight()];
 		Component horizontalStrut = Box.createHorizontalStrut(PANEL_WIDTH);
 		constraints.weighty = 0;
 		constraints.gridy = 0;
@@ -58,7 +62,6 @@ public class MapPanel extends AbstractPanel {
 		constraints.weighty = 1;
 		constraints.gridy = 1;
 		add(canvas, constraints);
-		map = new Room[n.getWidth()][n.getHeight()];
 	}
 
 	public void setPlayerToTrack(Player p) {
@@ -133,12 +136,20 @@ public class MapPanel extends AbstractPanel {
 		} else {
 			result = UNVISITED_ROOM_COLOR;
 		}
-		//TODO: find way to keep track of visited rooms. 
 		return result;
 	}
 
 	public void update() {
-
+		if (canvas.getBufferStrategy() == null) {
+			canvas.createBufferStrategy(2);
+			return;
+		}
+		BufferStrategy bfr = canvas.getBufferStrategy();
+		Graphics2D g = (Graphics2D) bfr.getDrawGraphics();
+		g.clearRect(0, 0, WIDTH, HEIGHT);
+		draw(g);
+		g.dispose();
+		bfr.show();
 	}
 
 	public void attained() {

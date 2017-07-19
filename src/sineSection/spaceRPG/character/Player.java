@@ -32,10 +32,11 @@ public class Player extends Creature {
 	private static final int RESISTANCE_MIN = 0;
 	private static final int INTELLECT_MIN = 1;
 	private static final int POWER_MIN = 1;
-
+	
 	private Map<String, Item> inventory;
 	private Direction lastDirectionTraveled;
 	private boolean hasHud = false;
+	
 	// private Map<String, ComfortStat> comfortStats;
 	// TODO add in 'comfort' like warmth/hunger/thirst, and environment checks
 	// for damage
@@ -225,6 +226,7 @@ public class Player extends Creature {
 		to.setSeen();
 		
 		SpaceRPG.getMaster().writeToGui(getPos().getRoom());
+		SpaceRPG.getMaster().getGui().updateMap();
 	}
 
 	public Direction getLastDir() {

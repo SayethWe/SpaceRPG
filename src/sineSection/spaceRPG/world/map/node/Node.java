@@ -151,12 +151,14 @@ public abstract class Node {
 
 	}
 
-	public int getWidth() {
-		return size;
+	public static int getWidth() {
+		return MAX_GEN_SIZE;
+		//TODO make Bettuh
 	}
 	
-	public int getHeight() {
-		return size;
+	public static int getHeight() {
+		return MAX_GEN_SIZE;
+		//TODO make bettuh
 	}
 
 }
