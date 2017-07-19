@@ -164,6 +164,7 @@ public class SpaceRPG {
 		//writeToGui(testPlayer);
 		//writeToGui(testItem);
 		gameWorld = new Ship();
+		gameWorld.getRoomAt(testPlayer.getPos()).onRoomEnter(testPlayer);
 	}
 
 	/**

@@ -32,7 +32,7 @@ public class Player extends Creature {
 	private static final int RESISTANCE_MIN = 0;
 	private static final int INTELLECT_MIN = 1;
 	private static final int POWER_MIN = 1;
-	
+
 	private Map<String, Item> inventory;
 	private Direction lastDirectionTraveled;
 	private boolean hasHud = false;
@@ -42,8 +42,7 @@ public class Player extends Creature {
 	// for damage
 
 	/**
-	 * Initializes 'inventory' and 'stats', adds all the 'stats' into the
-	 * appropriate HashMap
+	 * Construct a new Player object with specific starting Positions and a name.
 	 * 
 	 * @Author William Black
 	 */
@@ -62,8 +61,8 @@ public class Player extends Creature {
 
 	/**
 	 * @Author William Black
-	 * @Return True if Item is in the players inventory, false if it is not
-	 *         found
+	 * @Return <code>True</code> if Item is in the players inventory, 
+	 * 			<code>false</code> if it is not found
 	 */
 	public boolean hasItem(Item item) {
 		return inventory.containsValue(item);
