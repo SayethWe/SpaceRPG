@@ -23,27 +23,27 @@ import sineSection.spaceRPG.world.map.room.Room;
  */
 public class MapPanel extends AbstractPanel {
 	private static final long serialVersionUID = 1876374043517764378L;
-	
+
 
 	private static final Color TEXT_COLOR = Color.GREEN;
-	
+
 	private static final Color VISITED_ROOM_COLOR = Color.WHITE;
 	private static final Color UNVISITED_ROOM_COLOR = Color.GRAY;
 	private static final Color UNMAPPED_COLOR = Color.BLACK;
-	
+
 	private static final Color ENEMY_COLOR = Color.RED;
 	private static final Color FRIENDLY_COLOR =Color.PINK;
 	private static final Color PLAYER_COLOR = Color.CYAN;
 
 	private static final Color ITEM_COLOR = Color.ORANGE;
-	
+
 	private static final int ROOM_SIZE = 15; //TODO make this zoomable
-	
+
 	private static final int PANEL_WIDTH = 150;
 
 
 	private static final int MARK_SIZE = 3;
-	
+
 	private Canvas canvas;
 	private Player player;
 	private Room[][] map;
@@ -60,15 +60,15 @@ public class MapPanel extends AbstractPanel {
 		add(canvas, constraints);
 		map = new Room[n.getWidth()][n.getHeight()];
 	}
-	
+
 	public void setPlayerToTrack(Player p) {
 		player = p;
 	}
-	
+
 	public void addRoom(Pos p, Room r) {
 		map[p.getX()][p.getY()] = r;
 	}
-	
+
 	private void draw(Graphics2D g) {
 		g.setBackground(UNMAPPED_COLOR);
 		for(int x = 0; x < map.length; x++) {
@@ -78,33 +78,35 @@ public class MapPanel extends AbstractPanel {
 				int roomX = x * ROOM_SIZE;
 				int roomY = y * ROOM_SIZE;
 				g.drawRect(roomX, roomY, ROOM_SIZE, ROOM_SIZE);
-				
-				//TODO draw doors.
-				
-				//Draw Creature and Item Markers
-				List<Color> markers = new ArrayList<>();
-				r.getRawCreatures().forEach((c) -> markers.add(getColorFromCreatureType(c)));
-				r.getRawItems().forEach((i) -> markers.add(getColorFromItemType(i)));
-				
-				int markCols = (int)Math.ceil(Math.sqrt(markers.size()));
-				int markRows = (int)Math.ceil(markers.size()/markCols);
-				
-				int horPad = (int)((ROOM_SIZE - (markCols*MARK_SIZE))/markCols + 1);
-				int verPad = (int)((ROOM_SIZE - (markRows*MARK_SIZE))/markRows + 1);
-				for(int mark = 0; mark < markers.size(); mark ++) {
-					int markCol = mark % markCols;
-					int markRow = (mark - markCol)/markRows;
-					
-					int markX = (markCol * MARK_SIZE) + ((markCol + 1) * horPad);
-					int markY = (markRow * MARK_SIZE) + ((markRow + 1) * verPad);
-					
-					g.setColor(markers.get(mark));
-					g.fillOval(markX, markY, MARK_SIZE, MARK_SIZE);
+
+				if(r.hasBeenEntered()) {
+					//TODO draw doors.
+
+					//Draw Creature and Item Markers
+					List<Color> markers = new ArrayList<>();
+					r.getRawCreatures().forEach((c) -> markers.add(getColorFromCreatureType(c)));
+					r.getRawItems().forEach((i) -> markers.add(getColorFromItemType(i)));
+
+					int markCols = (int)Math.ceil(Math.sqrt(markers.size()));
+					int markRows = (int)Math.ceil(markers.size()/markCols);
+
+					int horPad = (int)((ROOM_SIZE - (markCols*MARK_SIZE))/markCols + 1);
+					int verPad = (int)((ROOM_SIZE - (markRows*MARK_SIZE))/markRows + 1);
+					for(int mark = 0; mark < markers.size(); mark ++) {
+						int markCol = mark % markCols;
+						int markRow = (mark - markCol)/markRows;
+
+						int markX = (markCol * MARK_SIZE) + ((markCol + 1) * horPad);
+						int markY = (markRow * MARK_SIZE) + ((markRow + 1) * verPad);
+
+						g.setColor(markers.get(mark));
+						g.fillOval(markX, markY, MARK_SIZE, MARK_SIZE);
+					}
 				}
 			}
 		}
 	}
-	
+
 	private Color getColorFromItemType(Item i) {
 		return ITEM_COLOR;
 		//will eventually keep track of quest items, weapons, etc.
@@ -121,11 +123,13 @@ public class MapPanel extends AbstractPanel {
 		}
 		return result;
 	}
-	
+
 	private Color getColorFromRoomState(Room r) {
 		Color result;
 		if(r == null) {
 			result = UNMAPPED_COLOR;
+		} else if (r.hasBeenEntered()) {
+			result = VISITED_ROOM_COLOR;
 		} else {
 			result = UNVISITED_ROOM_COLOR;
 		}
@@ -134,15 +138,15 @@ public class MapPanel extends AbstractPanel {
 	}
 
 	public void update() {
-		
+
 	}
-	
+
 	public void attained() {
-		
+
 	}
-	
+
 	public void lost() {
-		
+
 	}
 
 }

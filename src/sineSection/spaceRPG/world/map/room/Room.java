@@ -20,6 +20,7 @@ public abstract class Room {
 	private boolean isPressurized;
 	private Map<Direction, Doorway> doors;
 	private Map<String, Item> items;
+	private boolean visited = false;
 
 	protected Room(String description) {
 		this.description = description;
@@ -121,5 +122,13 @@ public abstract class Room {
 		Set<Item> result;
 		result = new HashSet<>(items.values());
 		return result;
+	}
+	
+	public boolean hasBeenEntered() {
+		return visited;
+	}
+	
+	public void setSeen() {
+		visited = true;
 	}
 }

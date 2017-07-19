@@ -222,6 +222,7 @@ public class Player extends Creature {
 		Room to = SpaceRPG.getMaster().getWorld().getRoomAt(getPos());
 		to.onRoomEnter(this);
 		to.addCreature(this);
+		to.setSeen();
 		
 		SpaceRPG.getMaster().writeToGui(getPos().getRoom());
 	}
