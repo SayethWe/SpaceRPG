@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class CommandParser {
 	
-	private static final String SPLIT_ESCAPE = "\\";
+	private static final String SPLIT_ESCAPE = ":";
 	private static final String SPLIT_AT = " ";
 	private static final String SPLIT_REPLACE = "."; //TODO: not use this character elsewhere in callables
 
