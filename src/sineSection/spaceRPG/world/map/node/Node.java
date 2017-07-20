@@ -27,7 +27,7 @@ public abstract class Node {
 	public Node() {
 		// this((int) (Math.pow(SIZE_TUNER, Math.random() *
 		// (Utils.log(SIZE_TUNER, MAX_GEN_SIZE) + 1)) + 0.5));
-		this(MAX_GEN_SIZE); // because There'd be now way right now to handle
+		this(MAX_GEN_SIZE); // because There would be now way right now to handle
 							// diff sized nodes & movement between
 		// TODO change the above comment to be false
 	}
@@ -151,13 +151,13 @@ public abstract class Node {
 
 	}
 
-	public static int getWidth() {
-		return MAX_GEN_SIZE;
+	public int getWidth() {
+		return size;
 		//TODO make Bettuh
 	}
 	
-	public static int getHeight() {
-		return MAX_GEN_SIZE;
+	public int getHeight() {
+		return size;
 		//TODO make bettuh
 	}
 

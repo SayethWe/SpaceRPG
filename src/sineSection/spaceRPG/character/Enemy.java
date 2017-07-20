@@ -9,6 +9,10 @@ public abstract class Enemy extends EnnPeeSee {
 		super(name, hpMax, false, pos);
 	}
 	
+	/**
+	 * most enemies will drop a little something for you. This is how you know what it is.
+	 * @return
+	 */
 	public abstract Item getLootDrop();
 	
 	/**

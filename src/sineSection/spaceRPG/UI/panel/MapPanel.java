@@ -6,10 +6,13 @@ import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Box;
 
+import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.character.Creature;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.world.item.Item;
@@ -48,11 +51,11 @@ public class MapPanel extends AbstractPanel{
 	private Canvas canvas;
 	
 	private Player player;
-	private Room[][] map;
+	private Map<Pos,Room> map;
 
 	public MapPanel() {
 		super();
-		map = new Room[Node.getWidth()][Node.getHeight()];
+		map = new HashMap<>();
 		Component horizontalStrut = Box.createHorizontalStrut(PANEL_WIDTH);
 		constraints.weighty = 0;
 		constraints.gridy = 0;
@@ -69,14 +72,18 @@ public class MapPanel extends AbstractPanel{
 	}
 
 	public void addRoom(Pos p, Room r) {
-		map[p.getX()][p.getY()] = r;
+		map.put(p, r);
+	}
+	
+	private Node getNode() {
+		return SpaceRPG.getMaster().getWorld().getNode(player.getPos().getNode()); 
 	}
 
 	private void draw(Graphics2D g) {
 		g.setBackground(UNMAPPED_COLOR);
-		for(int x = 0; x < map.length; x++) {
-			for(int y = 0; y < map[x].length; y++) {
-				Room r = map[x][y];
+		for(int x = 0; x < getNode().getWidth(); x++) {
+			for(int y = 0; y < getNode().getHeight(); y++) {
+				Room r = map.get(new Pos(x,y));
 				g.setColor(getColorFromRoomState(r));
 				int roomX = x * ROOM_SIZE;
 				int roomY = y * ROOM_SIZE;
