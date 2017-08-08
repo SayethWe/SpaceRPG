@@ -149,7 +149,7 @@ public abstract class Creature implements Scriptable {
 		if (alive) { // Even Rick Can't heal Death
 			amt = Math.max(amt, 0); // ensure that we will only heal
 			SpaceRPG.getMaster().writeToGui(name + " heals " + amt + " health.");
-			amt = health.incrementAllowed(amt);
+//			amt = health.incrementAllowed(amt);
 			if (amt == health.maxVal()) {
 				health.topOff();
 			} else {

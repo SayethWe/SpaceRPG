@@ -39,15 +39,15 @@ public class Stat {
 		return ((value + amt) > maxValue) || (value + amt < minValue) ? false : true;
 	}
 	
-	public int incrementAllowed(int amt) {
-		if(amt > 0) {
-			return Math.max(value + amt, maxValue);
-		} else if(amt < 0) {
-			return Math.min(value + amt, maxValue);
-		} else {
-			return 0;
-		}
-	}
+//	public boolean incrementAllowed(int amt) {
+//		if(amt > 0) {
+//			return Math.max(value + amt, maxValue);
+//		} else if(amt < 0) {
+//			return Math.min(value + amt, maxValue);
+//		} else {
+//			return 0;
+//		}
+//	}
 
 	@Override
 	public String toString() {
