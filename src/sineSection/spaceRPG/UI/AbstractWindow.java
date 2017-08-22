@@ -12,11 +12,11 @@ import javax.swing.UIManager;
 import sineSection.spaceRPG.GameInfo;
 import sineSection.util.Utils;
 
-public class AbstractUI extends JFrame {
+public abstract class AbstractWindow extends JFrame {
 	private static final long serialVersionUID = -1386522460580786346L;
 	protected GridBagConstraints constraints;
 
-	protected AbstractUI() {
+	protected AbstractWindow() {
 		updateLookAndFeel();
 		setTitle(GameInfo.TITLE);
 		setLayout(new GridBagLayout());
@@ -49,7 +49,7 @@ public class AbstractUI extends JFrame {
 		setIconImages(icons);
 	}
 
-	public AbstractUI(JPanel content) {
+	public AbstractWindow(JPanel content) {
 		this();
 		setContentPane(content);
 	}

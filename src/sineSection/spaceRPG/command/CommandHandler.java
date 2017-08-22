@@ -67,7 +67,7 @@ public class CommandHandler {
 				// case ALIAS:
 			case USE:
 				if (args.length > 0) {
-					List<Item> list = janeway.getInventory().getItems(args[0]);
+					List<Item> list = janeway.getInventory().getItemsWithName(args[0]);
 					if(list.size() > 0) {
 						if(list.size() == 1) {
 							Item use = list.get(0);
@@ -165,9 +165,9 @@ public class CommandHandler {
 			case TOGGLESCROLL:
 				doctor.writeToGui("Text scrolling is now " + (doctor.getGui().toggleTextScroll() ? "on" : "off"));
 				break;
-			default:
+			case GET_POS:
+				doctor.writeToGui(janeway.getPos());
 				break;
-
 			}
 			doctor.writeToGui("");
 		} else {

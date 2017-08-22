@@ -14,6 +14,7 @@ import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.script.Scriptable;
 import sineSection.spaceRPG.script.TriConsumer;
 import sineSection.spaceRPG.script.TriFunction;
+import sineSection.spaceRPG.world.item.Container;
 import sineSection.spaceRPG.world.item.Inventory;
 import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.aura.Aura;
@@ -25,35 +26,55 @@ import sineSection.util.LogWriter;
  * 
  * @Author William Black
  */
-public abstract class Creature implements Scriptable {
+public abstract class Creature implements Scriptable, Container {
 	protected static final int HEALTH_MIN = 0;
 
 	protected final String name; // Name of the character
 	// private final ComfortStat warmth;
+	
 	protected Stat health;
 	protected Map<String, Stat> stats;
 	protected List<Aura> auras;
 	protected Inventory inventory;
 	protected boolean alive;
+	protected final boolean friendly;
+	protected WorldPos pos;
 
-	public Creature(String name, int hpMax, int invSize) {
+	/**
+	 * Construct a new creature with a name, maximum health, and say if it's friendly, as well as giving it a position in the world.
+	 * @param name
+	 * @param hpMax
+	 * @param friend
+	 * @param pos
+	 */
+	public Creature(String name, int hpMax, int invSize, boolean friend, WorldPos pos) {
 		this.name = name;
+		this.pos = pos;
+		SpaceRPG.getMaster().getWorld().getRoomAt(pos).addCreature(this);
 		stats = new HashMap<>();
 		auras = new ArrayList<Aura>();
 		health = new Stat(HEALTH_MIN, hpMax);
 		health.topOff();
-		inventory = new Inventory(invSize);
+		if(invSize > 0)
+			inventory = new Inventory(this, invSize);
 		alive = true;
+		friendly = friend;
 	}
 
+	/**
+	 *  Add a stat to this creature with a stat Name.
+	 * @param name
+	 * @param stat
+	 */
 	public void addStat(String name, Stat stat) {
-		if (stats.containsKey(name)) {
-			stats.replace(name, stat);
-		} else {
 			stats.put(name, stat);
-		}
 	}
 
+	/**
+	 * get the current value of a stat on this creature by its name
+	 * @param stat
+	 * @return
+	 */
 	public int getStatVal(String stat) {
 		return stats.get(stat).currentVal();
 	}
@@ -131,30 +152,41 @@ public abstract class Creature implements Scriptable {
 	 * @return true if the character is now fully healthy
 	 */
 	public boolean heal(int amt) {
+		boolean res;
 		if (alive) { // Even Rick Can't heal Death
 			amt = Math.max(amt, 0); // ensure that we will only heal
 			SpaceRPG.getMaster().writeToGui(name + " heals " + amt + " health.");
-			amt = health.incrementAllowed(amt);
+//			amt = health.incrementAllowed(amt);
 			if (amt == health.maxVal()) {
 				health.topOff();
 			} else {
 				health.increment(amt);
 			}
 			SpaceRPG.getMaster().writeToGui(name + " restores " + amt + " Health.");
-			return amt == health.maxVal();
+			res = amt == health.maxVal();
 		} else {
-			return false;
+			res = false;
 		}
+		return res;
 	}
 
+	/**
+	 * get the amount of health this creature currently has
+	 * @return
+	 */
 	public int getHealth() {
 		return health.currentVal();
 	}
 
+	/**
+	 * get the amount of health this creature CAN have
+	 * @return
+	 */
 	public int getMaxHealth() {
 		return health.maxVal();
 	}
 
+	@Deprecated
 	public void addToBase(String stat, int incrementNum) {
 		stats.get(stat).addToMax(incrementNum);
 	}
@@ -167,14 +199,16 @@ public abstract class Creature implements Scriptable {
 		return string.toString();
 	}
 
+	/**
+	 * get the name of this creature
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
 
 	public List<Stat> getAllStats() {
-		List<Stat> result = new ArrayList<>();
-		stats.forEach((name, stat) -> result.add(stat));
-		return result;
+		return new ArrayList<Stat>(stats.values());
 	}
 
 	public Map<String, Stat> getStatsAsMap() {
@@ -191,6 +225,10 @@ public abstract class Creature implements Scriptable {
 		// TODO make character die (riparoni)
 	}
 
+	/**
+	 * find out if this creature is alive
+	 * @return
+	 */
 	public boolean isAlive() {
 		return alive;
 	}
@@ -216,11 +254,9 @@ public abstract class Creature implements Scriptable {
 	public void removeAuras(List<Aura> auras) {
 		auras.forEach((aura) -> removeAura(aura));
 	}
-
-	public abstract WorldPos getPos(); // TODO Placeholder Method
 	
 	public boolean useItem(String itemName, List<Creature> targets) {
-		List<Item> items = inventory.getItems(itemName);
+		List<Item> items = inventory.getItemsWithName(itemName);
 		if(items.size() > 0) {
 			if(items.size() == 1) {
 				return items.get(0).use(this, targets);
@@ -239,19 +275,10 @@ public abstract class Creature implements Scriptable {
 		return useItem(itemName, targets);
 	}
 	
-	public boolean addItem(Item item) {
-		if(inventory.addItem(item)) {
-			addAuras(item.getAuras());
-			return true;
-		}
-		return false;
-	}
-	
 	public boolean removeItem(String itemName) {
-		List<Item> items = inventory.getItems(itemName);
+		List<Item> items = inventory.getItemsWithName(itemName);
 		if(items.size() > 0) {
 			if(items.size() == 1) {
-				removeAuras(items.get(0).getAuras());
 				return inventory.removeItem(items.get(0));
 			} else {
 				// TODO: Multiple item selection
@@ -327,5 +354,29 @@ public abstract class Creature implements Scriptable {
 		HashMap<String, Runnable> ret = new HashMap<>();
 		ret.put("die", this::die);
 		return ret;
+	}
+
+	public WorldPos getPos() {
+		return pos;
+	}
+	
+	protected void setPos(WorldPos moveTo) {
+		pos = moveTo;
+	}
+
+	public boolean isFriend() {
+		return friendly;
+	}
+	
+	public void onItemAdded(Item item) {
+		if(item.hasAuraEffect()) {
+			addAuras(item.getAuras());
+		}
+	}
+	
+	public void onItemRemoved(Item item) {
+		if(item.hasAuraEffect()) {
+			removeAuras(item.getAuras());
+		}
 	}
 }

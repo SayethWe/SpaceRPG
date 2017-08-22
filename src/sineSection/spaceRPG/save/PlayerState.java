@@ -7,8 +7,6 @@ public class PlayerState extends SaveState {
 	 */
 	private static final long serialVersionUID = 9200980956376837205L;
 
-	public PlayerState() {
-		// TODO Auto-generated constructor stub
-	}
+	public PlayerState() {}
 
 }

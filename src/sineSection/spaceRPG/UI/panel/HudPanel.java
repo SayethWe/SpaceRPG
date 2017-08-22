@@ -75,7 +75,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 		super();
 		Component horizontalStrut = Box.createHorizontalStrut(PANEL_WIDTH);
 		constraints.weighty = 0;
-		constraints.gridy = -1;
+		constraints.gridy = 0;
 		add(horizontalStrut, constraints);
 		canvas = new Canvas();
 		canvas.setIgnoreRepaint(true);
@@ -113,11 +113,11 @@ public class HudPanel extends AbstractPanel implements Runnable {
 		player = p;
 	}
 
+	@Override
 	public void run() {
 		while (running) {
 			render();
-			if(animating)
-			animTimer++;
+			if(animating) animTimer++;
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -202,7 +202,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 		g.setColor(PANEL_PLAYER_NAME_BG);
 		
 		int y = getHeight() / 2 - GraphicsUtils.getFontHeight(g) / 2;
-		if(player.getInventory().hasItem("HUD System")) {
+		if(player.getInventory().hasItemWithName("HUD System")) {
 			int x = getWidth() / 2 - GraphicsUtils.getStringWidth(g, NO_HUD_TEXT) / 2;
 			g.drawString(HUD_OFF_TEXT, x, y);
 		} else {

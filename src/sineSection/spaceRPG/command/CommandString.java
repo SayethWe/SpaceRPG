@@ -16,7 +16,7 @@ public enum CommandString {
 	QUIT("Quit;Exit", "Leave the Game Without Saving."),
 	SAVE("Save", "Save your progress so far."),
 	CHAT("Talk;Say", "Speak to the players around you\nArgs: Message"),
-	TOGGLESCROLL("Scroll;WriteMode","Change whether the display is scrolling or not",true),
+	TOGGLESCROLL("Scroll;WriteMode","Change whether the display is scrolling or not"),
 	// ALIAS("Alias","Rename something locally so you can refer to it easier"),
 	INCREASE_FONT_SIZE("IncrFont;ZoomIn;>", "Increases the size of the font."
 			+ "\nNo Args"),
@@ -28,6 +28,7 @@ public enum CommandString {
 			+ "\nArgs: Number of hit points", true),
 	DEBUG_HEAL("heal", "!DEBUG!\nHeal the player by <Number>"
 			+ "\nArgs: Number of hit points", true),
+	GET_POS("Pos", "get yur pos", true),
 	UNKNOWN("", "Not a valid Command");
 
 	private final String call;

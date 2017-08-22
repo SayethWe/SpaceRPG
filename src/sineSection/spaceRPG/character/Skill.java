@@ -8,10 +8,8 @@ public class Skill {
 	private int level;
 	private int expToNextLevel;
 	private int currentExp;
-	private String title;
 
-	public Skill(String title) {
-		this.title = title;
+	public Skill() {
 		expToNextLevel = BASE_LEVEL_COST;
 		level  = BASE_LEVEL_VALUE;
 	}

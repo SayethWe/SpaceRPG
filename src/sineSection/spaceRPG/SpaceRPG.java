@@ -7,7 +7,7 @@ import java.util.Random;
 
 import sineSection.SineSection;
 import sineSection.networking.client.Client;
-import sineSection.spaceRPG.UI.GameUI;
+import sineSection.spaceRPG.UI.GameWindow;
 import sineSection.spaceRPG.UI.IntroWindow;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.save.GameSettings;
@@ -26,12 +26,13 @@ import sineSection.util.Utils;
 
 public class SpaceRPG {
 
-	private static GameUI gui;
+	private static GameWindow gui;
 	private static ItemGenerator itemGenerator;
 	private static Random seedGenerator;
 	private static SpaceRPG master; // The SPACERPG object to call for all your
 									// needs.
 	private static boolean doIntro = true;
+	private static boolean scrollText = true;
 
 	private static Player testPlayer;
 	private Client gameClient; // the client object this uses to talk to the
@@ -52,6 +53,8 @@ public class SpaceRPG {
 					showWindow = false;
 				} else if (args[i].equalsIgnoreCase("skipexpo")) {
 					doIntro = false;
+				} else if (args[i].equalsIgnoreCase("noScroll")) {
+					scrollText = false;
 				}
 			}
 		}
@@ -123,7 +126,7 @@ public class SpaceRPG {
 		
 		seedGenerator = new Random();
 		master = this;
-		gui = new GameUI();
+		gui = new GameWindow();
 		gameClient = new Client();
 	}
 
@@ -142,8 +145,12 @@ public class SpaceRPG {
 	}
 
 	private void testGame() {
+		gameWorld = new Ship();
 		testPlayer = new Player("Katyusha", new WorldPos(0, 0, 0, 0));
+		
+		//above order is required. TODO: change that.
 		gui.setPlayerToTrack(testPlayer);
+		if(!scrollText) gui.toggleTextScroll();
 		gui.display();
 		if (doIntro) {
 			try {
@@ -156,10 +163,11 @@ public class SpaceRPG {
 		testPlayer.addItem(testItem);
 		writeToGui(testPlayer);
 		//testPlayer.useItem(testItem.getName(), new ArrayList<>());
-		writeToGui(testPlayer.getInventory().getItems().get(0));
+		writeToGui(testPlayer.getInventory().getItems().get(0).getName());
 		//writeToGui(testPlayer);
 		//writeToGui(testItem);
-		gameWorld = new Ship();
+
+		gameWorld.getRoomAt(testPlayer.getPos()).onRoomEnter(testPlayer);
 	}
 
 	/**
@@ -177,7 +185,7 @@ public class SpaceRPG {
 		return testPlayer;
 	}
 
-	public GameUI getGui() {
+	public GameWindow getGui() {
 		return gui;
 	}
 

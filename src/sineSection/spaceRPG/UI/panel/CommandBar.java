@@ -23,7 +23,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import sineSection.spaceRPG.SpaceRPG;
-import sineSection.spaceRPG.UI.GameUI;
+import sineSection.spaceRPG.UI.GameWindow;
 import sineSection.spaceRPG.command.CommandStrings;
 import sineSection.spaceRPG.sound.SoundPlayer;
 import sineSection.util.GraphicsUtils;
@@ -56,15 +56,15 @@ public class CommandBar extends JTextField {
 	private List<String> autoCompleteCommands = new ArrayList<String>();
 
 	private CommandList commandList;
-	private GameUI ui;
+	private GameWindow ui;
 
 	private boolean useCommands = true;
 
-	public CommandBar(GameUI ui) {
+	public CommandBar(GameWindow ui) {
 		this("", ui);
 	}
 
-	public CommandBar(String defaultText, GameUI ui) {
+	public CommandBar(String defaultText, GameWindow ui) {
 		super(defaultText);
 		commandList = new CommandList(ui);
 		commandList.setLocationRelativeTo(this);

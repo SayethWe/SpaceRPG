@@ -28,8 +28,7 @@ public class SoundPlayer {
 	}
 
 	public static void load(String path, String name) {
-		if (clips.get(name) != null)
-			return;
+		if (clips.get(name) != null) return;
 		Clip clip;
 		try {
 			AudioInputStream ais = AudioSystem.getAudioInputStream(SoundPlayer.class.getResourceAsStream(path));

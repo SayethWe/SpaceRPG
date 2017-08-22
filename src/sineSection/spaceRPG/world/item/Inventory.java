@@ -7,29 +7,35 @@ public class Inventory {
 	
 	private int size;
 	private List<Item> items;
+	private Container container;
 	
-	public Inventory(int size) {
+	public Inventory(Container container, int size) {
 		if(size < 0) size = 0;
 		this.size = size;
+		this.container = container;
 		items = new ArrayList<>();
 	}
 	
 	public boolean addItem(Item i) {
+		if(!items.contains(i)) return false;
 		if(items.size() + 1 > size) {
 			return false;
 		}
+		container.onItemAdded(i);
 		return items.add(i);
 	}
 	
 	public boolean removeItem(Item i) {
+		if(!items.contains(i)) return false;
+		container.onItemRemoved(i);
 		return items.remove(i);
 	}
 	
-	public boolean hasItem(String itemName) {
-		return numItems(itemName) > 0;
+	public boolean hasItemWithName(String itemName) {
+		return numItemsWithName(itemName) > 0;
 	}
 	
-	public int numItems(String itemName) {
+	public int numItemsWithName(String itemName) {
 		int amount = 0;
 		for(Item i : items) {
 			if(i.getName().equalsIgnoreCase(itemName))
@@ -38,19 +44,10 @@ public class Inventory {
 		return amount;
 	}
 	
-	public List<Item> getItems(String itemName) {
+	public List<Item> getItemsWithName(String itemName) {
 		List<Item> ret = new ArrayList<>();
 		for(Item i : items) {
 			if(i.getName().equalsIgnoreCase(itemName))
-				ret.add(i);
-		}
-		return ret;
-	}
-	
-	public List<Item> getItemsByAlias(String itemAlias) {
-		List<Item> ret = new ArrayList<>();
-		for(Item i : items) {
-			if(i.getName().equalsIgnoreCase(itemAlias))
 				ret.add(i);
 		}
 		return ret;
@@ -75,6 +72,14 @@ public class Inventory {
 	
 	public List<Item> getItems() {
 		return items;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public boolean hasItem(Item item) {
+		return items.contains(item);
 	}
 
 }

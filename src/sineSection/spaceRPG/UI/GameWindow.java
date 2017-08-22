@@ -17,11 +17,12 @@ import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.UI.panel.CommandBar;
 import sineSection.spaceRPG.UI.panel.GameScreen;
 import sineSection.spaceRPG.UI.panel.HudPanel;
+import sineSection.spaceRPG.UI.panel.MapPanel;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.command.CommandHandler;
 import sineSection.util.LogWriter;
 
-public class GameUI extends AbstractUI {
+public class GameWindow extends AbstractWindow {
 	private static final long serialVersionUID = 8764045071574261230L;
 
 	GameScreen gameScreen;
@@ -31,7 +32,9 @@ public class GameUI extends AbstractUI {
 	private String dialogueInputText;
 	private int dialogueSelection = -1;
 
-	public GameUI() {
+	private MapPanel map;
+
+	public GameWindow() {
 		super();
 		setMinimumSize(new Dimension(600, 500));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,6 +57,12 @@ public class GameUI extends AbstractUI {
 		constraints.gridx = 1;
 		add(hud, constraints);
 		addWindowListener(CreateWindowAdapter());
+		
+		map = new MapPanel();
+//		map.setAlignmentX(CENTER_ALIGNMENT);
+//		constraints.gridy = 1;
+//		add(map, constraints);
+		//TODO: Show w/o Graphical Glitches Galore
 
 		commandArea = new CommandBar(this);
 		commandArea.setEditable(true);
@@ -202,10 +211,11 @@ public class GameUI extends AbstractUI {
 	 */
 	public void setPlayerToTrack(Player p) {
 		hud.setPlayerToTrack(p);
+		map.setPlayerToTrack(p);
 	}
 
 	private void write(String in) {
-		gameScreen.writeScroll(in);
+		gameScreen.write(in);
 	}
 
 	public void write(Object in) {
@@ -239,5 +249,9 @@ public class GameUI extends AbstractUI {
 
 	public void updateHud() {
 		hud.updateHud();
+	}
+	
+	public void updateMap() {
+		map.update();
 	}
 }

@@ -44,10 +44,11 @@ public class GameScreen extends JTextArea {
 	 * @return the updated state of scroll
 	 */
 	public boolean toggleScroll() {
-		return scroll = !scroll;
+		scroll = !scroll;
+		return scroll;
 	}
 	
-	public void Write(String s) {
+	public void write(String s) {
 		if(scroll) {
 			writeScroll(s);
 		} else {
@@ -55,7 +56,7 @@ public class GameScreen extends JTextArea {
 		}
 	}
 
-	public void writeScroll(String text) {
+	private void writeScroll(String text) {
 		if(text.contains("\n")) {
 			for (String s : text.split("\n")) {
 				ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
@@ -87,7 +88,7 @@ public class GameScreen extends JTextArea {
 		append("\n");
 	}
 
-	public void writeNoScroll(String s) {
+	private void writeNoScroll(String s) {
 		append(s);
 		SoundPlayer.play("return");
 		append("\n");

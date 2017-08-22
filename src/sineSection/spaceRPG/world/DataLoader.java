@@ -3,6 +3,7 @@ package sineSection.spaceRPG.world;
 import java.io.File;
 
 import sineSection.spaceRPG.GameInfo;
+import sineSection.util.LogWriter;
 
 public class DataLoader {
 
@@ -13,6 +14,7 @@ public class DataLoader {
 	public static boolean loadAllFiles() {
 		int errors = 0;
 		File homeFolder = new File(GameInfo.APPDATA_FOLDER_NAME + "/data");
+		LogWriter.print(homeFolder.toString());
 		homeFolder.mkdirs();
 		String[] data = homeFolder.list();
 		for(String datumString : data) {
@@ -29,7 +31,6 @@ public class DataLoader {
 				}
 			}
 		}
-		System.out.println(homeFolder);
 		return errors == 0;
 	}
 	
