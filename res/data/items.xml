@@ -121,28 +121,17 @@
 		<name>HUD System</name>
 		<desc>A small round object that reads in big green letters:%n%t&quot;ARCTAN HUD SYSTEM(tm)&quot;%nIt is %state%.</desc>
 		<init>
+		var on = true;
 		var state = 'ON';
 		setUses(0);
-<!-- 		var affect = function(creature) { -->
-<!-- 			if(creature instanceof Packages.sineSection.spaceRPG.character.Player) { -->
-<!-- 				Java.to(creature, Packages.sineSection.spaceRPG.character.Player); -->
-<!-- 				creature.setHasHud(true); -->
-<!-- 			} -->
-<!-- 		}; -->
-<!-- 		var unaffect = function(creature) { -->
-<!-- 			if(creature instanceof Packages.sineSection.spaceRPG.character.Player) { -->
-<!-- 				Java.to(creature, Packages.sineSection.spaceRPG.character.Player); -->
-<!-- 				creature.setHasHud(false); -->
-<!-- 			} -->
-<!-- 		}; -->
-<!-- 		addAbilityAura('Allows user to view their stats.', affect, unaffect); -->
 		var HudAura = Java.type('sineSection.spaceRPG.world.item.aura.HudAura');
 		addAura(new HudAura());
 		</init>
 		<use>
 		if(user instanceof Java.type('sineSection.spaceRPG.character.Player')) {
-			user.setHasHud(!user.hasHud());
-			if(user.hasHud())
+			on = !on;
+			user.setHasHud(on);
+			if(on)
 				state = 'ON';
 			else
 			 	state = 'OFF';

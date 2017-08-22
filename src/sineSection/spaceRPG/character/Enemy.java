@@ -5,7 +5,7 @@ import sineSection.spaceRPG.world.item.Item;
 public abstract class Enemy extends Creature {
 
 	public Enemy(String name, int hpMax) {
-		super(name, hpMax);
+		super(name, hpMax, 0);
 	}
 	
 	public abstract Item getLootDrop();

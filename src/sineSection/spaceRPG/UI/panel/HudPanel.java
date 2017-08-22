@@ -188,7 +188,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 			break;
 		}
 		
-		if (SpaceRPG.DEBUG) {
+		if (SpaceRPG.getMaster().isDebugMode()) {
 			g.setColor(new Color(0.0f, 0.3f, 0.0f));
 			g.setFont(PANEL_DEBUG_MODE_FONT);
 			g.drawString("DEBUG MODE", (getWidth() / 2) - (GraphicsUtils.getStringWidth(g, "DEBUG MODE") / 2), getHeight() - 5);
@@ -202,7 +202,7 @@ public class HudPanel extends AbstractPanel implements Runnable {
 		g.setColor(PANEL_PLAYER_NAME_BG);
 		
 		int y = getHeight() / 2 - GraphicsUtils.getFontHeight(g) / 2;
-		if(player.hasItem("05-HSYS")) {
+		if(player.getInventory().hasItem("HUD System")) {
 			int x = getWidth() / 2 - GraphicsUtils.getStringWidth(g, NO_HUD_TEXT) / 2;
 			g.drawString(HUD_OFF_TEXT, x, y);
 		} else {

@@ -14,6 +14,7 @@ import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.script.Scriptable;
 import sineSection.spaceRPG.script.TriConsumer;
 import sineSection.spaceRPG.script.TriFunction;
+import sineSection.spaceRPG.world.item.Inventory;
 import sineSection.spaceRPG.world.item.Item;
 import sineSection.spaceRPG.world.item.aura.Aura;
 import sineSection.spaceRPG.world.map.WorldPos;
@@ -25,19 +26,23 @@ import sineSection.util.LogWriter;
  * @Author William Black
  */
 public abstract class Creature implements Scriptable {
-	private static final int HEALTH_MIN = 0;
+	protected static final int HEALTH_MIN = 0;
 
-	private final String name; // Name of the character
+	protected final String name; // Name of the character
 	// private final ComfortStat warmth;
-	private Stat health;
-	private Map<String, Stat> stats;
-	private boolean alive;
+	protected Stat health;
+	protected Map<String, Stat> stats;
+	protected List<Aura> auras;
+	protected Inventory inventory;
+	protected boolean alive;
 
-	public Creature(String name, int hpMax) {
+	public Creature(String name, int hpMax, int invSize) {
 		this.name = name;
 		stats = new HashMap<>();
+		auras = new ArrayList<Aura>();
 		health = new Stat(HEALTH_MIN, hpMax);
 		health.topOff();
+		inventory = new Inventory(invSize);
 		alive = true;
 	}
 
@@ -189,21 +194,73 @@ public abstract class Creature implements Scriptable {
 	public boolean isAlive() {
 		return alive;
 	}
-
-	public void addAuras(List<Aura> auras) {
-		auras.forEach((aura) -> aura.affect(this));
+	
+	public Inventory getInventory() {
+		return inventory;
+	}
+	
+	public void addAura(Aura aura) {
+		aura.affect(this);
+		auras.add(aura);
 	}
 
-	public abstract boolean hasItem(Item item); // Returns true if item is in
-												// the inventory
+	public void addAuras(List<Aura> auras) {
+		auras.forEach((aura) -> addAura(aura));
+	}
+	
+	public void removeAura(Aura aura) {
+		aura.unaffect(this);
+		auras.remove(aura);
+	}
+	
+	public void removeAuras(List<Aura> auras) {
+		auras.forEach((aura) -> removeAura(aura));
+	}
 
-	public abstract boolean addItem(Item item); // Returns true if item was
-												// successfully added to
-												// inventory, returns false if
-												// the item is unable to be
-												// added
-
-	public abstract boolean removeItem(String itemName);
+	public abstract WorldPos getPos(); // TODO Placeholder Method
+	
+	public boolean useItem(String itemName, List<Creature> targets) {
+		List<Item> items = inventory.getItems(itemName);
+		if(items.size() > 0) {
+			if(items.size() == 1) {
+				return items.get(0).use(this, targets);
+			} else {
+				// TODO: Multiple item selection
+			}
+		} else {
+			SpaceRPG.getMaster().getGui().write(name + " does not have the item: " + itemName);
+		}
+		return false;
+	}
+	
+	public boolean useItem(String itemName, Creature target) {
+		List<Creature> targets = new ArrayList<Creature>();
+		targets.add(target);
+		return useItem(itemName, targets);
+	}
+	
+	public boolean addItem(Item item) {
+		if(inventory.addItem(item)) {
+			addAuras(item.getAuras());
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean removeItem(String itemName) {
+		List<Item> items = inventory.getItems(itemName);
+		if(items.size() > 0) {
+			if(items.size() == 1) {
+				removeAuras(items.get(0).getAuras());
+				return inventory.removeItem(items.get(0));
+			} else {
+				// TODO: Multiple item selection
+			}
+		} else {
+			SpaceRPG.getMaster().getGui().write(name + " does not have the item: " + itemName);
+		}
+		return false;
+	}
 
 	public HashMap<String, Object> getScriptVars() {
 		HashMap<String, Object> ret = new HashMap<>();
@@ -211,6 +268,7 @@ public abstract class Creature implements Scriptable {
 		ret.put("health", health);
 		ret.put("stats", stats);
 		ret.put("alive", alive);
+		ret.put("inventory", inventory);
 		return ret;
 	}
 
@@ -250,15 +308,14 @@ public abstract class Creature implements Scriptable {
 		ret.put("willSurvive", (Function<Integer, Boolean>) this::willSurvive);
 		ret.put("healthAfterDamage", (Function<Integer, Integer>) this::healthAfterDamage);
 		ret.put("heal", (Function<Integer, Boolean>) this::heal);
-		ret.put("hasItem", (Function<Item, Boolean>) this::hasItem);
-		ret.put("addItem", (Function<Item, Boolean>) this::addItem);
-		ret.put("removeItem", (Function<String, Boolean>) this::removeItem);
 		return ret;
 	}
 
 	public HashMap<String, BiFunction<?, ?, ?>> getScriptBiFunctions() {
 		HashMap<String, BiFunction<?, ?, ?>> ret = new HashMap<>();
 		ret.put("addToStat", (BiFunction<String, Integer, Boolean>) this::addToStat);
+		ret.put("useItem", (BiFunction<String, ArrayList<Creature>, Boolean>) this::useItem);
+		ret.put("useItem", (BiFunction<String, Creature, Boolean>) this::useItem);
 		return ret;
 	}
 
@@ -271,6 +328,4 @@ public abstract class Creature implements Scriptable {
 		ret.put("die", this::die);
 		return ret;
 	}
-
-	public abstract WorldPos getPos(); // TODO Placeholder Method
 }

@@ -244,7 +244,7 @@ public class CommandBar extends JTextField {
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setFont(COMMAND_BAR_FONT);
 		int offs = 0;
-		int endSpace = SpaceRPG.DEBUG ? 25 : 3;
+		int endSpace = SpaceRPG.getMaster().isDebugMode() ? 25 : 3;
 		if (!getText().isEmpty()) {
 			if (GraphicsUtils.getStringWidth(g, getText()) + endSpace > getWidth()) {
 				offs = GraphicsUtils.getStringWidth(g, getText().substring(0, caretPos)) + endSpace - getWidth();
@@ -278,7 +278,7 @@ public class CommandBar extends JTextField {
 		if (offs > 0) {
 			g.fillRect(0, 0, 5, getHeight());
 		}
-		if (SpaceRPG.DEBUG) {
+		if (SpaceRPG.getMaster().isDebugMode()) {
 			g.setColor(Color.GREEN);
 			g.setFont(COMMAND_BAR_INFO_FONT);
 			g.drawString("" + commandHistoryIndex, getWidth() - GraphicsUtils.getStringWidth(g, "" + commandHistoryIndex) - 3, 8);

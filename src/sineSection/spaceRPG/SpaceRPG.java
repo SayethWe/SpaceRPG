@@ -2,6 +2,7 @@ package sineSection.spaceRPG;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 import sineSection.SineSection;
@@ -24,7 +25,6 @@ import sineSection.util.LogWriter;
 import sineSection.util.Utils;
 
 public class SpaceRPG {
-	public static boolean DEBUG = false;
 
 	private static GameUI gui;
 	private static ItemGenerator itemGenerator;
@@ -56,7 +56,7 @@ public class SpaceRPG {
 			}
 		}
 
-		if (DEBUG)
+		if (game.isDebugMode())
 			showWindow = false;
 
 		if (GameInfo.IS_OSX)
@@ -64,8 +64,8 @@ public class SpaceRPG {
 
 		SpaceRPG.initialize();
 		SineSection.initialize();
-		IntroWindow iWin = new IntroWindow();
 		if (showWindow) {
+			IntroWindow iWin = new IntroWindow();
 			iWin.start();
 			while(!iWin.ended())
 				try {
@@ -155,8 +155,8 @@ public class SpaceRPG {
 		Item testItem = itemGenerator.generate();
 		testPlayer.addItem(testItem);
 		writeToGui(testPlayer);
-		writeToGui(testPlayer.getAllItems().get(0));
 		//testPlayer.useItem(testItem.getName(), new ArrayList<>());
+		writeToGui(testPlayer.getInventory().getItems().get(0));
 		//writeToGui(testPlayer);
 		//writeToGui(testItem);
 		gameWorld = new Ship();
@@ -189,5 +189,9 @@ public class SpaceRPG {
 	public void sendChat(String chat) {
 		if (gameClient != null)
 			gameClient.sendChat(chat);
+	}
+	
+	public boolean isDebugMode() {
+		return getSettings().debugMode;
 	}
 }

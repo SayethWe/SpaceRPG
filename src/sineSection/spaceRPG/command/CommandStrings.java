@@ -20,7 +20,7 @@ public class CommandStrings {
 		for (CommandString command : CommandString.values()) {
 			String[] calls = command.getCall().split(";");
 			for (int i = 0; i < calls.length; i++) {
-				if (command != CommandString.UNKNOWN && !result.containsKey(calls[i]) && (command.isDebugCommand() ? SpaceRPG.DEBUG : true))
+				if (command != CommandString.UNKNOWN && !result.containsKey(calls[i]) && (command.isDebugCommand() ? SpaceRPG.getMaster().isDebugMode() : true))
 					result.put(calls[i], command);
 			}
 

@@ -1,6 +1,7 @@
 package sineSection.spaceRPG.command;
 
 import java.util.Arrays;
+import java.util.List;
 
 import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.UI.panel.GameScreen;
@@ -66,17 +67,23 @@ public class CommandHandler {
 				// case ALIAS:
 			case USE:
 				if (args.length > 0) {
-					Item use = janeway.getItemByAlias(args[0]);
-					if(use != null) {
-						if(args.length > use.getMinTargets()) { //TODO also check that they,re all valid targets
-							use.use(janeway, Arrays.copyOfRange(args, 1, args.length));
-							//hand the Item the args[1-end] to act upon
-						} else {
-							doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
+					List<Item> list = janeway.getInventory().getItems(args[0]);
+					if(list.size() > 0) {
+						if(list.size() == 1) {
+							Item use = list.get(0);
+							if (use != null) {
+								if (args.length > use.getMinTargets()) {
+									use.use(janeway, Arrays.copyOfRange(args, 1, args.length));
+									// hand the Item the args[1-end] to act upon
+								} else {
+									doctor.writeToGui(INSUFFICIENT_ARGUMENTS_MESSAGE);
+								}
+							}
 						}
 					} else {
 						doctor.writeToGui(ILLEGAL_ARGUMENT_MESSAGE + " You had an invalid item name.");
 					}
+					
 //					Creature target = halCortex.getCreature(args[1]);
 //					if (target != null) {
 //						doctor.getPlayer().useItem(args[0], target);

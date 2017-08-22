@@ -11,6 +11,7 @@ public class ItemReference {
 	public static final Map<String, ItemReference> itemRefs = new HashMap<String, ItemReference>();
 
 	private final String referenceID, name, alias, description, scriptLang;
+	private int instanceIDs;
 	private final ArrayList<ItemAttribute> attribs;
 
 	public ItemReference(String referenceID, String name, String description, ArrayList<ItemAttribute> attribs, String scriptLang) {
@@ -75,6 +76,10 @@ public class ItemReference {
 
 	public String getID() {
 		return referenceID;
+	}
+
+	public int getNextInstID() {
+		return instanceIDs++;
 	}
 	
 }

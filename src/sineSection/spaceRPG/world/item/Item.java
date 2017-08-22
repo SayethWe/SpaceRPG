@@ -39,6 +39,7 @@ public class Item implements Scriptable {
 	private final ItemReference ref;
 
 	private int uses = 0;
+	private int minTargets = 0;
 	private boolean canUse = true;
 
 	private ScriptEngine sEng;
@@ -55,7 +56,7 @@ public class Item implements Scriptable {
 	public Item(ItemReference itemRef) {
 		this.ref = itemRef;
 		this.auras = new ArrayList<Aura>();
-		this.instanceID = new Random().nextInt(100);
+		this.instanceID = this.ref.getNextInstID();
 		ScriptEngineManager enMgr = new ScriptEngineManager();
 		this.sEng = enMgr.getEngineByName(ref.getScriptLanguage());
 		if (this.sEng == null) {
@@ -92,7 +93,6 @@ public class Item implements Scriptable {
 			System.err.println("Item.use(): Argument \"user\" must not be null!");
 			return false;
 		}
-		user.addAuras(auras);
 		try {
 			for (ItemAttribute attrib : this.ref.getAttribs()) {
 				if (attrib.getType() == ItemAttribType.USE_FUNC) {
@@ -124,17 +124,6 @@ public class Item implements Scriptable {
 		for(String arg : args) {
 			targets.add(SpaceRPG.getMaster().getWorld().getRoomAt(user.getPos()).getCreature(arg));
 		}
-		return(use(user, targets));
-	}
-
-	/**
-	 * use this item to get the active effect.
-	 * 
-	 * @return if the item was used on the target(s) successfully
-	 */
-	public boolean use(Creature user, Creature target) {
-		ArrayList<Creature> targets = new ArrayList<>();
-		targets.add(target);
 		return use(user, targets);
 	}
 
@@ -149,6 +138,10 @@ public class Item implements Scriptable {
 
 	public void setUses(int uses) {
 		this.uses = uses;
+	}
+	
+	public void setMinTargets(int minTargets) {
+		this.minTargets = minTargets;
 	}
 
 	public void addStatAura(String statName, int value) {
@@ -215,7 +208,7 @@ public class Item implements Scriptable {
 	}
 
 	public int getMinTargets() {
-		return 0;
+		return minTargets;
 	}
 
 	public String getRefID() {
@@ -252,6 +245,7 @@ public class Item implements Scriptable {
 	public HashMap<String, Consumer<?>> getScriptConsumers() {
 		HashMap<String, Consumer<?>> ret = new HashMap<>();
 		ret.put("setUses", (Consumer<Integer>) this::setUses);
+		ret.put("setMinTargets", (Consumer<Integer>) this::setMinTargets);
 		ret.put("log", (Consumer<String>) LogWriter::print);
 		ret.put("logErr", (Consumer<String>) LogWriter::printErr);
 		ret.put("write", (Consumer<? extends Object>) SpaceRPG.getMaster().getGui()::write);
