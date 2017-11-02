@@ -6,7 +6,7 @@ public class CommandParser {
 	
 	private static final String SPLIT_ESCAPE = ":";
 	private static final String SPLIT_AT = " ";
-	private static final String SPLIT_REPLACE = "."; //TODO: not use this character elsewhere in callables
+	private static final String SPLIT_REPLACE = "."; //TODO: not use this character (.) elsewhere in callables
 
 	public static Command parseCommand(String command) {
 		String parse = command.replaceAll(SPLIT_ESCAPE + SPLIT_AT, SPLIT_REPLACE);
