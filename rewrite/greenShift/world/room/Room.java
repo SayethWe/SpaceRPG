@@ -1,15 +1,25 @@
 package greenShift.world.room;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import greenShift.world.Direction;
 import greenShift.world.Doorway;
-import greenShift.world.GeneratorValue;
 
-public class Room {
-	private final GeneratorValue heatValue; //The value range an a temperature map for this type of room to generate
-	private final GeneratorValue humidValue; //the value range on a humitidy map for the type of room to generate
-	private final GeneratorValue machineryValue; //the value range on a machinery amount map
+public abstract class Room {
+	public final String call;
+	private final Map<Direction,Doorway> doors;
 	
-	Map<Direction,Doorway> doors; 
+	public Room(String call) {
+		this.call = call;
+		doors = new HashMap<>();
+	}
+	
+	public Doorway getDoor(Direction d) {
+		return doors.get(d);
+	}
+	
+	abstract void onRoomEnter();
+	abstract void onRoomExit();
+	
 }
