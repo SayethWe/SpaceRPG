@@ -1,11 +1,14 @@
 package greenShift.world.generator;
 
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
+
+import greenShift.world.room.Room;
 
 public class MapGenerator {
 
 	private long seed;
-	private final static int nodeSize = 5; //how large of a grid to generate at a time
 	
 	/**
 	 * creates a doorway map to ensure continuous possible travel across rooms, then tells rooms as they're generated which ones to connect to.
@@ -19,6 +22,9 @@ public class MapGenerator {
 	private class PathGenerator {
 		private final Random pathRandom;
 
+		List<Set<Room>> pathCreation; //Ellis Algorithm method
+		
+		Set<Room> added, frontier, unknown; //Prim's algorithm Method
 		
 		private PathGenerator(long seed) {
 			pathRandom = new Random(seed);
@@ -34,20 +40,25 @@ public class MapGenerator {
 
 		/*
 		 * Generate a room based on the following aspects:
-		 * How nice the part of the ship it's in is. (price)
-		 * How hot the part of the ship its in is. (heat)
+		 * How nice the part of the ship it's in is. (cost)
+		 * How hot the part of the ship it's in is. (heat)
 		 * Possibly more, eventually.
 		 */
 		private OpenSimplexNoise heatNoise;
-		private OpenSimplexNoise priceNoise;
-
-		private final String[][][] RoomCalls = //an array of all the room types and their generation capabilities.
-			{
-					{{},{"Computer Room","Refrigerator"},{},{},{"Boiler","Reactor"}},//Machine Rooms
-					{{},{},{"Quarters","Bunks"},{"Kitchen"},{}},//Crew Rooms
-					{{},{},{},{},{}},//Economy class
-					{{},{},{},{},{}},//Business class
-					{{},{},{},{},{}},//First Class
-			};
+		private OpenSimplexNoise costNoise;
+		
+		/*
+		 * String values for fetching Data from value map
+		 */
+		private final static String HEAT = "heatValue";
+		private final static String COST = "costValue";
+		
+		//TODO: data structure that stores rooms and their generation values
+		
+		BiomeGenerator(long heatSeed, long costSeed) {
+			heatNoise = new OpenSimplexNoise(heatSeed);
+			costNoise = new OpenSimplexNoise(costSeed);
+		}
+		
 	}
 }
