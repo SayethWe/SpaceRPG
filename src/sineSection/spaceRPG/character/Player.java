@@ -131,7 +131,6 @@ public class Player extends Creature {
 		to.setSeen();
 		
 		SpaceRPG.getMaster().writeToGui(getPos().getRoom());
-		SpaceRPG.getMaster().getGui().updateMap();
 	}
 
 	public Direction getLastDir() {

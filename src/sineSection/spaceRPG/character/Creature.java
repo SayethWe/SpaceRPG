@@ -222,7 +222,6 @@ public abstract class Creature implements Scriptable, Container {
 	 */
 	public void die() {
 		alive = false;
-		// TODO make character die (riparoni)
 	}
 
 	/**
@@ -261,7 +260,12 @@ public abstract class Creature implements Scriptable, Container {
 			if(items.size() == 1) {
 				return items.get(0).use(this, targets);
 			} else {
-				// TODO: Multiple item selection
+				boolean result = true;
+				for (Item item : items) {
+					boolean tempResult = item.use(this,targets);
+					result = result ? tempResult : result;
+				}
+				return result;
 			}
 		} else {
 			SpaceRPG.getMaster().getGui().write(name + " does not have the item: " + itemName);
@@ -281,7 +285,12 @@ public abstract class Creature implements Scriptable, Container {
 			if(items.size() == 1) {
 				return inventory.removeItem(items.get(0));
 			} else {
-				// TODO: Multiple item selection
+				boolean result = true;
+				for (Item item : items) {
+					boolean tempResult = inventory.removeItem(item);
+					result = result ? tempResult : result;
+				}
+				return result;
 			}
 		} else {
 			SpaceRPG.getMaster().getGui().write(name + " does not have the item: " + itemName);
