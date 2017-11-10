@@ -20,10 +20,16 @@ public class MapGenerator {
 
 	private long seed;
 	private Random seedGenerator;
+	private final BiomeGenerator biomeGenerator;
 	
 	public MapGenerator(long seed) {
 		this.seed = seed;
 		seedGenerator = new Random(seed);
+		biomeGenerator = new BiomeGenerator();
+	}
+	
+	public long getNewSeed() {
+		return seedGenerator.nextLong();
 	}
 
 	/**
@@ -138,8 +144,5 @@ public class MapGenerator {
 		}
 
 	}
-
-	public long getNewSeed() {
-		return seedGenerator.nextLong();
-	}
+	
 }
