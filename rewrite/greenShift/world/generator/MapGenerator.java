@@ -10,13 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import greenShift.Reference;
-import greenShift.world.room.Room;
 import util.SystemGrabber;
 
 public class MapGenerator {
+	private static final String BIOME_FILE = SystemGrabber.getAppdataPath() + File.separator + Reference.TITLE + "Biomes.txt";
+		//TODO: Dynamically find this file.
 
 	private long seed;
 	private Random seedGenerator;
@@ -25,32 +25,15 @@ public class MapGenerator {
 	public MapGenerator(long seed) {
 		this.seed = seed;
 		seedGenerator = new Random(seed);
-		biomeGenerator = new BiomeGenerator();
+		biomeGenerator = new BiomeGenerator(BIOME_FILE);
 	}
 	
 	public long getNewSeed() {
 		return seedGenerator.nextLong();
 	}
 
-	/**
-	 * creates a doorway map to ensure continuous possible travel across rooms, then tells rooms as they're generated which ones to connect to.
-	 * 
-	 * Needs to be infinitely scalable in two dimensions, able to add segments in four directions.
-	 * <br> is recommended to generate occasional loops.
-	 * 
-	 * @author geekman9097
-	 *
-	 */
 	private class PathGenerator {
-		private final Random pathRandom;
-
-		List<Set<Room>> pathCreation; //Ellis Algorithm method
-
-		Set<Room> added, frontier, unknown; //Prim's algorithm Method
-
-		private PathGenerator(long seed) {
-			pathRandom = new Random(seed);
-		}
+		
 	}
 
 	/**
@@ -59,9 +42,6 @@ public class MapGenerator {
 	 *
 	 */
 	private class BiomeGenerator {
-
-		private final String biomeFile = SystemGrabber.getAppdataPath() + File.separator + Reference.TITLE + "Biomes.txt";
-		//TODO: Dynamically find this file.
 		
 		/**
 		 * what series of characters we want our generator to split at when we define data
@@ -72,19 +52,26 @@ public class MapGenerator {
 		 */
 		private static final String COMMENT = "##";
 		
-
+		private final String biomeFile; //which file to read to load data
+		private final BufferedReader dataReader; //reads the data off the file.
 		private final int depth; //how many bases of generation to use.
-		private final List<OpenSimplexNoise> noiseGenerators;
-		private final Map<String,List<String>> biomeGroups;
-		private final BufferedReader dataReader;
-		private final Random biomeGrabber;
+		
+		private final List<OpenSimplexNoise> noiseGenerators; //the group of noise planes to draw our data from
+		private final Map<String,List<String>> biomeGroups; //a list of the calls for biomes that can be generated, for some data values
+		private final Random biomeGrabber; //a random generator for selecting which biome from the possible group to use.
 
-		BiomeGenerator() {
+		BiomeGenerator(String readFile) {
+			biomeFile = readFile;
+			
 			noiseGenerators = new ArrayList<>();
 			biomeGroups = new HashMap<>();
+			biomeGrabber = new Random(getNewSeed());
+			
+			//Possible Exception-throwing generations. Outsourced try/catch pollution
 			dataReader = generateDataReader();
 			depth = generateDepth();
-			biomeGrabber = new Random(getNewSeed());
+			
+			//Load data into collections
 			for(int i = 0; i<depth; i++) { noiseGenerators.add(new OpenSimplexNoise(getNewSeed())); }
 			loadBiomes();
 		}
