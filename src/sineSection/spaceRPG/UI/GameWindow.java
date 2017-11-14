@@ -17,7 +17,6 @@ import sineSection.spaceRPG.SpaceRPG;
 import sineSection.spaceRPG.UI.panel.CommandBar;
 import sineSection.spaceRPG.UI.panel.GameScreen;
 import sineSection.spaceRPG.UI.panel.HudPanel;
-import sineSection.spaceRPG.UI.panel.MapPanel;
 import sineSection.spaceRPG.character.Player;
 import sineSection.spaceRPG.command.CommandHandler;
 import sineSection.util.LogWriter;
@@ -31,8 +30,6 @@ public class GameWindow extends AbstractWindow {
 	private boolean showingDialogue;
 	private String dialogueInputText;
 	private int dialogueSelection = -1;
-
-	private MapPanel map;
 
 	public GameWindow() {
 		super();
@@ -58,12 +55,6 @@ public class GameWindow extends AbstractWindow {
 		add(hud, constraints);
 		addWindowListener(CreateWindowAdapter());
 		
-		map = new MapPanel();
-//		map.setAlignmentX(CENTER_ALIGNMENT);
-//		constraints.gridy = 1;
-//		add(map, constraints);
-		//TODO: Show w/o Graphical Glitches Galore
-
 		commandArea = new CommandBar(this);
 		commandArea.setEditable(true);
 		constraints.weightx = 0.5;
@@ -211,7 +202,6 @@ public class GameWindow extends AbstractWindow {
 	 */
 	public void setPlayerToTrack(Player p) {
 		hud.setPlayerToTrack(p);
-		map.setPlayerToTrack(p);
 	}
 
 	private void write(String in) {
@@ -249,9 +239,5 @@ public class GameWindow extends AbstractWindow {
 
 	public void updateHud() {
 		hud.updateHud();
-	}
-	
-	public void updateMap() {
-		map.update();
 	}
 }

@@ -148,7 +148,6 @@ public class SpaceRPG {
 		gameWorld = new Ship();
 		testPlayer = new Player("Katyusha", new WorldPos(0, 0, 0, 0));
 		
-		//above order is required. TODO: change that.
 		gui.setPlayerToTrack(testPlayer);
 		if(!scrollText) gui.toggleTextScroll();
 		gui.display();

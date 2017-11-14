@@ -1,0 +1,6 @@
+HEAT, NOISE, DANGER
+//Three values for generation
+Boiler, 4, 4, 3
+//The Boiler. A hot, Noisy, dangerous area.
+Lounge, 2, 0, 0
+//The passenger lounge. A Calm, moderate place to relax.

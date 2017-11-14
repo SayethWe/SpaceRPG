@@ -153,12 +153,10 @@ public abstract class Node {
 
 	public int getWidth() {
 		return size;
-		//TODO make Bettuh
 	}
 	
 	public int getHeight() {
 		return size;
-		//TODO make bettuh
 	}
 
 }
