@@ -163,13 +163,12 @@ public class SpaceRPG {
 		testPlayer.addItem(testItem);
 		writeToGui(testPlayer);
 		//testPlayer.useItem(testItem.getName(), new ArrayList<>());
-		writeToGui(testPlayer.getInventory().getItems().get(0).getName());
+		//writeToGui(testPlayer.getInventory().getItems().get(0).getName());
 		//writeToGui(testPlayer);
 		//writeToGui(testItem);
 
 		gameWorld.getRoomAt(testPlayer.getPos()).onRoomEnter(testPlayer);
 	}
-
 	/**
 	 * placeholder testing method for setting up the random generator
 	 */
