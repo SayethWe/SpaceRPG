@@ -15,7 +15,7 @@ public enum CommandString {
 			+ "\nArgs: Exit You Want To Go Through"),
 	QUIT("Quit;Exit", "Leave the Game Without Saving."),
 	SAVE("Save", "Save your progress so far."),
-	CHAT("Talk;Say", "Speak to the players around you\nArgs: Message"),
+	CHAT("Talk;Say;Com", "Speak to the players around you\nArgs: Message"),
 	TOGGLESCROLL("Scroll;WriteMode","Change whether the display is scrolling or not"),
 	// ALIAS("Alias","Rename something locally so you can refer to it easier"),
 	INCREASE_FONT_SIZE("IncrFont;ZoomIn;>", "Increases the size of the font."

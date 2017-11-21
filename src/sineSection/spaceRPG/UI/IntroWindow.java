@@ -32,7 +32,7 @@ public class IntroWindow extends JWindow {
 	private static final long SHOW_LENGTH = 6 * 1000;
 	private boolean showing = false;
 //	private long startTime = 0;
-	private AnimatedSineSection logo = new AnimatedSineSection(10, 1D, 150, INTO_WINDOW_LOGO_COLOR, 4);
+	private AnimatedSineSection logo = new AnimatedSineSection(10, 1D, 975, INTO_WINDOW_LOGO_COLOR, 4);
 	private IntroWindowPanel panel;
 
 	public IntroWindow() {
