@@ -25,7 +25,7 @@ public class MapGenerator {
 	public MapGenerator(long seed) {
 		this.seed = seed;
 		seedGenerator = new Random(seed);
-		biomeGenerator = new BiomeGenerator(BIOME_FILE);
+		biomeGenerator = new BiomeGenerator(new File(BIOME_FILE));
 	}
 	
 	public long getNewSeed() {
@@ -52,7 +52,7 @@ public class MapGenerator {
 		 */
 		private static final String COMMENT = "##";
 		
-		private final String biomeFile; //which file to read to load data
+//		private final File biomeFile; //which file to read to load data
 		private final BufferedReader dataReader; //reads the data off the file.
 		private final int depth; //how many bases of generation to use.
 		
@@ -60,15 +60,15 @@ public class MapGenerator {
 		private final Map<String,List<String>> biomeGroups; //a list of the calls for biomes that can be generated, for some data values
 		private final Random biomeGrabber; //a random generator for selecting which biome from the possible group to use.
 
-		BiomeGenerator(String readFile) {
-			biomeFile = readFile;
+		BiomeGenerator(File readFile) {
+//			biomeFile = readFile;
 			
 			noiseGenerators = new ArrayList<>();
 			biomeGroups = new HashMap<>();
 			biomeGrabber = new Random(getNewSeed());
 			
 			//Possible Exception-throwing generations. Outsourced try/catch pollution
-			dataReader = generateDataReader();
+			dataReader = generateDataReader(readFile);
 			depth = generateDepth();
 			
 			//Load data into collections
@@ -76,12 +76,13 @@ public class MapGenerator {
 			loadBiomes();
 		}
 		
-		private BufferedReader generateDataReader() {
+		private BufferedReader generateDataReader(File readFile) {
 			BufferedReader result;
 			try {
-				result = new BufferedReader(new FileReader(biomeFile));
+				result = new BufferedReader(new FileReader(readFile));
 			} catch (FileNotFoundException e) {
 				result = null;
+				//TODO: Signal Program to Stop
 			}
 			return result;
 		}
@@ -128,6 +129,15 @@ public class MapGenerator {
 				result.append(i);
 			}
 			return result.toString();
+		}
+		
+		private List<String> getBiomeNames(String key) {
+			return biomeGroups.get(key);
+		}
+		
+		private String getRandomBiomeName(List<String> biomes){
+			int index = biomeGrabber.nextInt(biomes.size());
+			return biomes.get(index);
 		}
 
 	}
